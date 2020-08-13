@@ -1,0 +1,9 @@
+name: phpcs
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: PSR2
+      run: docker run --rm -v $PWD:/code domw/phpcs phpcs --colors --standard=PSR2 --warning-severity=0 --report=full,summary,gitblame --extensions=php ./src

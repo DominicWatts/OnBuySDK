@@ -1,0 +1,9 @@
+parameters:
+    level: 0
+    autoload_directories:
+        - src
+    excludes_analyse:
+        - 'vendor'
+    ignoreErrors:
+        - '#invalid typehint#'
+    reportUnmatchedIgnoredErrors: false

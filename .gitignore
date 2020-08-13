@@ -1,0 +1,9 @@
+nbproject
+._*
+.~lock.*
+.buildpath
+.DS_Store
+.idea
+vendor
+composer.lock
+connect.php
