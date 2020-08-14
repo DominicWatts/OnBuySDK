@@ -6,15 +6,17 @@ use Laminas\Json\Json;
 
 class Constants
 {
-    
     const TOKEN_CONTENT_TYPE = 'application/x-www-form-urlencoded';
     const CONTENT_TYPE = 'application/json';
-
+    
+    const SITE_ID = 2000;
+    
     const REQUEST_TOKEN = 'auth/request-token';
     const LISTINGS = 'listings';
     const LISTINGS_BY_SKU = 'listings/by-sku';
+    const LISTINGS_WINNING = 'listings/check-winning';
     const PRODUCTS = 'products';
-    const SITE_ID = 2000;
+    
 
     const LISTING_DEFAULT_LIMIT = 50;
     const LISTING_DEFAULT_OFFSET = 0;
@@ -58,5 +60,15 @@ class Constants
                 $decode['error']['message']
             ));
         }
+    }
+
+    /**
+     * Set token
+     * @param string $token
+     * @return void
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
     }
 }
