@@ -1,6 +1,6 @@
 <?php
 
-namespace Xigen\Library\OnBuy\Category;
+namespace Xigen\Library\OnBuy\Seller;
 
 use Laminas\Http\Client;
 use Laminas\Http\Request;
@@ -8,7 +8,7 @@ use Laminas\Http\Headers;
 use Laminas\Json\Json;
 use Xigen\Library\OnBuy\Constants;
 
-class Category extends Base
+class Entity extends Base
 {
     /**
      * @var string
@@ -40,50 +40,44 @@ class Category extends Base
     }
 
     /**
-     * Obtain category information for any categories created on OnBuy
-     * @param array $filterArray onbuy_category_id|category_type_id|name|can_list_in
+     * Obtain details of all of your trading entities
      * @param $limit int
      * @param $offset int
      * @return mixed
      * @throws \Exception
      */
-    public function getCategory($filterArray = [], $limit = null, $offset = null)
+    public function getEntity($limit = null, $offset = null)
     {
-        if (empty($filterArray)) {
-            throw new \Exception('Category filter parameters required');
-        }
-        
-        $this->client->setUri($this->domain . $this->version . self::CATEGORIES);
+        $this->client->setUri($this->domain . $this->version . self::ENTITIES);
         $this->client->setMethod(Request::METHOD_GET);
-
         $this->client->setParameterGet([
-            'site_id' => self::SITE_ID,
-            'filter' => $filterArray,
             'limit' => $limit ?: self::DEFAULT_LIMIT,
             'offset' => $offset ?: self::DEFAULT_OFFSET
         ]);
-
         $this->response = $this->client->send();
         $this->catchError($this->response);
         return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
     }
 
     /**
-     * Obtain information for a single OnBuy brand
-     * @param $categoryId int
+     * Obtain details of a specific one of your trading entities
+     * @param $entityId int
+     * @param $limit int
+     * @param $offset int
      * @return mixed
      * @throws \Exception
      */
-    public function getCategoryById($categoryId = null)
+    public function getEntityById($entityId = null, $limit = null, $offset = null)
     {
-        if (empty($categoryId)) {
-            throw new \Exception('Category ID required');
+        if (empty($entityId)) {
+            throw new \Exception('Entity ID required');
         }
-        $this->client->setUri($this->domain . $this->version . self::CATEGORIES . '/' . $categoryId);
+        $this->client->setUri($this->domain . $this->version . self::ENTITIES . '/' . $entityId);
         $this->client->setMethod(Request::METHOD_GET);
 
         $this->client->setParameterGet([
-            'site_id' => self::SITE_ID
+            'limit' => $limit ?: self::DEFAULT_LIMIT,
+            'offset' => $offset ?: self::DEFAULT_OFFSET
         ]);
 
         $this->response = $this->client->send();

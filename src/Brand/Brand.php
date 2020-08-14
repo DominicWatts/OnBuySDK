@@ -81,7 +81,7 @@ class Brand extends Constants
     }
 
     /**
-     * Obtain information for a single OnBuy brand.
+     * Obtain information for a single OnBuy brand
      * @param $brandId
      * @return mixed
      * @throws \Exception

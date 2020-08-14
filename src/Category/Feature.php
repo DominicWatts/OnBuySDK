@@ -42,8 +42,8 @@ class Feature extends Base
     /**
      * Obtain information for a single OnBuy category
      * @param int $categoryId
-     * @param $limit
-     * @param $offset
+     * @param $limit int
+     * @param $offset int
      * @return mixed
      * @throws \Exception
      */

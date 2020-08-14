@@ -42,8 +42,8 @@ class Technical extends Base
     /**
      * Obtain a list of all category groups
      * @param int $categoryId
-     * @param $limit
-     * @param $offset
+     * @param $limit int
+     * @param $offset int
      * @return mixed
      * @throws \Exception
      */

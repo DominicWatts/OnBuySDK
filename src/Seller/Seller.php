@@ -1,6 +1,6 @@
 <?php
 
-namespace Xigen\Library\OnBuy\Category;
+namespace Xigen\Library\OnBuy\Seller;
 
 use Laminas\Http\Client;
 use Laminas\Http\Request;
@@ -8,7 +8,7 @@ use Laminas\Http\Headers;
 use Laminas\Json\Json;
 use Xigen\Library\OnBuy\Constants;
 
-class Variant extends Base
+class Seller extends Base
 {
     /**
      * @var string
@@ -40,28 +40,18 @@ class Variant extends Base
     }
 
     /**
-     * Used to access data for Subcategory information
-     * @param int $categoryId
-     * @param $limit int
-     * @param $offset int
+     * Obtain information about your seller account
+     * @param $sellerId int
      * @return mixed
      * @throws \Exception
      */
-    public function getVariantId($categoryId = null, $limit = null, $offset = null)
+    public function getSellerById($sellerId = null)
     {
-        if (empty($categoryId)) {
-            throw new \Exception('Category ID required');
+        if (empty($sellerId)) {
+            throw new \Exception('Seller ID required');
         }
-        
-        $this->client->setUri($this->domain . $this->version . self::CATEGORIES . '/' . $categoryId . '/' . self::VARIANTS);
+        $this->client->setUri($this->domain . $this->version . self::SELLERS . '/' . $sellerId);
         $this->client->setMethod(Request::METHOD_GET);
-
-        $this->client->setParameterGet([
-            'site_id' => self::SITE_ID,
-            'limit' => $limit ?: self::DEFAULT_LIMIT,
-            'offset' => $offset ?: self::DEFAULT_OFFSET
-        ]);
-
         $this->response = $this->client->send();
         $this->catchError($this->response);
         return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);

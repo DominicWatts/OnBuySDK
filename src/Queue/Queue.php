@@ -1,6 +1,6 @@
 <?php
 
-namespace Xigen\Library\OnBuy\Category;
+namespace Xigen\Library\OnBuy\Queue;
 
 use Laminas\Http\Client;
 use Laminas\Http\Request;
@@ -8,7 +8,7 @@ use Laminas\Http\Headers;
 use Laminas\Json\Json;
 use Xigen\Library\OnBuy\Constants;
 
-class Category extends Base
+class Queue extends Constants
 {
     /**
      * @var string
@@ -31,36 +31,39 @@ class Category extends Base
     protected $response;
     
     /**
-     * Category constructor.
+     * Brand constructor.
      * @param $token
      */
     public function __construct($token)
     {
-        parent::__construct($token);
+        $this->headers = new Headers();
+        $this->client = new Client();
+        $this->client->setOptions([
+            'maxredirects' => self::MAXREDIRECTS,
+            'timeout' => self::TIMEOUT,
+        ]);
+        $this->token = $token;
+        $this->headers->addHeaderLine('Authorization', $this->token);
+        $this->client->setHeaders($this->headers);
     }
 
     /**
-     * Obtain category information for any categories created on OnBuy
-     * @param array $filterArray onbuy_category_id|category_type_id|name|can_list_in
-     * @param $limit int
-     * @param $offset int
+     * Check the progress of any actions that use our queuing system
+     * @param $filterArray array queue_ids|status[success|failed|pending]
      * @return mixed
      * @throws \Exception
      */
-    public function getCategory($filterArray = [], $limit = null, $offset = null)
+    public function getQueue($filterArray = [])
     {
         if (empty($filterArray)) {
-            throw new \Exception('Category filter parameters required');
+            throw new \Exception('Filter parameters required');
         }
         
-        $this->client->setUri($this->domain . $this->version . self::CATEGORIES);
+        $this->client->setUri($this->domain . $this->version . self::QUEUES);
         $this->client->setMethod(Request::METHOD_GET);
-
         $this->client->setParameterGet([
             'site_id' => self::SITE_ID,
-            'filter' => $filterArray,
-            'limit' => $limit ?: self::DEFAULT_LIMIT,
-            'offset' => $offset ?: self::DEFAULT_OFFSET
+            'filter' => $filterArray
         ]);
 
         $this->response = $this->client->send();
@@ -69,23 +72,21 @@ class Category extends Base
     }
 
     /**
-     * Obtain information for a single OnBuy brand
-     * @param $categoryId int
+     * Check the progress of any actions that use our queuing system
+     * @param $queueId
      * @return mixed
      * @throws \Exception
      */
-    public function getCategoryById($categoryId = null)
+    public function getQueueById($queueId = null)
     {
-        if (empty($categoryId)) {
-            throw new \Exception('Category ID required');
+        if (empty($queueId)) {
+            throw new \Exception('Queue ID required');
         }
-        $this->client->setUri($this->domain . $this->version . self::CATEGORIES . '/' . $categoryId);
+        $this->client->setUri($this->domain . $this->version . self::QUEUES . '/' . $queueId);
         $this->client->setMethod(Request::METHOD_GET);
-
         $this->client->setParameterGet([
             'site_id' => self::SITE_ID
         ]);
-
         $this->response = $this->client->send();
         $this->catchError($this->response);
         return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);

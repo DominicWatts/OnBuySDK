@@ -20,12 +20,16 @@ class Constants
     const CATEGORIES = 'categories';
     const COMMISSION_TIERS = 'commission-tiers';
     const CONDITIONS = 'conditions';
+    const DELIVERIES = 'deliveries';
+    const ENTITIES = 'entities';
     const FEATURES = 'features';
     const LISTINGS = 'listings';
     const LISTINGS_BY_SKU = 'listings/by-sku';
     const LISTINGS_WINNING = 'listings/check-winning';
     const PRODUCTS = 'products';
+    const QUEUES = 'queues';
     const REQUEST_TOKEN = 'auth/request-token';
+    const SELLERS = 'sellers';
     const TECHNICAL_DETAILS = 'technical-details';
     const VARIANTS = 'variants';
 
