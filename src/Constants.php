@@ -4,14 +4,20 @@ namespace Xigen\Library\OnBuy;
 
 use Laminas\Json\Json;
 
-class Constants {
+class Constants
+{
     
     const TOKEN_CONTENT_TYPE = 'application/x-www-form-urlencoded';
     const CONTENT_TYPE = 'application/json';
 
     const REQUEST_TOKEN = 'auth/request-token';
     const LISTINGS = 'listings';
+    const LISTINGS_BY_SKU = 'listings/by-sku';
+    const PRODUCTS = 'products';
     const SITE_ID = 2000;
+
+    const LISTING_DEFAULT_LIMIT = 50;
+    const LISTING_DEFAULT_OFFSET = 0;
 
     /**
      * @var string

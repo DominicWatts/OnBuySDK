@@ -16,16 +16,6 @@ class Listing extends Constants
     private $token;
 
     /**
-     * @var int
-     */
-    protected $limit;
-
-    /**
-     * @var int
-     */
-    protected $offset;
-
-    /**
      * @var \Laminas\Http\Headers
      */
     protected $headers;
@@ -69,38 +59,7 @@ class Listing extends Constants
     }
 
     /**
-     * @return int
-     */
-    public function getLimit(): int
-    {
-        return $this->limit;
-    }
-
-    /**
-     * @param int $limit
-     */
-    public function setLimit(int $limit): void
-    {
-        $this->limit = $limit;
-    }
-
-    /**
-     * @return int
-     */
-    public function getOffset(): int
-    {
-        return $this->offset;
-    }
-
-    /**
-     * @param int $offset
-     */
-    public function setOffset(int $offset): void
-    {
-        $this->offset = $offset;
-    }
-
-    /**
+     * Get details of current product listings
      * @param null $limit
      * @param null $offset
      * @return mixed
@@ -113,10 +72,82 @@ class Listing extends Constants
 
         $this->client->setParameterGet([
             'site_id' => self::SITE_ID,
-            'limit' => $limit ?: $this->limit,
-            'offset' => $offset ?: $this->offset
+            'limit' => $limit ?: self::LISTING_DEFAULT_LIMIT,
+            'offset' => $offset ?: self::LISTING_DEFAULT_OFFSET
         ]);
-        
+
+        $this->response = $this->client->send();
+        $this->catchError($this->response);
+        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+    }
+
+    /**
+     * Update listing by product data array
+     * @param array $updateArray sku|price|stock|boost_marketing_commission
+     * @return mixed
+     * @throws \Exception
+     */
+    public function updateListingBySku($updateArray = [])
+    {
+        $this->client->setUri($this->domain . $this->version . self::LISTINGS_BY_SKU);
+        $this->client->setMethod(Request::METHOD_PUT);
+        $this->client->setParameterGet([
+            'site_id' => self::SITE_ID,
+            'listings' => Json::encode($updateArray),
+        ]);
+
+        $this->response = $this->client->send();
+        $this->catchError($this->response);
+        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+    }
+
+    /**
+     * Delete listing by SKU
+     * @param array $deleteArray
+     * @return mixed
+     */
+    public function deleteListingBySku($deleteArray = [])
+    {
+        $this->client->setUri($this->domain . $this->version . self::LISTINGS_BY_SKU);
+        $this->client->setMethod(Request::METHOD_DELETE);
+        $this->client->setParameterGet([
+            'site_id' => self::SITE_ID,
+            'skus' => Json::encode($deleteArray),
+        ]);
+
+        $this->response = $this->client->send();
+        // $this->catchError($this->response);
+        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+    }
+
+    /**
+     * Create a single product listing from product data array
+     * @param $oPc
+     * @param array $insertArray sku|group_sku|boost_marketing_commission
+     * @return mixed
+     * @throws \Exception
+     */
+    public function createListing($oPc, $insertArray = [])
+    {
+        $this->client->setUri($this->domain . $this->version . self::PRODUCTS . '/' . $oPc . self::LISTINGS);
+        $this->client->setMethod(Request::METHOD_PUT);
+        $this->client->setParameterGet([
+            'site_id' => self::SITE_ID,
+            'listings' => Json::encode($insertArray),
+        ]);
+        $this->response = $this->client->send();
+        // $this->catchError($this->response);
+        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+    }
+    
+    public function createListingByBatch($insertArray = [])
+    {
+        $this->client->setUri($this->domain . $this->version . self::LISTINGS);
+        $this->client->setMethod(Request::METHOD_POST);
+        $this->client->setParameterGet([
+            'site_id' => self::SITE_ID,
+            'listings' => Json::encode($insertArray),
+        ]);
         $this->response = $this->client->send();
         $this->catchError($this->response);
         return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);

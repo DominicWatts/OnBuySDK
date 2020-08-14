@@ -30,6 +30,11 @@ class Auth extends Constants
     private $token;
 
     /**
+     * @var string
+     */
+    private $expires;
+
+    /**
      * Auth constructor.
      * @param array $customConfig
      * @throws \Exception
@@ -68,14 +73,23 @@ class Auth extends Constants
       
         if (isset($response['access_token'])) {
             $this->token = $response['access_token'];
+            $this->expires = $response['access_token'];
         }
     }
 
     /**
      * @return mixed|string
      */
-    public function getToken()
+    public function getToken(): string
     {
         return $this->token;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExpires(): string
+    {
+        return $this->expires;
     }
 }
