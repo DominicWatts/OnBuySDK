@@ -13,7 +13,7 @@ class Product extends Constants
     /**
      * @var string
      */
-    private $token;
+    protected $token;
 
     /**
      * @var \Laminas\Http\Headers
@@ -116,6 +116,8 @@ class Product extends Constants
      * @param array $searchArray query|field[name|product_code|opc|mpn]|category_id
      * @param null $limit
      * @param null $offset
+     * @return mixed
+     * @throws \Exception
      */
     public function getProduct($searchArray = [], $limit = null, $offset = null)
     {

@@ -8,16 +8,20 @@ class Constants
 {
     const TOKEN_CONTENT_TYPE = 'application/x-www-form-urlencoded';
     const CONTENT_TYPE = 'application/json';
-    
+
+    /**
+     * The OnBuy Regional site id e.g. 2000 for the UK
+     */
     const SITE_ID = 2000;
-    
-    const REQUEST_TOKEN = 'auth/request-token';
+
     const LISTINGS = 'listings';
     const LISTINGS_BY_SKU = 'listings/by-sku';
     const LISTINGS_WINNING = 'listings/check-winning';
     const PRODUCTS = 'products';
-    
+    const REQUEST_TOKEN = 'auth/request-token';
+    const BRAND = 'brand';
 
+    const DEFAULT_SORT = 'asc';
     const LISTING_DEFAULT_LIMIT = 50;
     const LISTING_DEFAULT_OFFSET = 0;
 
@@ -40,6 +44,11 @@ class Constants
      * @var string
      */
     protected $consumerKey;
+
+    /**
+     * @var string
+     */
+    protected $token;
 
     /**
      * @param \Laminas\Http\Response $response

@@ -27,12 +27,12 @@ class Auth extends Constants
     /**
      * @var string
      */
-    private $token;
+    protected $token;
 
     /**
      * @var string
      */
-    private $expires;
+    protected $expires;
 
     /**
      * Auth constructor.

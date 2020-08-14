@@ -13,7 +13,7 @@ class Listing extends Constants
     /**
      * @var string
      */
-    private $token;
+    protected $token;
 
     /**
      * @var \Laminas\Http\Headers
