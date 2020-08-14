@@ -4,6 +4,7 @@
     "keywords": ["onbuy", "sdk", "php"],
     "version": "0.0.1",
     "type": "project",
+    "license": "OSL-3.0",
     "authors": [
         {
             "name": "Dominic Xigen",

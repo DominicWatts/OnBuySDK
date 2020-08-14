@@ -1,4 +1,9 @@
 <?php
+/**
+ * Copyright © 2020 All rights reserved.
+ * See COPYING.txt for license details.
+ */
+declare(strict_types=1);
 
 namespace Xigen\Library\OnBuy\Condition;
 
