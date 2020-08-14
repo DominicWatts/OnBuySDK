@@ -5,7 +5,7 @@ namespace Xigen\Library\OnBuy;
 use Laminas\Http\Client;
 use Laminas\Http\Request;
 use Laminas\Http\Headers;
-use Symfony\Component\VarDumper\VarDumper;
+use Laminas\Json\Json;
 
 class Auth extends Constants
 {
@@ -23,6 +23,11 @@ class Auth extends Constants
      * @var \Laminas\Http\Headers
      */
     public $headers;
+
+    /**
+     * @var string
+     */
+    private $token;
 
     /**
      * Auth constructor.
@@ -44,7 +49,12 @@ class Auth extends Constants
             'timeout'      => 30,
         ]);
 
-        $this->headers->addHeaderLine('Content-Type', self::CONTENT_TYPE);
+        $this->client->setParameterPost([
+            'secret_key' => $this->secretKey,
+            'consumer_key' => $this->consumerKey
+        ]);
+
+        $this->headers->addHeaderLine('Content-Type', self::TOKEN_CONTENT_TYPE);
         $this->client->setHeaders($this->headers);
         $this->response = $this->client->send();
 
@@ -52,18 +62,20 @@ class Auth extends Constants
             throw new \Exception('Server error');
         }
 
-        $decode = json_decode($this->response->getBody(), true);
+        $this->catchError($this->response);
+
+        $response = Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
       
-        if (isset($decode['success'])) {
-            return $decode;
+        if (isset($response['access_token'])) {
+            $this->token = $response['access_token'];
         }
-        
-        if (isset($decode['error'])) {
-            throw new \Exception(sprintf(
-                'Error code : %s Error Message: %s',
-                $decode['error']['errorCode'],
-                $decode['error']['message'],
-            ));
-        }
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getToken()
+    {
+        return $this->token;
     }
 }
