@@ -16,17 +16,17 @@ Unofficial PHP SDK to interact with OnBuy API
 
 There is a composer archive at:
 
-    https://packagist.org/packages/dominicwatts/onbuysdk
+    <https://packagist.org/packages/dominicwatts/onbuysdk>
 
 ## API Documentation
 
-    https://docs.api.onbuy.com/?version=latest
+    <https://docs.api.onbuy.com/?version=latest>
 
 ## Connection Details
 
 The API settings page can be found in your Seller Control Panel. There are two sets of keys, Live and Test. You should use the Test keys when integrating with the API and switch to the Live Keys when you are ready to go live.
 
-    https://seller.onbuy.com/inventory/integrations/onbuy-api/
+    <https://seller.onbuy.com/inventory/integrations/onbuy-api/>
 
 ## Usage
 

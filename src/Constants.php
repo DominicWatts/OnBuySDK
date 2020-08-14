@@ -18,6 +18,8 @@ class Constants
 
     const BRAND = 'brand';
     const CATEGORIES = 'categories';
+    const COMMISSION_TIERS = 'commission-tiers';
+    const CONDITIONS = 'conditions';
     const FEATURES = 'features';
     const LISTINGS = 'listings';
     const LISTINGS_BY_SKU = 'listings/by-sku';
@@ -85,5 +87,37 @@ class Constants
     public function setToken($token)
     {
         $this->token = $token;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVersion(): string
+    {
+        return $this->version;
+    }
+
+    /**
+     * @param string $version
+     */
+    public function setVersion(string $version): void
+    {
+        $this->version = $version;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDomain(): string
+    {
+        return $this->domain;
+    }
+
+    /**
+     * @param string $domain
+     */
+    public function setDomain(string $domain): void
+    {
+        $this->domain = $domain;
     }
 }

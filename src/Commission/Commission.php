@@ -1,6 +1,6 @@
 <?php
 
-namespace Xigen\Library\OnBuy\Brand;
+namespace Xigen\Library\OnBuy\Commission;
 
 use Laminas\Http\Client;
 use Laminas\Http\Request;
@@ -8,7 +8,7 @@ use Laminas\Http\Headers;
 use Laminas\Json\Json;
 use Xigen\Library\OnBuy\Constants;
 
-class Brand extends Constants
+class Commission extends Constants
 {
     /**
      * @var string
@@ -48,29 +48,18 @@ class Brand extends Constants
     }
 
     /**
-     * Obtain brand information for any brands created on OnBuy
-     * @param $filter string
-     * @param $sort string asc|desc
+     * Obtain commission tier information for any regional variation of OnBuy
      * @param $limit int
      * @param $offset int
      * @return mixed
      * @throws \Exception
      */
-    public function getBrand($filter, $sort = null, $limit = null, $offset = null)
+    public function getTier($limit = null, $offset = null)
     {
-        if (empty($filter)) {
-            throw new \Exception('Brand filter keyword required');
-        }
-        
-        $this->client->setUri($this->domain . $this->version . self::BRAND);
+        $this->client->setUri($this->domain . $this->version . self::COMMISSION_TIERS);
         $this->client->setMethod(Request::METHOD_GET);
         $this->client->setParameterGet([
-            'filter' => [
-                'name' => $filter
-            ],
-            'sort' => [
-                'name' => $sort ?: self::DEFAULT_SORT,
-            ],
+            'site_id' => self::SITE_ID,
             'limit' => $limit ?: self::DEFAULT_LIMIT,
             'offset' => $offset ?: self::DEFAULT_OFFSET
         ]);
@@ -81,18 +70,25 @@ class Brand extends Constants
     }
 
     /**
-     * Obtain information for a single OnBuy brand.
-     * @param $brandId
+     * Obtain commission tier information for a single OnBuy regional site
+     * @param $categoryId int
+     * @param $tierId int
      * @return mixed
      * @throws \Exception
      */
-    public function getBrandById($brandId = null)
+    public function getTierById($categoryId = null, $tierId = null, $limit = null, $offset = null)
     {
-        if (empty($brandId)) {
-            throw new \Exception('Brand ID required');
+        if (empty($categoryId) || empty($tierId)) {
+            throw new \Exception('ID filters required required');
         }
-        $this->client->setUri($this->domain . $this->version . self::BRAND . '/' . $brandId);
+        $this->client->setUri($this->domain . $this->version . self::CATEGORIES . '/' . $categoryId . '/' . self::VARIANTS);
         $this->client->setMethod(Request::METHOD_GET);
+        $this->client->setParameterGet([
+            'site_id' => self::SITE_ID,
+            'commission_tier_id' => $tierId,
+            'limit' => $limit ?: self::DEFAULT_LIMIT,
+            'offset' => $offset ?: self::DEFAULT_OFFSET
+        ]);
         $this->response = $this->client->send();
         $this->catchError($this->response);
         return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);

@@ -35,6 +35,16 @@ class Auth extends Constants
     protected $expires;
 
     /**
+     * @var string
+     */
+    protected $secretKey;
+
+    /**
+     * @var string
+     */
+    protected $consumerKey;
+
+    /**
      * Auth constructor.
      * @param array $customConfig
      * @throws \Exception
@@ -91,5 +101,21 @@ class Auth extends Constants
     public function getExpires(): string
     {
         return $this->expires;
+    }
+
+    /**
+     * @param string $secretKey
+     */
+    public function setSecretKey(string $secretKey): void
+    {
+        $this->secretKey = $secretKey;
+    }
+
+    /**
+     * @param string $consumerKey
+     */
+    public function setConsumerKey(string $consumerKey): void
+    {
+        $this->consumerKey = $consumerKey;
     }
 }
