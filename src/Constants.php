@@ -8,22 +8,28 @@ class Constants
 {
     const TOKEN_CONTENT_TYPE = 'application/x-www-form-urlencoded';
     const CONTENT_TYPE = 'application/json';
+    const MAXREDIRECTS = 10;
+    const TIMEOUT = 30;
 
     /**
      * The OnBuy Regional site id e.g. 2000 for the UK
      */
     const SITE_ID = 2000;
 
+    const BRAND = 'brand';
+    const CATEGORIES = 'categories';
+    const FEATURES = 'features';
     const LISTINGS = 'listings';
     const LISTINGS_BY_SKU = 'listings/by-sku';
     const LISTINGS_WINNING = 'listings/check-winning';
     const PRODUCTS = 'products';
     const REQUEST_TOKEN = 'auth/request-token';
-    const BRAND = 'brand';
+    const TECHNICAL_DETAILS = 'technical-details';
+    const VARIANTS = 'variants';
 
     const DEFAULT_SORT = 'asc';
-    const LISTING_DEFAULT_LIMIT = 50;
-    const LISTING_DEFAULT_OFFSET = 0;
+    const DEFAULT_LIMIT = 50;
+    const DEFAULT_OFFSET = 0;
 
     /**
      * @var string

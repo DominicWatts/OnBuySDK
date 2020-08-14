@@ -8,7 +8,7 @@ use Laminas\Http\Headers;
 use Laminas\Json\Json;
 use Xigen\Library\OnBuy\Constants;
 
-class Listing extends Constants
+class Listing extends Base
 {
     /**
      * @var string
@@ -36,16 +36,7 @@ class Listing extends Constants
      */
     public function __construct($token)
     {
-        $this->headers = new Headers();
-        $this->client = new Client();
-        $this->client->setOptions([
-            'maxredirects' => 10,
-            'timeout'      => 30,
-        ]);
-        $this->token = $token;
-        $this->headers->addHeaderLine('Authorization', $this->token);
-        $this->headers->addHeaderLine('Content-Type', self::CONTENT_TYPE);
-        $this->client->setHeaders($this->headers);
+        parent::__construct($token);
     }
 
     /**
@@ -62,8 +53,8 @@ class Listing extends Constants
 
         $this->client->setParameterGet([
             'site_id' => self::SITE_ID,
-            'limit' => $limit ?: self::LISTING_DEFAULT_LIMIT,
-            'offset' => $offset ?: self::LISTING_DEFAULT_OFFSET
+            'limit' => $limit ?: self::DEFAULT_LIMIT,
+            'offset' => $offset ?: self::DEFAULT_OFFSET
         ]);
 
         $this->response = $this->client->send();

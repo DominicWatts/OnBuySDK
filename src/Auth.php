@@ -50,8 +50,8 @@ class Auth extends Constants
         $this->client->setUri($this->domain . $this->version . self::REQUEST_TOKEN);
         $this->client->setMethod(Request::METHOD_POST);
         $this->client->setOptions([
-            'maxredirects' => 10,
-            'timeout'      => 30,
+            'maxredirects' => self::MAXREDIRECTS,
+            'timeout' => self::TIMEOUT,
         ]);
 
         $this->client->setParameterPost([

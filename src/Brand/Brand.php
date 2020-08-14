@@ -8,7 +8,7 @@ use Laminas\Http\Headers;
 use Laminas\Json\Json;
 use Xigen\Library\OnBuy\Constants;
 
-class Brand extends Constants 
+class Brand extends Constants
 {
     /**
      * @var string
@@ -39,8 +39,8 @@ class Brand extends Constants
         $this->headers = new Headers();
         $this->client = new Client();
         $this->client->setOptions([
-            'maxredirects' => 10,
-            'timeout'      => 30,
+            'maxredirects' => self::MAXREDIRECTS,
+            'timeout' => self::TIMEOUT,
         ]);
         $this->token = $token;
         $this->headers->addHeaderLine('Authorization', $this->token);
@@ -56,7 +56,7 @@ class Brand extends Constants
      * @return mixed
      * @throws \Exception
      */
-    public function getBrand($filter, $sort, $limit, $offset)
+    public function getBrand($filter, $sort = null, $limit = null, $offset = null)
     {
         if (empty($filter)) {
             throw new \Exception('Brand filter keyword required');
@@ -71,8 +71,8 @@ class Brand extends Constants
             'sort' => [
                 'name' => $sort ?: self::DEFAULT_SORT,
             ],
-            'limit' => $limit ?: self::LISTING_DEFAULT_LIMIT,
-            'offset' => $offset ?: self::LISTING_DEFAULT_OFFSET
+            'limit' => $limit ?: self::DEFAULT_LIMIT,
+            'offset' => $offset ?: self::DEFAULT_OFFSET
         ]);
 
         $this->response = $this->client->send();
@@ -86,7 +86,7 @@ class Brand extends Constants
      * @return mixed
      * @throws \Exception
      */
-    public function viewBrand($brandId)
+    public function viewBrand($brandId = null)
     {
         if (empty($brandId)) {
             throw new \Exception('Brand ID required');
