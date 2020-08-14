@@ -8,7 +8,7 @@ use Laminas\Http\Headers;
 use Laminas\Json\Json;
 use Xigen\Library\OnBuy\Constants;
 
-class Technical extends Constants
+class Technical extends Base
 {
     /**
      * @var string
