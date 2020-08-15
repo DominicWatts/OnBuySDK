@@ -22,21 +22,26 @@ class Constants
     const SITE_ID = 2000;
 
     const BRAND = 'brand';
+    const CANCEL = 'cancel';
     const CATEGORIES = 'categories';
     const COMMISSION_TIERS = 'commission-tiers';
     const CONDITIONS = 'conditions';
     const DELIVERIES = 'deliveries';
+    const DISPATCH = 'dispatch';
     const ENTITIES = 'entities';
     const FEATURES = 'features';
     const LISTINGS = 'listings';
     const LISTINGS_BY_SKU = 'listings/by-sku';
     const LISTINGS_WINNING = 'listings/check-winning';
+    const ORDERS = 'orders';
     const PRODUCTS = 'products';
     const QUEUES = 'queues';
+    const REFUND = 'refund';
     const REQUEST_TOKEN = 'auth/request-token';
     const SELLERS = 'sellers';
     const SITES = 'sites';
     const TECHNICAL_DETAILS = 'technical-details';
+    const TRACKING_PROVIDERS = 'tracking-providers';
     const VARIANTS = 'variants';
 
     const DEFAULT_SORT = 'asc';

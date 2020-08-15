@@ -51,6 +51,7 @@ class Site extends Constants
         $this->headers->addHeaderLine('Authorization', $this->token);
         $this->client->setHeaders($this->headers);
     }
+    
     /**
      * Obtain site information for any regional variation of OnBuy
      * @param array $filterArray name
