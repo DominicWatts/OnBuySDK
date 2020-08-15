@@ -102,4 +102,12 @@ class Brand extends Constants
         $this->catchError($this->response);
         return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
     }
+
+    /**
+     * @return Client
+     */
+    public function getClient(): Client
+    {
+        return $this->client;
+    }
 }
