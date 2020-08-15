@@ -17,7 +17,8 @@
         "laminas/laminas-json": "^3.1"
     },
     "require-dev": {
-        "symfony/var-dumper": "v4.4.11"
+        "symfony/var-dumper": "v4.4.11",
+        "phpunit/phpunit": "^9"
     },
     "autoload": {
         "psr-4": {

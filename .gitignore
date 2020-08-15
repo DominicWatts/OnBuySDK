@@ -7,3 +7,4 @@ nbproject
 vendor
 composer.lock
 connect.php
+.phpunit.result.cache
