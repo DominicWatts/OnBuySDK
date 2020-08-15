@@ -120,7 +120,7 @@ class Order extends Constants
 
     /**
      * Refund a cancelled order
-     * @param array $cancelArray order_id|order_cancellation_reason_id[1|2|3|4|5]|cancel_order_additional_info
+     * @param array $cancelArray order_id|order_cancellation_reason_id[1|2|3|4|5]|delivery|seller_note|customer_note|items[onbuy_internal_reference|amount]
      * @return mixed
      * @throws \Exception
      */
@@ -139,7 +139,7 @@ class Order extends Constants
 
     /**
      * Refund a cancelled order
-     * @param array $refundArray order_id|order_refund_reason_id[1|2|3|4|5]|cancel_order_additional_info
+     * @param array $refundArray order_id|order_refund_reason_id[1|2|3|4|5|6]|cancel_order_additional_info
      * @return mixed
      * @throws \Exception
      */
