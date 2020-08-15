@@ -35,6 +35,7 @@ class Constants
     const QUEUES = 'queues';
     const REQUEST_TOKEN = 'auth/request-token';
     const SELLERS = 'sellers';
+    const SITES = 'sites';
     const TECHNICAL_DETAILS = 'technical-details';
     const VARIANTS = 'variants';
 
