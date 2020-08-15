@@ -1,4 +1,4 @@
-# OnBuy Php SDK - Work In Progress (WIP)
+# OnBuy Php SDK
 
 OnBuy - UK Online Marketplace & Amazon Alternative
 
