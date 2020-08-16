@@ -8,8 +8,8 @@ declare(strict_types=1);
 namespace Xigen\Library\OnBuy\Site;
 
 use Laminas\Http\Client;
-use Laminas\Http\Request;
 use Laminas\Http\Headers;
+use Laminas\Http\Request;
 use Laminas\Json\Json;
 use Xigen\Library\OnBuy\Constants;
 
@@ -51,7 +51,7 @@ class Site extends Constants
         $this->headers->addHeaderLine('Authorization', $this->token);
         $this->client->setHeaders($this->headers);
     }
-    
+
     /**
      * Obtain site information for any regional variation of OnBuy
      * @param array $filterArray name
@@ -98,5 +98,13 @@ class Site extends Constants
         $this->response = $this->client->send();
         $this->catchError($this->response);
         return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+    }
+
+    /**
+     * @return Client
+     */
+    public function getClient(): Client
+    {
+        return $this->client;
     }
 }

@@ -2,11 +2,10 @@
 
 namespace Xigen\Library\OnBuy\Brand;
 
-use PHPUnit\Framework\TestCase;
-use Laminas\Http\Client;
+use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
-use Laminas\Http\Client\Adapter\AdapterInterface;
+use PHPUnit\Framework\TestCase;
 use Xigen\Library\OnBuy\Constants;
 
 class BrandTest extends TestCase
@@ -22,20 +21,27 @@ class BrandTest extends TestCase
     }
 
     /**
+     * Options
+     */
+    public function testOptions()
+    {
+        $client = new Brand('xyz');
+        self::assertSame(Constants::TIMEOUT, $client->getClient()->getAdapter()->getConfig()['timeout']);
+        self::assertSame(Constants::MAXREDIRECTS, $client->getClient()->getAdapter()->getConfig()['maxredirects']);
+    }
+
+    /**
      * Building of brand search get request
      */
     public function testGetBrandParametersCastToString()
     {
-        $connect = new Constants();
-        $client = new Client();
-
+        $brand = new Brand('xyz');
+        $client = $brand->getClient();
         $adapter = $this->createMock(AdapterInterface::class);
 
         $client->setAdapter($adapter);
-
-        $client->setUri($connect->getDomain() . $connect->getVersion() . Constants::BRAND);
+        $client->setUri($brand->getDomain() . $brand->getVersion() . Constants::BRAND);
         $client->setMethod(Request::METHOD_GET);
-
         $client->setParameterGet([
             'filter' => [
                 'name' => 'test'
@@ -52,7 +58,11 @@ class BrandTest extends TestCase
         $adapter
             ->expects($this->once())
             ->method('write')
-            ->with(Request::METHOD_GET, 'https://api.onbuy.com/v2/brand?filter%5Bname%5D=test&sort%5Bname%5D=asc&limit=50&offset=0');
+            ->with(Request::METHOD_GET, str_replace(
+                ['[', ']'],
+                ['%5B','%5D'],
+                'https://api.onbuy.com/v2/brand?filter[name]=test&sort[name]=asc&limit=50&offset=0'
+            ));
 
         $adapter
             ->expects($this->any())
@@ -67,14 +77,13 @@ class BrandTest extends TestCase
      */
     public function testGetBrandByIdParametersCastToString()
     {
-        $connect = new Constants();
-        $client = new Client();
-
+        $brand = new Brand('xyz');
+        $client = $brand->getClient();
         $adapter = $this->createMock(AdapterInterface::class);
 
         $client->setAdapter($adapter);
 
-        $client->setUri($connect->getDomain() . $connect->getVersion() . Constants::BRAND. '/123');
+        $client->setUri($brand->getDomain() . $brand->getVersion() . Constants::BRAND . '/123');
         $client->setMethod(Request::METHOD_GET);
 
         $response = new Response();
@@ -90,5 +99,16 @@ class BrandTest extends TestCase
             ->will($this->returnValue($response->toString()));
 
         $client->send();
+    }
+
+    /**
+     * Invalid token
+     * @throws \Exception
+     */
+    public function testInvalidToken()
+    {
+        $this->expectException(\Exception::class);
+        $brand = new Brand('xyz');
+        $brand->getBrandById(123);
     }
 }

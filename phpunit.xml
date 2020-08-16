@@ -4,6 +4,9 @@
         <testsuite name="Brand Tests">
             <directory suffix="Test.php">./tests/Brand</directory>
         </testsuite>
+        <testsuite name="Category Tests">
+            <directory suffix="Test.php">./tests/Category</directory>
+        </testsuite>
     </testsuites>
     <php>
         <env name="APP_ENV" value="testing"/>

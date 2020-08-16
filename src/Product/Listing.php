@@ -9,9 +9,7 @@ namespace Xigen\Library\OnBuy\Product;
 
 use Laminas\Http\Client;
 use Laminas\Http\Request;
-use Laminas\Http\Headers;
 use Laminas\Json\Json;
-use Xigen\Library\OnBuy\Constants;
 
 class Listing extends Base
 {
@@ -123,7 +121,7 @@ class Listing extends Base
             'site_id' => self::SITE_ID,
             'listings' => $insertArray
         ]));
-        
+
         $this->response = $this->client->send();
         $this->catchError($this->response);
         return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
@@ -167,5 +165,13 @@ class Listing extends Base
         $this->response = $this->client->send();
         $this->catchError($this->response);
         return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+    }
+
+    /**
+     * @return Client
+     */
+    public function getClient(): Client
+    {
+        return $this->client;
     }
 }
