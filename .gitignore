@@ -8,3 +8,5 @@ vendor
 composer.lock
 connect.php
 .phpunit.result.cache
+clover.xml
+build

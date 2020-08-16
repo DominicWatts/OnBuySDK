@@ -10,6 +10,8 @@ Unofficial PHP SDK to interact with OnBuy API
 
 ![PHPStan](https://github.com/DominicWatts/OnBuySDK/workflows/PHPStan/badge.svg)
 
+![PHPUnit](https://github.com/DominicWatts/OnBuySDK/workflows/PHPUnit/badge.svg)
+
 ## Install Instructions
 
 `composer require dominicwatts/onbuysdk`

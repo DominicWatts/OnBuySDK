@@ -1,0 +1,21 @@
+language: php
+php:
+  - 7.1
+  - 7.2
+  - 7.3
+  - 7.4
+
+matrix:
+  allow_failures:
+    - php: 7.1
+    - php: 7.2
+
+install:
+  - curl -s http://getcomposer.org/installer | php
+  - php composer.phar install --dev --no-interaction
+script:
+  - mkdir -p build/logs
+  - php vendor/bin/phpunit -c phpunit.xml --coverage-filter ./build/logs/ --coverage-clover ./build/logs/clover.xml
+
+after_success:
+  - travis_retry php vendor/bin/php-coveralls --coverage_clover=./build/logs/clover.xml -v

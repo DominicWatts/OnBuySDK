@@ -9,9 +9,7 @@ namespace Xigen\Library\OnBuy\Category;
 
 use Laminas\Http\Client;
 use Laminas\Http\Request;
-use Laminas\Http\Headers;
 use Laminas\Json\Json;
-use Xigen\Library\OnBuy\Constants;
 
 class Category extends Base
 {
@@ -34,7 +32,7 @@ class Category extends Base
      * @var \Laminas\Http\Response
      */
     protected $response;
-    
+
     /**
      * Category constructor.
      * @param $token
@@ -57,7 +55,7 @@ class Category extends Base
         if (empty($filterArray)) {
             throw new \Exception('Category filter parameters required');
         }
-        
+
         $this->client->setUri($this->domain . $this->version . self::CATEGORIES);
         $this->client->setMethod(Request::METHOD_GET);
 
@@ -74,7 +72,7 @@ class Category extends Base
     }
 
     /**
-     * Obtain information for a single OnBuy brand
+     * Obtain information for a single OnBuy category
      * @param $categoryId int
      * @return mixed
      * @throws \Exception
@@ -94,5 +92,13 @@ class Category extends Base
         $this->response = $this->client->send();
         $this->catchError($this->response);
         return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+    }
+
+    /**
+     * @return Client
+     */
+    public function getClient(): Client
+    {
+        return $this->client;
     }
 }

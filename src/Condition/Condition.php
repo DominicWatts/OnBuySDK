@@ -8,8 +8,8 @@ declare(strict_types=1);
 namespace Xigen\Library\OnBuy\Condition;
 
 use Laminas\Http\Client;
-use Laminas\Http\Request;
 use Laminas\Http\Headers;
+use Laminas\Http\Request;
 use Laminas\Json\Json;
 use Xigen\Library\OnBuy\Constants;
 
@@ -34,7 +34,7 @@ class Condition extends Constants
      * @var \Laminas\Http\Response
      */
     protected $response;
-    
+
     /**
      * Brand constructor.
      * @param $token
@@ -68,5 +68,13 @@ class Condition extends Constants
         $this->response = $this->client->send();
         $this->catchError($this->response);
         return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+    }
+
+    /**
+     * @return Client
+     */
+    public function getClient(): Client
+    {
+        return $this->client;
     }
 }

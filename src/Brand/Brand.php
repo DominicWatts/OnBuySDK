@@ -8,8 +8,8 @@ declare(strict_types=1);
 namespace Xigen\Library\OnBuy\Brand;
 
 use Laminas\Http\Client;
-use Laminas\Http\Request;
 use Laminas\Http\Headers;
+use Laminas\Http\Request;
 use Laminas\Json\Json;
 use Xigen\Library\OnBuy\Constants;
 
@@ -34,7 +34,7 @@ class Brand extends Constants
      * @var \Laminas\Http\Response
      */
     protected $response;
-    
+
     /**
      * Brand constructor.
      * @param $token
@@ -66,7 +66,7 @@ class Brand extends Constants
         if (empty($filter)) {
             throw new \Exception('Brand filter keyword required');
         }
-        
+
         $this->client->setUri($this->domain . $this->version . self::BRAND);
         $this->client->setMethod(Request::METHOD_GET);
         $this->client->setParameterGet([
@@ -101,5 +101,13 @@ class Brand extends Constants
         $this->response = $this->client->send();
         $this->catchError($this->response);
         return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+    }
+
+    /**
+     * @return Client
+     */
+    public function getClient(): Client
+    {
+        return $this->client;
     }
 }

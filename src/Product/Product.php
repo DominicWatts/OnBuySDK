@@ -9,9 +9,7 @@ namespace Xigen\Library\OnBuy\Product;
 
 use Laminas\Http\Client;
 use Laminas\Http\Request;
-use Laminas\Http\Headers;
 use Laminas\Json\Json;
-use Xigen\Library\OnBuy\Constants;
 
 class Product extends Base
 {
@@ -128,5 +126,13 @@ class Product extends Base
         $this->response = $this->client->send();
         $this->catchError($this->response);
         return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+    }
+
+    /**
+     * @return Client
+     */
+    public function getClient(): Client
+    {
+        return $this->client;
     }
 }

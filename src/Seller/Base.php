@@ -8,9 +8,7 @@ declare(strict_types=1);
 namespace Xigen\Library\OnBuy\Seller;
 
 use Laminas\Http\Client;
-use Laminas\Http\Request;
 use Laminas\Http\Headers;
-use Laminas\Json\Json;
 use Xigen\Library\OnBuy\Constants;
 
 class Base extends Constants
@@ -34,7 +32,7 @@ class Base extends Constants
      * @var \Laminas\Http\Response
      */
     protected $response;
-    
+
     /**
      * Category constructor.
      * @param $token

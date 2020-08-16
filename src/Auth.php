@@ -8,8 +8,8 @@ declare(strict_types=1);
 namespace Xigen\Library\OnBuy;
 
 use Laminas\Http\Client;
-use Laminas\Http\Request;
 use Laminas\Http\Headers;
+use Laminas\Http\Request;
 use Laminas\Json\Json;
 
 class Auth extends Constants
@@ -85,7 +85,7 @@ class Auth extends Constants
         $this->catchError($this->response);
 
         $response = Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
-      
+
         if (isset($response['access_token'])) {
             $this->token = $response['access_token'];
             $this->expires = $response['access_token'];
@@ -122,5 +122,13 @@ class Auth extends Constants
     public function setConsumerKey(string $consumerKey): void
     {
         $this->consumerKey = $consumerKey;
+    }
+
+    /**
+     * @return Client
+     */
+    public function getClient(): Client
+    {
+        return $this->client;
     }
 }

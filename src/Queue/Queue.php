@@ -8,8 +8,8 @@ declare(strict_types=1);
 namespace Xigen\Library\OnBuy\Queue;
 
 use Laminas\Http\Client;
-use Laminas\Http\Request;
 use Laminas\Http\Headers;
+use Laminas\Http\Request;
 use Laminas\Json\Json;
 use Xigen\Library\OnBuy\Constants;
 
@@ -34,7 +34,7 @@ class Queue extends Constants
      * @var \Laminas\Http\Response
      */
     protected $response;
-    
+
     /**
      * Brand constructor.
      * @param $token
@@ -63,7 +63,7 @@ class Queue extends Constants
         if (empty($filterArray)) {
             throw new \Exception('Filter parameters required');
         }
-        
+
         $this->client->setUri($this->domain . $this->version . self::QUEUES);
         $this->client->setMethod(Request::METHOD_GET);
         $this->client->setParameterGet([
@@ -95,5 +95,13 @@ class Queue extends Constants
         $this->response = $this->client->send();
         $this->catchError($this->response);
         return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+    }
+
+    /**
+     * @return Client
+     */
+    public function getClient(): Client
+    {
+        return $this->client;
     }
 }

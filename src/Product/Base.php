@@ -8,9 +8,7 @@ declare(strict_types=1);
 namespace Xigen\Library\OnBuy\Product;
 
 use Laminas\Http\Client;
-use Laminas\Http\Request;
 use Laminas\Http\Headers;
-use Laminas\Json\Json;
 use Xigen\Library\OnBuy\Constants;
 
 class Base extends Constants
