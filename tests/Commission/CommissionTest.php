@@ -1,14 +1,15 @@
 <?php
 
-namespace Xigen\Library\OnBuy\Brand;
+namespace Commission;
 
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
-use PHPUnit\Framework\TestCase;
+use Xigen\Library\OnBuy\Commission\Commission;
 use Xigen\Library\OnBuy\Constants;
+use PHPUnit\Framework\TestCase;
 
-class BrandTest extends TestCase
+class CommissionTest extends TestCase
 {
     /**
      * Authorization header
@@ -16,7 +17,7 @@ class BrandTest extends TestCase
     public function testAuthorizationHeader()
     {
         $token = 'xyz';
-        $client = new Brand($token);
+        $client = new Commission($token);
         self::assertSame($token, $client->getClient()->getHeader('Authorization'));
     }
 
@@ -25,30 +26,25 @@ class BrandTest extends TestCase
      */
     public function testOptions()
     {
-        $client = new Brand('xyz');
+        $client = new Commission('xyz');
         self::assertSame(Constants::TIMEOUT, $client->getClient()->getAdapter()->getConfig()['timeout']);
         self::assertSame(Constants::MAXREDIRECTS, $client->getClient()->getAdapter()->getConfig()['maxredirects']);
     }
 
     /**
-     * Building of brand search get request
+     * Building of commission tier search get request
      */
-    public function testGetBrandParametersCastToString()
+    public function testGetTierParametersCastToString()
     {
-        $brand = new Brand('xyz');
-        $client = $brand->getClient();
+        $commission = new Commission('xyz');
+        $client = $commission->getClient();
         $adapter = $this->createMock(AdapterInterface::class);
 
         $client->setAdapter($adapter);
-        $client->setUri($brand->getDomain() . $brand->getVersion() . Constants::BRAND);
+        $client->setUri($commission->getDomain() . $commission->getVersion() . Constants::COMMISSION_TIERS);
         $client->setMethod(Request::METHOD_GET);
         $client->setParameterGet([
-            'filter' => [
-                'name' => 'test'
-            ],
-            'sort' => [
-                'name' => Constants::DEFAULT_SORT,
-            ],
+            'site_id' => Constants::SITE_ID,
             'limit' => Constants::DEFAULT_LIMIT,
             'offset' => Constants::DEFAULT_OFFSET
         ]);
@@ -61,7 +57,7 @@ class BrandTest extends TestCase
             ->with(Request::METHOD_GET, str_replace(
                 ['[', ']'],
                 ['%5B','%5D'],
-                'https://api.onbuy.com/v2/brand?filter[name]=test&sort[name]=asc&limit=50&offset=0'
+                'https://api.onbuy.com/v2/commission-tiers?site_id=2000&limit=50&offset=0'
             ));
 
         $adapter
@@ -73,25 +69,34 @@ class BrandTest extends TestCase
     }
 
     /**
-     * Building of brand search get request
+     * Building of commission tier search get request
      */
-    public function testGetBrandByIdParametersCastToString()
+    public function testGetTierByIdParametersCastToString()
     {
-        $brand = new Brand('xyz');
-        $client = $brand->getClient();
+        $commission = new Commission('xyz');
+        $client = $commission->getClient();
         $adapter = $this->createMock(AdapterInterface::class);
 
         $client->setAdapter($adapter);
-
-        $client->setUri($brand->getDomain() . $brand->getVersion() . Constants::BRAND . '/123');
+        $client->setUri($commission->getDomain() . $commission->getVersion() . Constants::CATEGORIES . '/123/' . Constants::VARIANTS);
         $client->setMethod(Request::METHOD_GET);
+        $client->setParameterGet([
+            'site_id' => Constants::SITE_ID,
+            'commission_tier_id' => '456',
+            'limit' => Constants::DEFAULT_LIMIT,
+            'offset' => Constants::DEFAULT_OFFSET
+        ]);
 
         $response = new Response();
 
         $adapter
             ->expects($this->once())
             ->method('write')
-            ->with(Request::METHOD_GET, 'https://api.onbuy.com/v2/brand/123');
+            ->with(Request::METHOD_GET, str_replace(
+                ['[', ']'],
+                ['%5B','%5D'],
+                'https://api.onbuy.com/v2/categories/123/variants?site_id=2000&commission_tier_id=456&limit=50&offset=0'
+            ));
 
         $adapter
             ->expects($this->any())
@@ -108,8 +113,8 @@ class BrandTest extends TestCase
     public function testInvalidSearch()
     {
         $this->expectException(\Exception::class);
-        $brand = new Brand('xyz');
-        $brand->getBrand([]);
+        $commission = new Commission('xyz');
+        $commission->getTierById([]);
     }
 
     /**
@@ -119,7 +124,7 @@ class BrandTest extends TestCase
     public function testInvalidToken()
     {
         $this->expectException(\Exception::class);
-        $brand = new Brand('xyz');
-        $brand->getBrandById(123);
+        $commission = new Commission('xyz');
+        $commission->getTierById(123, 456);
     }
 }
