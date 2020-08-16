@@ -53,7 +53,7 @@ class Queue extends Constants
     }
 
     /**
-     * Check the progress of any actions that use our queuing system
+     * Check the progress of any actions that use OnBuy queuing system
      * @param $filterArray array queue_ids|status[success|failed|pending]
      * @return mixed
      * @throws \Exception
@@ -77,7 +77,7 @@ class Queue extends Constants
     }
 
     /**
-     * Check the progress of any actions that use our queuing system
+     * Check the progress of any actions that use OnBuy queuing system
      * @param $queueId
      * @return mixed
      * @throws \Exception

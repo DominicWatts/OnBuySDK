@@ -35,6 +35,9 @@
         <testsuite name="Condition Tests">
             <directory suffix="Test.php">./tests/Condition</directory>
         </testsuite>
+        <testsuite name="Queue Tests">
+            <directory suffix="Test.php">./tests/Queue</directory>
+        </testsuite>
     </testsuites>
     <php>
         <env name="APP_ENV" value="testing"/>
