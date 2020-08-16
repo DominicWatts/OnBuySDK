@@ -5,9 +5,9 @@ namespace Commission;
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
+use PHPUnit\Framework\TestCase;
 use Xigen\Library\OnBuy\Commission\Commission;
 use Xigen\Library\OnBuy\Constants;
-use PHPUnit\Framework\TestCase;
 
 class CommissionTest extends TestCase
 {
@@ -54,11 +54,7 @@ class CommissionTest extends TestCase
         $adapter
             ->expects($this->once())
             ->method('write')
-            ->with(Request::METHOD_GET, str_replace(
-                ['[', ']'],
-                ['%5B','%5D'],
-                'https://api.onbuy.com/v2/commission-tiers?site_id=2000&limit=50&offset=0'
-            ));
+            ->with(Request::METHOD_GET, 'https://api.onbuy.com/v2/commission-tiers?site_id=2000&limit=50&offset=0');
 
         $adapter
             ->expects($this->any())
@@ -92,11 +88,7 @@ class CommissionTest extends TestCase
         $adapter
             ->expects($this->once())
             ->method('write')
-            ->with(Request::METHOD_GET, str_replace(
-                ['[', ']'],
-                ['%5B','%5D'],
-                'https://api.onbuy.com/v2/categories/123/variants?site_id=2000&commission_tier_id=456&limit=50&offset=0'
-            ));
+            ->with(Request::METHOD_GET, 'https://api.onbuy.com/v2/categories/123/variants?site_id=2000&commission_tier_id=456&limit=50&offset=0');
 
         $adapter
             ->expects($this->any())
