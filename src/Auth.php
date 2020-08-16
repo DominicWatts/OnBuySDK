@@ -56,8 +56,16 @@ class Auth extends Constants
      */
     public function __construct($customConfig = [])
     {
-        $this->secretKey = $customConfig['secret_key'];
-        $this->consumerKey = $customConfig['consumer_key'];
+        if (empty($customConfig)) {
+            throw new \Exception('Secret and Consumer key required');
+        }
+
+        $this->secretKey = $customConfig['secret_key'] ?? null;
+        $this->consumerKey = $customConfig['consumer_key'] ?? null;
+
+        if (!$this->secretKey || !$this->consumerKey) {
+            throw new \Exception('Secret and Consumer key required');
+        }
 
         $this->headers = new Headers();
 
@@ -130,5 +138,21 @@ class Auth extends Constants
     public function getClient(): Client
     {
         return $this->client;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSecretKey(): string
+    {
+        return $this->secretKey;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConsumerKey(): string
+    {
+        return $this->consumerKey;
     }
 }
