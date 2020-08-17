@@ -5,10 +5,9 @@ namespace Queue;
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
-use Xigen\Library\OnBuy\Brand\Brand;
+use PHPUnit\Framework\TestCase;
 use Xigen\Library\OnBuy\Constants;
 use Xigen\Library\OnBuy\Queue\Queue;
-use PHPUnit\Framework\TestCase;
 
 class QueueTest extends TestCase
 {

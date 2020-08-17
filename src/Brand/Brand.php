@@ -10,7 +10,6 @@ namespace Xigen\Library\OnBuy\Brand;
 use Laminas\Http\Client;
 use Laminas\Http\Headers;
 use Laminas\Http\Request;
-use Laminas\Json\Json;
 use Xigen\Library\OnBuy\Constants;
 
 class Brand extends Constants

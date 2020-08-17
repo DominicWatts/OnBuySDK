@@ -7,8 +7,8 @@ declare(strict_types=1);
 
 namespace Xigen\Library\OnBuy;
 
-use Laminas\Json\Json;
 use Laminas\Http\Client;
+use Laminas\Json\Json;
 
 class Constants
 {

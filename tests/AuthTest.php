@@ -1,7 +1,7 @@
 <?php
 
-use Xigen\Library\OnBuy\Auth;
 use PHPUnit\Framework\TestCase;
+use Xigen\Library\OnBuy\Auth;
 use Xigen\Library\OnBuy\Constants;
 
 class AuthTest extends TestCase

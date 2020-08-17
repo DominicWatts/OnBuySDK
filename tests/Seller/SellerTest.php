@@ -2,12 +2,12 @@
 
 namespace Seller;
 
-use Xigen\Library\OnBuy\Seller\Seller;
-use PHPUnit\Framework\TestCase;
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
+use PHPUnit\Framework\TestCase;
 use Xigen\Library\OnBuy\Constants;
+use Xigen\Library\OnBuy\Seller\Seller;
 
 class SellerTest extends TestCase
 {

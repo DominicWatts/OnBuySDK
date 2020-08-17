@@ -1,9 +1,9 @@
 <?php
 
-use Xigen\Library\OnBuy\Constants;
-use PHPUnit\Framework\TestCase;
 use Laminas\Http\Response\Stream;
 use Laminas\Json\Json;
+use PHPUnit\Framework\TestCase;
+use Xigen\Library\OnBuy\Constants;
 
 class ConstantsTest extends TestCase
 {

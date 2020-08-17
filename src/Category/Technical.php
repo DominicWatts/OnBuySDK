@@ -7,9 +7,7 @@ declare(strict_types=1);
 
 namespace Xigen\Library\OnBuy\Category;
 
-use Laminas\Http\Client;
 use Laminas\Http\Request;
-use Laminas\Json\Json;
 
 class Technical extends Base
 {

@@ -2,9 +2,9 @@
 
 namespace Product;
 
-use Xigen\Library\OnBuy\Product\Base;
 use PHPUnit\Framework\TestCase;
 use Xigen\Library\OnBuy\Constants;
+use Xigen\Library\OnBuy\Product\Base;
 
 class BaseTest extends TestCase
 {

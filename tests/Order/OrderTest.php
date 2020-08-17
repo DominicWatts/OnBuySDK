@@ -3,11 +3,11 @@
 namespace Order;
 
 use Laminas\Http\Client\Adapter\AdapterInterface;
-use Xigen\Library\OnBuy\Order\Order;
-use PHPUnit\Framework\TestCase;
-use Xigen\Library\OnBuy\Constants;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
+use PHPUnit\Framework\TestCase;
+use Xigen\Library\OnBuy\Constants;
+use Xigen\Library\OnBuy\Order\Order;
 
 class OrderTest extends TestCase
 {

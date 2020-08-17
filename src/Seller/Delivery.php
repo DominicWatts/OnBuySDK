@@ -7,9 +7,7 @@ declare(strict_types=1);
 
 namespace Xigen\Library\OnBuy\Seller;
 
-use Laminas\Http\Client;
 use Laminas\Http\Request;
-use Laminas\Json\Json;
 
 class Delivery extends Base
 {

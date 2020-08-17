@@ -30,7 +30,7 @@ class TechnicalTest extends TestCase
         self::assertSame(Constants::TIMEOUT, $client->getClient()->getAdapter()->getConfig()['timeout']);
         self::assertSame(Constants::MAXREDIRECTS, $client->getClient()->getAdapter()->getConfig()['maxredirects']);
     }
-    
+
     /**
      * Obtain a list of all category groups
      */

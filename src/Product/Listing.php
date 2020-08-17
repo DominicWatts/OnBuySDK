@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Xigen\Library\OnBuy\Product;
 
-use Laminas\Http\Client;
 use Laminas\Http\Request;
 use Laminas\Json\Json;
 

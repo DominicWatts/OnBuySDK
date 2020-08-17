@@ -5,9 +5,9 @@ namespace Site;
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
-use Xigen\Library\OnBuy\Site\Site;
 use PHPUnit\Framework\TestCase;
 use Xigen\Library\OnBuy\Constants;
+use Xigen\Library\OnBuy\Site\Site;
 
 class SiteTest extends TestCase
 {
