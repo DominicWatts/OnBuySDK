@@ -60,9 +60,7 @@ class Listing extends Base
             'offset' => $offset ?: self::DEFAULT_OFFSET
         ]);
 
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -80,9 +78,7 @@ class Listing extends Base
             'listings' => $updateArray
         ]));
 
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -100,9 +96,7 @@ class Listing extends Base
             'skus' => $deleteArray
         ]));
 
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -122,9 +116,7 @@ class Listing extends Base
             'listings' => $insertArray
         ]));
 
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -141,9 +133,7 @@ class Listing extends Base
             'site_id' => self::SITE_ID,
             'listings' => Json::encode($insertArray),
         ]);
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -162,16 +152,6 @@ class Listing extends Base
             'skus' => $skusArray
         ]);
 
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
-    }
-
-    /**
-     * @return Client
-     */
-    public function getClient(): Client
-    {
-        return $this->client;
+        $this->getResponse();
     }
 }

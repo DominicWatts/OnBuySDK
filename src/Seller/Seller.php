@@ -55,16 +55,6 @@ class Seller extends Base
         }
         $this->client->setUri($this->domain . $this->version . self::SELLERS . '/' . $sellerId);
         $this->client->setMethod(Request::METHOD_GET);
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
-    }
-
-    /**
-     * @return Client
-     */
-    public function getClient(): Client
-    {
-        return $this->client;
+        $this->getResponse();
     }
 }

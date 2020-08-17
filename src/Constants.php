@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Xigen\Library\OnBuy;
 
 use Laminas\Json\Json;
+use Laminas\Http\Client;
 
 class Constants
 {
@@ -74,6 +75,21 @@ class Constants
     protected $token;
 
     /**
+     * @var \Laminas\Http\Client;
+     */
+    protected $client;
+
+    /**
+     * @var \Laminas\Http\Response
+     */
+    protected $response;
+
+    /**
+     * @var array
+     */
+    protected $responseArray;
+
+    /**
      * @param \Laminas\Http\Response $response
      * @throws \Exception
      */
@@ -92,6 +108,19 @@ class Constants
                 $decode['error']['message']
             ));
         }
+    }
+
+    /**
+     * Make call, parse response
+     * @return array|mixed
+     * @throws \Exception
+     */
+    public function getResponse()
+    {
+        $this->response = $this->client->send();
+        $this->catchError($this->response);
+        $this->responseArray = Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        return $this->responseArray;
     }
 
     /**
@@ -134,5 +163,21 @@ class Constants
     public function setDomain(string $domain): void
     {
         $this->domain = $domain;
+    }
+
+    /**
+     * @return \Laminas\Http\Client
+     */
+    public function getClient(): Client
+    {
+        return $this->client;
+    }
+
+    /**
+     * @return array
+     */
+    public function getResponseArray(): array
+    {
+        return $this->responseArray;
     }
 }

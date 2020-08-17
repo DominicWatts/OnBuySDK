@@ -71,5 +71,6 @@ class ConditionTest extends TestCase
         $this->expectException(\Exception::class);
         $condition = new Condition('xyz');
         $condition->getCondition();
+        $condition->getResponse();
     }
 }

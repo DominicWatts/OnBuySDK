@@ -55,6 +55,7 @@ class FeatureTest extends TestCase
         $this->expectException(\Exception::class);
         $categoryFeature = new Feature('xyz');
         $categoryFeature->getFeatureById();
+        $categoryFeature->getResponse();
     }
 
     /**
@@ -66,5 +67,6 @@ class FeatureTest extends TestCase
         $this->expectException(\Exception::class);
         $categoryFeature = new Feature('xyz');
         $categoryFeature->getFeatureById(123);
+        $categoryFeature->getResponse();
     }
 }

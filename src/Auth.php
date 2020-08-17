@@ -25,6 +25,11 @@ class Auth extends Constants
     public $response;
 
     /**
+     * @var array
+     */
+    public $responseArray;
+
+    /**
      * @var \Laminas\Http\Headers
      */
     public $headers;
@@ -84,6 +89,17 @@ class Auth extends Constants
 
         $this->headers->addHeaderLine('Content-Type', self::TOKEN_CONTENT_TYPE);
         $this->client->setHeaders($this->headers);
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getToken(): string
+    {
+        // if token exists and has valid expiry return token
+        if($this->token && $this->expires < time()) {
+            return $this->token;
+        }
         $this->response = $this->client->send();
 
         if ($this->response->isServerError()) {
@@ -93,18 +109,12 @@ class Auth extends Constants
         $this->catchError($this->response);
 
         $response = Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->responseArray = $response;
 
         if (isset($response['access_token'])) {
             $this->token = $response['access_token'];
-            $this->expires = $response['access_token'];
+            $this->expires = $response['expires_at'];
         }
-    }
-
-    /**
-     * @return mixed|string
-     */
-    public function getToken(): string
-    {
         return $this->token;
     }
 
@@ -154,5 +164,21 @@ class Auth extends Constants
     public function getConsumerKey(): string
     {
         return $this->consumerKey;
+    }
+
+    /**
+     * @return \Laminas\Http\Response
+     */
+    public function getResponse(): \Laminas\Http\Response
+    {
+        return $this->response;
+    }
+
+    /**
+     * @return array
+     */
+    public function getResponseArray(): array
+    {
+        return $this->responseArray;
     }
 }

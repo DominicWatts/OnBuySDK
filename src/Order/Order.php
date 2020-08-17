@@ -77,9 +77,7 @@ class Order extends Constants
         }
 
         $this->client->setParameterGet($params);
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -95,9 +93,7 @@ class Order extends Constants
         }
         $this->client->setUri($this->domain . $this->version . self::ORDERS . '/' . $orderId);
         $this->client->setMethod(Request::METHOD_GET);
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -113,9 +109,7 @@ class Order extends Constants
         $this->client->setRawBody(Json::encode([
             'orders' => $updateArray
         ]));
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -132,9 +126,7 @@ class Order extends Constants
             'site_id' => self::SITE_ID,
             'orders' => $cancelArray
         ]));
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -151,9 +143,7 @@ class Order extends Constants
             'site_id' => self::SITE_ID,
             'orders' => $refundArray
         ]));
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -168,16 +158,6 @@ class Order extends Constants
         $this->client->setParameterGet([
             'site_id' => self::SITE_ID
         ]);
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
-    }
-
-    /**
-     * @return Client
-     */
-    public function getClient(): Client
-    {
-        return $this->client;
+        $this->getResponse();
     }
 }

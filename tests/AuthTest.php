@@ -1,6 +1,5 @@
 <?php
 
-
 use Xigen\Library\OnBuy\Auth;
 use PHPUnit\Framework\TestCase;
 use Xigen\Library\OnBuy\Constants;
@@ -9,9 +8,8 @@ class AuthTest extends TestCase
 {
     /**
      * Authorization header
-     * @deprecated
      */
-    public function Header()
+    public function testHeader()
     {
         $client = new Auth([
             'consumer_key' => '123',
@@ -22,9 +20,8 @@ class AuthTest extends TestCase
 
     /**
      * Options
-     * @deprecated
      */
-    public function Options()
+    public function testOptions()
     {
         $client = new Auth([
             'consumer_key' => '123',
@@ -36,9 +33,8 @@ class AuthTest extends TestCase
 
     /**
      * Keys
-     * @deprecated
      */
-    public function Keys()
+    public function testKeys()
     {
         $consumerKey = '123';
         $secretKey = '456';
@@ -52,12 +48,12 @@ class AuthTest extends TestCase
 
     /**
      * Incorrect token
-     * @throws \Exception
      */
     public function testInvalidParameters()
     {
         $this->expectException(\Exception::class);
-        $queue = new Auth(['123', '456']);
+        $auth = new Auth(['123', '456']);
+        $auth->getToken();
     }
 
     /**
@@ -67,6 +63,7 @@ class AuthTest extends TestCase
     public function testNoParameters()
     {
         $this->expectException(\Exception::class);
-        $queue = new Auth([]);
+        $auth = new Auth([]);
+        $auth->getToken();
     }
 }

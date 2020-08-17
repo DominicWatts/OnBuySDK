@@ -87,6 +87,7 @@ class TechnicalTest extends TestCase
         $this->expectException(\Exception::class);
         $categoryTechnical = new Technical('xyz');
         $categoryTechnical->getTechnicalDetailById();
+        $categoryTechnical->getResponse();
     }
 
     /**
@@ -98,5 +99,6 @@ class TechnicalTest extends TestCase
         $this->expectException(\Exception::class);
         $categoryTechnical = new Technical('xyz');
         $categoryTechnical->getTechnicalDetailById(123);
+        $categoryTechnical->getResponse();
     }
 }

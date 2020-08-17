@@ -54,6 +54,7 @@ class VariantTest extends TestCase
         $this->expectException(\Exception::class);
         $categoryVariant = new Variant('xyz');
         $categoryVariant->getVariantId();
+        $categoryVariant->getResponse();
     }
 
     /**
@@ -65,5 +66,6 @@ class VariantTest extends TestCase
         $this->expectException(\Exception::class);
         $categoryVariant = new Variant('xyz');
         $categoryVariant->getVariantId(123);
+        $categoryVariant->getResponse();
     }
 }

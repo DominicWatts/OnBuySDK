@@ -93,6 +93,7 @@ class CategoryTest extends TestCase
         $this->expectException(\Exception::class);
         $category = new Category('xyz');
         $category->getCategory([]);
+        $category->getResponse();
     }
 
     /**
@@ -104,5 +105,6 @@ class CategoryTest extends TestCase
         $this->expectException(\Exception::class);
         $category = new Category('xyz');
         $category->getCategoryById(123);
+        $category->getResponse();
     }
 }

@@ -62,9 +62,7 @@ class Product extends Base
         $this->client->setMethod(Request::METHOD_POST);
         $insertArray = array_merge($this->default, $insertArray);
         $this->client->setRawBody(Json::encode($insertArray));
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -82,9 +80,7 @@ class Product extends Base
         $this->client->setMethod(Request::METHOD_PUT);
         $updateArray = array_merge($this->default, $updateArray);
         $this->client->setRawBody(Json::encode($updateArray));
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -100,9 +96,7 @@ class Product extends Base
         $this->client->setRawBody(Json::encode([
             'products' => $updateArray
         ]));
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -123,16 +117,6 @@ class Product extends Base
             'offset' => $offset ?: self::DEFAULT_OFFSET,
             'filter' => $searchArray
         ]);
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
-    }
-
-    /**
-     * @return Client
-     */
-    public function getClient(): Client
-    {
-        return $this->client;
+        $this->getResponse();
     }
 }
