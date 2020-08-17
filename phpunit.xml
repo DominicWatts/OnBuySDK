@@ -35,11 +35,20 @@
         <testsuite name="Condition Tests">
             <directory suffix="Test.php">./tests/Condition</directory>
         </testsuite>
+        <testsuite name="Order Tests">
+            <directory suffix="Test.php">./tests/Order</directory>
+        </testsuite>
         <testsuite name="Product Tests">
             <directory suffix="Test.php">./tests/Product</directory>
         </testsuite>
         <testsuite name="Queue Tests">
             <directory suffix="Test.php">./tests/Queue</directory>
+        </testsuite>
+        <testsuite name="Seller Tests">
+            <directory suffix="Test.php">./tests/Seller</directory>
+        </testsuite>
+         <testsuite name="Site Tests">
+            <directory suffix="Test.php">./tests/Site</directory>
         </testsuite>
         <testsuite name="Auth Tests">
             <directory suffix="Test.php">./tests</directory>
