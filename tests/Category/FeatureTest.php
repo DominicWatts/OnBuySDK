@@ -11,6 +11,25 @@ use Xigen\Library\OnBuy\Constants;
 
 class FeatureTest extends TestCase
 {
+    /**
+     * Authorization header
+     */
+    public function testAuthorizationHeader()
+    {
+        $token = 'xyz';
+        $client = new Feature($token);
+        self::assertSame($token, $client->getClient()->getHeader('Authorization'));
+    }
+
+    /**
+     * Options
+     */
+    public function testOptions()
+    {
+        $client = new Feature('xyz');
+        self::assertSame(Constants::TIMEOUT, $client->getClient()->getAdapter()->getConfig()['timeout']);
+        self::assertSame(Constants::MAXREDIRECTS, $client->getClient()->getAdapter()->getConfig()['maxredirects']);
+    }
 
     /**
      * Obtain information for a single OnBuy category get request

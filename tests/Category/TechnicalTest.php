@@ -12,6 +12,26 @@ use Xigen\Library\OnBuy\Constants;
 class TechnicalTest extends TestCase
 {
     /**
+     * Authorization header
+     */
+    public function testAuthorizationHeader()
+    {
+        $token = 'xyz';
+        $client = new Technical($token);
+        self::assertSame($token, $client->getClient()->getHeader('Authorization'));
+    }
+
+    /**
+     * Options
+     */
+    public function testOptions()
+    {
+        $client = new Technical('xyz');
+        self::assertSame(Constants::TIMEOUT, $client->getClient()->getAdapter()->getConfig()['timeout']);
+        self::assertSame(Constants::MAXREDIRECTS, $client->getClient()->getAdapter()->getConfig()['maxredirects']);
+    }
+    
+    /**
      * Obtain a list of all category groups
      */
     public function testGetTechnicalDetailByIdParametersCastToString()

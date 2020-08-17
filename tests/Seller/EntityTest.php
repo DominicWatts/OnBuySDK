@@ -12,6 +12,26 @@ use Xigen\Library\OnBuy\Constants;
 class EntityTest extends TestCase
 {
     /**
+     * Authorization header
+     */
+    public function testHeader()
+    {
+        $token = 'xyz';
+        $client = new Entity($token);
+        self::assertSame($token, $client->getClient()->getHeader('Authorization'));
+    }
+
+    /**
+     * Options
+     */
+    public function testOptions()
+    {
+        $client = new Entity('xyz');
+        self::assertSame(Constants::TIMEOUT, $client->getClient()->getAdapter()->getConfig()['timeout']);
+        self::assertSame(Constants::MAXREDIRECTS, $client->getClient()->getAdapter()->getConfig()['maxredirects']);
+    }
+
+    /**
      * Retrieve the available delivery options set up on your seller account
      */
     public function testGetDeliveryParametersCastToString()

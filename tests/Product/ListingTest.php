@@ -2,11 +2,11 @@
 
 namespace Product;
 
-use Xigen\Library\OnBuy\Product\Base;
+use Xigen\Library\OnBuy\Product\Listing;
 use PHPUnit\Framework\TestCase;
 use Xigen\Library\OnBuy\Constants;
 
-class BaseTest extends TestCase
+class ListingTest extends TestCase
 {
     /**
      * Authorization header
@@ -14,7 +14,7 @@ class BaseTest extends TestCase
     public function testHeader()
     {
         $token = 'xyz';
-        $client = new Base($token);
+        $client = new Listing($token);
         self::assertSame($token, $client->getClient()->getHeader('Authorization'));
         self::assertSame(Constants::CONTENT_TYPE, $client->getClient()->getHeader('Content-Type'));
     }
@@ -24,7 +24,7 @@ class BaseTest extends TestCase
      */
     public function testOptions()
     {
-        $client = new Base('xyz');
+        $client = new Listing('xyz');
         self::assertSame(Constants::TIMEOUT, $client->getClient()->getAdapter()->getConfig()['timeout']);
         self::assertSame(Constants::MAXREDIRECTS, $client->getClient()->getAdapter()->getConfig()['maxredirects']);
     }

@@ -12,6 +12,26 @@ use Xigen\Library\OnBuy\Constants;
 class VariantTest extends TestCase
 {
     /**
+     * Authorization header
+     */
+    public function testAuthorizationHeader()
+    {
+        $token = 'xyz';
+        $client = new Variant($token);
+        self::assertSame($token, $client->getClient()->getHeader('Authorization'));
+    }
+
+    /**
+     * Options
+     */
+    public function testOptions()
+    {
+        $client = new Variant('xyz');
+        self::assertSame(Constants::TIMEOUT, $client->getClient()->getAdapter()->getConfig()['timeout']);
+        self::assertSame(Constants::MAXREDIRECTS, $client->getClient()->getAdapter()->getConfig()['maxredirects']);
+    }
+
+    /**
      * Used to access data for Subcategory information
      */
     public function testGetVariantIdParametersCastToString()
