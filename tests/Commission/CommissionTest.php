@@ -107,18 +107,5 @@ class CommissionTest extends TestCase
         $this->expectException(\Exception::class);
         $commission = new Commission('xyz');
         $commission->getTierById([]);
-        $commission->getResponse();
-    }
-
-    /**
-     * Invalid token
-     * @throws \Exception
-     */
-    public function testInvalidToken()
-    {
-        $this->expectException(\Exception::class);
-        $commission = new Commission('xyz');
-        $commission->getTierById(123, 456);
-        $commission->getResponse();
     }
 }

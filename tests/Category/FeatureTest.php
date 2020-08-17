@@ -55,18 +55,5 @@ class FeatureTest extends TestCase
         $this->expectException(\Exception::class);
         $categoryFeature = new Feature('xyz');
         $categoryFeature->getFeatureById();
-        $categoryFeature->getResponse();
-    }
-
-    /**
-     * Invalid token
-     * @throws \Exception
-     */
-    public function testInvalidToken()
-    {
-        $this->expectException(\Exception::class);
-        $categoryFeature = new Feature('xyz');
-        $categoryFeature->getFeatureById(123);
-        $categoryFeature->getResponse();
     }
 }

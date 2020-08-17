@@ -121,15 +121,4 @@ class QueueTest extends TestCase
         $queue = new Queue('xyz');
         $queue->getQueueById();
     }
-
-    /**
-     * Invalid token
-     * @throws \Exception
-     */
-    public function testInvalidToken()
-    {
-        $this->expectException(\Exception::class);
-        $queue = new Queue('xyz');
-        $queue->getQueue(['123']);
-    }
 }

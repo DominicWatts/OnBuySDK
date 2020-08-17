@@ -111,15 +111,4 @@ class BrandTest extends TestCase
         $brand = new Brand('xyz');
         $brand->getBrand([]);
     }
-
-    /**
-     * Invalid token
-     * @throws \Exception
-     */
-    public function testInvalidToken()
-    {
-        $this->expectException(\Exception::class);
-        $brand = new Brand('xyz');
-        $brand->getBrandById(123);
-    }
 }

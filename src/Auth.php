@@ -97,7 +97,7 @@ class Auth extends Constants
     public function getToken(): string
     {
         // if token exists and has valid expiry return token
-        if($this->token && $this->expires < time()) {
+        if ($this->token && $this->expires < time()) {
             return $this->token;
         }
         $this->response = $this->client->send();

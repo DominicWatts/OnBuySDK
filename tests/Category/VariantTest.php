@@ -56,16 +56,4 @@ class VariantTest extends TestCase
         $categoryVariant->getVariantId();
         $categoryVariant->getResponse();
     }
-
-    /**
-     * Invalid token
-     * @throws \Exception
-     */
-    public function testInvalidToken()
-    {
-        $this->expectException(\Exception::class);
-        $categoryVariant = new Variant('xyz');
-        $categoryVariant->getVariantId(123);
-        $categoryVariant->getResponse();
-    }
 }

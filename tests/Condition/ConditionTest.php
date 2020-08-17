@@ -61,16 +61,4 @@ class ConditionTest extends TestCase
 
         $client->send();
     }
-
-    /**
-     * Invalid token
-     * @throws \Exception
-     */
-    public function testInvalidToken()
-    {
-        $this->expectException(\Exception::class);
-        $condition = new Condition('xyz');
-        $condition->getCondition();
-        $condition->getResponse();
-    }
 }

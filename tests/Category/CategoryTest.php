@@ -93,18 +93,5 @@ class CategoryTest extends TestCase
         $this->expectException(\Exception::class);
         $category = new Category('xyz');
         $category->getCategory([]);
-        $category->getResponse();
-    }
-
-    /**
-     * Invalid token
-     * @throws \Exception
-     */
-    public function testInvalidToken()
-    {
-        $this->expectException(\Exception::class);
-        $category = new Category('xyz');
-        $category->getCategoryById(123);
-        $category->getResponse();
     }
 }

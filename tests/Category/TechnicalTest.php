@@ -87,18 +87,5 @@ class TechnicalTest extends TestCase
         $this->expectException(\Exception::class);
         $categoryTechnical = new Technical('xyz');
         $categoryTechnical->getTechnicalDetailById();
-        $categoryTechnical->getResponse();
-    }
-
-    /**
-     * Invalid token
-     * @throws \Exception
-     */
-    public function testInvalidToken()
-    {
-        $this->expectException(\Exception::class);
-        $categoryTechnical = new Technical('xyz');
-        $categoryTechnical->getTechnicalDetailById(123);
-        $categoryTechnical->getResponse();
     }
 }
