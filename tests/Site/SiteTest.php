@@ -31,8 +31,8 @@ class SiteTest extends TestCase
         self::assertSame(Constants::MAXREDIRECTS, $client->getClient()->getAdapter()->getConfig()['maxredirects']);
     }
 
-      /**
-     * Building of brand search get request
+    /**
+     * Obtain site information for any regional variation of OnBuy
      */
     public function testGetSiteParametersCastToString()
     {
@@ -71,7 +71,7 @@ class SiteTest extends TestCase
     }
 
     /**
-     * Building of brand search get request
+     * Obtain information for a single OnBuy regional site
      */
     public function testGetSiteByIdParametersCastToString()
     {
