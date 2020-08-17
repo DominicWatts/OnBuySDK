@@ -5,10 +5,10 @@ namespace Order;
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
+use Laminas\Json\Json;
 use PHPUnit\Framework\TestCase;
 use Xigen\Library\OnBuy\Constants;
 use Xigen\Library\OnBuy\Order\Order;
-use Laminas\Json\Json;
 
 class OrderTest extends TestCase
 {
@@ -286,11 +286,11 @@ class OrderTest extends TestCase
             [
                 "order_id" => "T9R7V",
                 "products" => [
-                    
+
                     "sku" => "EXP-143-33S",
                     "opc" => "PN8JV6",
                     "quantity" => 125
-                    
+
                 ],
                 "tracking" => [
                     "tracking_id" => "bar",
