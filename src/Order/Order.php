@@ -137,7 +137,7 @@ class Order extends Constants
      */
     public function refundOrder($refundArray = [])
     {
-        $this->client->setUri($this->domain . $this->version . self::ORDERS . '/' . self::CANCEL);
+        $this->client->setUri($this->domain . $this->version . self::ORDERS . '/' . self::REFUND);
         $this->client->setMethod(Request::METHOD_PUT);
         $this->client->setRawBody(Json::encode([
             'site_id' => self::SITE_ID,
