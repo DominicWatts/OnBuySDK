@@ -54,11 +54,11 @@ class Order extends Constants
     /**
      * Browse and search orders
      * @param array $filterArray status[awaiting_dispatch|dispatched|complete|cancelled|cancelled_by_seller|cancelled_by_buyer|partially_dispatched|partially_refunded|refunded|all]|order_ids|modified_since|previously_exported
-     * @param $sort string asc|desc
+     * @param array $sortArray string created[asc|desc]|modified[asc|desc]
      * @return mixed
      * @throws \Exception
      */
-    public function getOrder($filterArray = [], $sort = null)
+    public function getOrder($filterArray = [], $sortArray = [])
     {
         $this->client->setUri($this->domain . $this->version . self::ORDERS);
         $this->client->setMethod(Request::METHOD_GET);
@@ -72,8 +72,8 @@ class Order extends Constants
         if (!empty($filterArray)) {
             $params['filter'] = $filterArray;
         }
-        if ($sort) {
-            $params['sort'] = $sort;
+        if (!empty($sort)) {
+            $params['sort'] = $sortArray;
         }
 
         $this->client->setParameterGet($params);
