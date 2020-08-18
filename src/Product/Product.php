@@ -170,7 +170,7 @@ class Product extends Base
         ];
 
         // optional
-        if (!empty($filterArray)) {
+        if (!empty($searchArray)) {
             $params['filter'] = $searchArray;
         }
 
