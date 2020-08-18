@@ -10,7 +10,6 @@ namespace Xigen\Library\OnBuy\Condition;
 use Laminas\Http\Client;
 use Laminas\Http\Headers;
 use Laminas\Http\Request;
-use Laminas\Json\Json;
 use Xigen\Library\OnBuy\Constants;
 
 class Condition extends Constants
@@ -65,16 +64,6 @@ class Condition extends Constants
             'site_id' => self::SITE_ID
         ]);
 
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
-    }
-
-    /**
-     * @return Client
-     */
-    public function getClient(): Client
-    {
-        return $this->client;
+        $this->getResponse();
     }
 }

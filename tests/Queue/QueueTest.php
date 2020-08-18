@@ -1,16 +1,15 @@
 <?php
 
-namespace Category;
+namespace Queue;
 
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
 use PHPUnit\Framework\TestCase;
-use Xigen\Library\OnBuy\Brand\Brand;
-use Xigen\Library\OnBuy\Category\Category;
 use Xigen\Library\OnBuy\Constants;
+use Xigen\Library\OnBuy\Queue\Queue;
 
-class CategoryTest extends TestCase
+class QueueTest extends TestCase
 {
     /**
      * Authorization header
@@ -18,7 +17,7 @@ class CategoryTest extends TestCase
     public function testAuthorizationHeader()
     {
         $token = 'xyz';
-        $client = new Category($token);
+        $client = new Queue($token);
         self::assertSame($token, $client->getClient()->getHeader('Authorization'));
     }
 
@@ -27,32 +26,28 @@ class CategoryTest extends TestCase
      */
     public function testOptions()
     {
-        $client = new Category('xyz');
+        $client = new Queue('xyz');
         self::assertSame(Constants::TIMEOUT, $client->getClient()->getAdapter()->getConfig()['timeout']);
         self::assertSame(Constants::MAXREDIRECTS, $client->getClient()->getAdapter()->getConfig()['maxredirects']);
     }
 
     /**
-     * Building of brand search get request
+     * Check the progress of any actions that use OnBuy queuing system
      */
-    public function testGetCategoryParametersCastToString()
+    public function testGetQueueParametersCastToString()
     {
-        $category = new Category('xyz');
-        $client = $category->getClient();
+        $queue = new Queue('xyz');
+        $client = $queue->getClient();
         $adapter = $this->createMock(AdapterInterface::class);
 
         $client->setAdapter($adapter);
-        $client->setUri($category->getDomain() . $category->getVersion() . Constants::CATEGORIES);
+        $client->setUri($queue->getDomain() . $queue->getVersion() . Constants::QUEUES);
         $client->setMethod(Request::METHOD_GET);
         $client->setParameterGet([
             'site_id' => Constants::SITE_ID,
-            'limit' => Constants::DEFAULT_LIMIT,
-            'offset' => Constants::DEFAULT_OFFSET,
             'filter' => [
-                'onbuy_category_id' => 34,
-                'category_type_id' => 3,
-                'name' => 'bar',
-                'can_list_in' => 1
+                'queue_ids' => 123,
+                'status' => 'success'
             ],
         ]);
 
@@ -64,7 +59,7 @@ class CategoryTest extends TestCase
             ->with(Request::METHOD_GET, str_replace(
                 ['[', ']'],
                 ['%5B','%5D'],
-                'https://api.onbuy.com/v2/categories?site_id=2000&limit=50&offset=0&filter[onbuy_category_id]=34&filter[category_type_id]=3&filter[name]=bar&filter[can_list_in]=1'
+                'https://api.onbuy.com/v2/queues?site_id=2000&filter[queue_ids]=123&filter[status]=success'
             ));
 
         $adapter
@@ -76,17 +71,17 @@ class CategoryTest extends TestCase
     }
 
     /**
-     * Obtain information for a single OnBuy category get request
+     * Check the progress of any actions that use OnBuy queuing system
      */
-    public function testGetCategoryByIdParametersCastToString()
+    public function testGetQueueByIdParametersCastToString()
     {
-        $category = new Category('xyz');
-        $client = $category->getClient();
+        $queue = new Queue('xyz');
+        $client = $queue->getClient();
         $adapter = $this->createMock(AdapterInterface::class);
 
         $client->setAdapter($adapter);
 
-        $client->setUri($category->getDomain() . $category->getVersion() . Constants::CATEGORIES . '/123');
+        $client->setUri($queue->getDomain() . $queue->getVersion() . Constants::QUEUES . '/123');
         $client->setMethod(Request::METHOD_GET);
 
         $response = new Response();
@@ -94,7 +89,7 @@ class CategoryTest extends TestCase
         $adapter
             ->expects($this->once())
             ->method('write')
-            ->with(Request::METHOD_GET, 'https://api.onbuy.com/v2/categories/123');
+            ->with(Request::METHOD_GET, 'https://api.onbuy.com/v2/queues/123');
 
         $adapter
             ->expects($this->any())
@@ -111,7 +106,18 @@ class CategoryTest extends TestCase
     public function testInvalidSearch()
     {
         $this->expectException(\Exception::class);
-        $category = new Category('xyz');
-        $category->getCategory([]);
+        $queue = new Queue('xyz');
+        $queue->getQueue([]);
+    }
+
+    /**
+     * Invalid search
+     * @throws \Exception
+     */
+    public function testInvalidSearchById()
+    {
+        $this->expectException(\Exception::class);
+        $queue = new Queue('xyz');
+        $queue->getQueueById();
     }
 }

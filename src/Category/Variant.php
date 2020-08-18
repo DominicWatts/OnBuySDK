@@ -7,9 +7,7 @@ declare(strict_types=1);
 
 namespace Xigen\Library\OnBuy\Category;
 
-use Laminas\Http\Client;
 use Laminas\Http\Request;
-use Laminas\Json\Json;
 
 class Variant extends Base
 {
@@ -65,16 +63,6 @@ class Variant extends Base
             'offset' => $offset ?: self::DEFAULT_OFFSET
         ]);
 
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
-    }
-
-    /**
-     * @return Client
-     */
-    public function getClient(): Client
-    {
-        return $this->client;
+        $this->getResponse();
     }
 }

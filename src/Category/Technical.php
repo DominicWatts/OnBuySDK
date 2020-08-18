@@ -7,9 +7,7 @@ declare(strict_types=1);
 
 namespace Xigen\Library\OnBuy\Category;
 
-use Laminas\Http\Client;
 use Laminas\Http\Request;
-use Laminas\Json\Json;
 
 class Technical extends Base
 {
@@ -65,9 +63,7 @@ class Technical extends Base
             'offset' => $offset ?: self::DEFAULT_OFFSET
         ]);
 
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -91,16 +87,6 @@ class Technical extends Base
             'product_detail_group_id' => $groupId
         ]);
 
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
-    }
-
-    /**
-     * @return Client
-     */
-    public function getClient(): Client
-    {
-        return $this->client;
+        $this->getResponse();
     }
 }

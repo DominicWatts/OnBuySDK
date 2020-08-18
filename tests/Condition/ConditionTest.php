@@ -1,15 +1,15 @@
 <?php
 
-namespace Category;
+namespace Condition;
 
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
 use PHPUnit\Framework\TestCase;
-use Xigen\Library\OnBuy\Category\Variant;
+use Xigen\Library\OnBuy\Condition\Condition;
 use Xigen\Library\OnBuy\Constants;
 
-class VariantTest extends TestCase
+class ConditionTest extends TestCase
 {
     /**
      * Authorization header
@@ -17,7 +17,7 @@ class VariantTest extends TestCase
     public function testAuthorizationHeader()
     {
         $token = 'xyz';
-        $client = new Variant($token);
+        $client = new Condition($token);
         self::assertSame($token, $client->getClient()->getHeader('Authorization'));
     }
 
@@ -26,28 +26,25 @@ class VariantTest extends TestCase
      */
     public function testOptions()
     {
-        $client = new Variant('xyz');
+        $client = new Condition('xyz');
         self::assertSame(Constants::TIMEOUT, $client->getClient()->getAdapter()->getConfig()['timeout']);
         self::assertSame(Constants::MAXREDIRECTS, $client->getClient()->getAdapter()->getConfig()['maxredirects']);
     }
 
     /**
-     * Used to access data for Subcategory information
+     * Valid conditions for use in various endpoints, most notably for listings
      */
-    public function testGetVariantIdParametersCastToString()
+    public function testGetConditionParametersCastToString()
     {
-        $categoryVariant = new Variant('xyz');
-        $client = $categoryVariant->getClient();
+        $condition = new Condition('xyz');
+        $client = $condition->getClient();
         $adapter = $this->createMock(AdapterInterface::class);
 
         $client->setAdapter($adapter);
-
-        $client->setUri($categoryVariant->getDomain() . $categoryVariant->getVersion() . Constants::CATEGORIES . '/123/' . Constants::VARIANTS);
+        $client->setUri($condition->getDomain() . $condition->getVersion() . Constants::CONDITIONS);
         $client->setMethod(Request::METHOD_GET);
         $client->setParameterGet([
-            'site_id' => Constants::SITE_ID,
-            'limit' => Constants::DEFAULT_LIMIT,
-            'offset' => Constants::DEFAULT_OFFSET
+            'site_id' => Constants::SITE_ID
         ]);
 
         $response = new Response();
@@ -55,7 +52,7 @@ class VariantTest extends TestCase
         $adapter
             ->expects($this->once())
             ->method('write')
-            ->with(Request::METHOD_GET, 'https://api.onbuy.com/v2/categories/123/variants?site_id=2000&limit=50&offset=0');
+            ->with(Request::METHOD_GET, 'https://api.onbuy.com/v2/conditions?site_id=2000');
 
         $adapter
             ->expects($this->any())
@@ -63,16 +60,5 @@ class VariantTest extends TestCase
             ->will($this->returnValue($response->toString()));
 
         $client->send();
-    }
-
-    /**
-     * Invalid search
-     * @throws \Exception
-     */
-    public function testInvalidSearch()
-    {
-        $this->expectException(\Exception::class);
-        $categoryVariant = new Variant('xyz');
-        $categoryVariant->getVariantId();
     }
 }

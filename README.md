@@ -12,6 +12,8 @@ Unofficial PHP SDK to interact with OnBuy API
 
 ![PHPUnit](https://github.com/DominicWatts/OnBuySDK/workflows/PHPUnit/badge.svg)
 
+[![Coverage Status](https://coveralls.io/repos/github/DominicWatts/OnBuySDK/badge.svg)](https://coveralls.io/github/DominicWatts/OnBuySDK)
+
 ## Install Instructions
 
 `composer require dominicwatts/onbuysdk`
@@ -19,6 +21,8 @@ Unofficial PHP SDK to interact with OnBuy API
 There is a composer archive at:
 
 [https://packagist.org/packages/dominicwatts/onbuysdk](https://packagist.org/packages/dominicwatts/onbuysdk)
+
+[Coveralls Status](https://coveralls.io/github/DominicWatts/OnBuySDK)
 
 ## API Documentation
 

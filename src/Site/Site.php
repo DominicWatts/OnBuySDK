@@ -10,7 +10,6 @@ namespace Xigen\Library\OnBuy\Site;
 use Laminas\Http\Client;
 use Laminas\Http\Headers;
 use Laminas\Http\Request;
-use Laminas\Json\Json;
 use Xigen\Library\OnBuy\Constants;
 
 class Site extends Constants
@@ -77,9 +76,7 @@ class Site extends Constants
 
         $this->client->setParameterGet($params);
 
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -95,16 +92,6 @@ class Site extends Constants
         }
         $this->client->setUri($this->domain . $this->version . self::SITES . '/' . $siteId);
         $this->client->setMethod(Request::METHOD_GET);
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
-    }
-
-    /**
-     * @return Client
-     */
-    public function getClient(): Client
-    {
-        return $this->client;
+        $this->getResponse();
     }
 }

@@ -1,16 +1,15 @@
 <?php
 
-namespace Category;
+namespace Site;
 
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
 use PHPUnit\Framework\TestCase;
-use Xigen\Library\OnBuy\Brand\Brand;
-use Xigen\Library\OnBuy\Category\Category;
 use Xigen\Library\OnBuy\Constants;
+use Xigen\Library\OnBuy\Site\Site;
 
-class CategoryTest extends TestCase
+class SiteTest extends TestCase
 {
     /**
      * Authorization header
@@ -18,7 +17,7 @@ class CategoryTest extends TestCase
     public function testAuthorizationHeader()
     {
         $token = 'xyz';
-        $client = new Category($token);
+        $client = new Site($token);
         self::assertSame($token, $client->getClient()->getHeader('Authorization'));
     }
 
@@ -27,33 +26,29 @@ class CategoryTest extends TestCase
      */
     public function testOptions()
     {
-        $client = new Category('xyz');
+        $client = new Site('xyz');
         self::assertSame(Constants::TIMEOUT, $client->getClient()->getAdapter()->getConfig()['timeout']);
         self::assertSame(Constants::MAXREDIRECTS, $client->getClient()->getAdapter()->getConfig()['maxredirects']);
     }
 
     /**
-     * Building of brand search get request
+     * Obtain site information for any regional variation of OnBuy
      */
-    public function testGetCategoryParametersCastToString()
+    public function testGetSiteParametersCastToString()
     {
-        $category = new Category('xyz');
-        $client = $category->getClient();
+        $site = new Site('xyz');
+        $client = $site->getClient();
         $adapter = $this->createMock(AdapterInterface::class);
 
         $client->setAdapter($adapter);
-        $client->setUri($category->getDomain() . $category->getVersion() . Constants::CATEGORIES);
+        $client->setUri($site->getDomain() . $site->getVersion() . Constants::SITES);
         $client->setMethod(Request::METHOD_GET);
         $client->setParameterGet([
-            'site_id' => Constants::SITE_ID,
-            'limit' => Constants::DEFAULT_LIMIT,
-            'offset' => Constants::DEFAULT_OFFSET,
             'filter' => [
-                'onbuy_category_id' => 34,
-                'category_type_id' => 3,
-                'name' => 'bar',
-                'can_list_in' => 1
+                'name' => 'bar'
             ],
+            'limit' => Constants::DEFAULT_LIMIT,
+            'offset' => Constants::DEFAULT_OFFSET
         ]);
 
         $response = new Response();
@@ -64,7 +59,7 @@ class CategoryTest extends TestCase
             ->with(Request::METHOD_GET, str_replace(
                 ['[', ']'],
                 ['%5B','%5D'],
-                'https://api.onbuy.com/v2/categories?site_id=2000&limit=50&offset=0&filter[onbuy_category_id]=34&filter[category_type_id]=3&filter[name]=bar&filter[can_list_in]=1'
+                'https://api.onbuy.com/v2/sites?filter[name]=bar&limit=50&offset=0'
             ));
 
         $adapter
@@ -76,17 +71,17 @@ class CategoryTest extends TestCase
     }
 
     /**
-     * Obtain information for a single OnBuy category get request
+     * Obtain information for a single OnBuy regional site
      */
-    public function testGetCategoryByIdParametersCastToString()
+    public function testGetSiteByIdParametersCastToString()
     {
-        $category = new Category('xyz');
-        $client = $category->getClient();
+        $site = new Site('xyz');
+        $client = $site->getClient();
         $adapter = $this->createMock(AdapterInterface::class);
 
         $client->setAdapter($adapter);
 
-        $client->setUri($category->getDomain() . $category->getVersion() . Constants::CATEGORIES . '/123');
+        $client->setUri($site->getDomain() . $site->getVersion() . Constants::SITES . '/123');
         $client->setMethod(Request::METHOD_GET);
 
         $response = new Response();
@@ -94,7 +89,7 @@ class CategoryTest extends TestCase
         $adapter
             ->expects($this->once())
             ->method('write')
-            ->with(Request::METHOD_GET, 'https://api.onbuy.com/v2/categories/123');
+            ->with(Request::METHOD_GET, 'https://api.onbuy.com/v2/sites/123');
 
         $adapter
             ->expects($this->any())
@@ -108,10 +103,10 @@ class CategoryTest extends TestCase
      * Invalid search
      * @throws \Exception
      */
-    public function testInvalidSearch()
+    public function testInvalidSearchById()
     {
         $this->expectException(\Exception::class);
-        $category = new Category('xyz');
-        $category->getCategory([]);
+        $client = new Site('xyz');
+        $client->getSiteById();
     }
 }

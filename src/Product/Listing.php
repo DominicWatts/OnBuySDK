@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Xigen\Library\OnBuy\Product;
 
-use Laminas\Http\Client;
 use Laminas\Http\Request;
 use Laminas\Json\Json;
 
@@ -44,25 +43,34 @@ class Listing extends Base
 
     /**
      * Get details of current product listings
+     * @param array $sortArray last_created[asc|desc]
+     * @param array $filterArray condition|sku|opc|in_stock[0|1]
      * @param null $limit
      * @param null $offset
      * @return mixed
      * @throws \Exception
      */
-    public function getListing($limit = null, $offset = null)
+    public function getListing($sortArray = [], $filterArray = [], $limit = null, $offset = null)
     {
         $this->client->setUri($this->domain . $this->version . self::LISTINGS);
         $this->client->setMethod(Request::METHOD_GET);
 
-        $this->client->setParameterGet([
-            'site_id' => self::SITE_ID,
+        $param = [
             'limit' => $limit ?: self::DEFAULT_LIMIT,
             'offset' => $offset ?: self::DEFAULT_OFFSET
-        ]);
+        ];
 
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        // optional
+        if (!empty($sortArray)) {
+            $param['sort'] = $sortArray;
+        }
+        if (!empty($filterArray)) {
+            $param['filter'] = $filterArray;
+        }
+
+        $this->client->setParameterGet($param);
+
+        $this->getResponse();
     }
 
     /**
@@ -80,9 +88,7 @@ class Listing extends Base
             'listings' => $updateArray
         ]));
 
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -92,6 +98,10 @@ class Listing extends Base
      */
     public function deleteListingBySku($deleteArray = [])
     {
+        if (empty($deleteArray)) {
+            throw new \Exception("SKUs are required");
+        }
+
         $this->client->setUri($this->domain . $this->version . self::LISTINGS_BY_SKU);
         $this->client->setMethod(Request::METHOD_DELETE);
 
@@ -100,31 +110,45 @@ class Listing extends Base
             'skus' => $deleteArray
         ]));
 
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
      * Create a single product listing from product data array
-     * @param $oPc OnBuy Product Code
+     * @param $oPC OnBuy Product Code
      * @param array $insertArray sku|group_sku|boost_marketing_commission
      * @return mixed
      * @throws \Exception
      */
-    public function createListing($oPc, $insertArray = [])
+    public function createListing($oPC = null, $insertArray = [])
     {
-        $this->client->setUri($this->domain . $this->version . self::PRODUCTS . '/' . $oPc . '/' . self::LISTINGS);
+        if (empty($oPC)) {
+            throw new \Exception("OnBuy Product Code is required");
+        }
+
+        if (empty($insertArray)) {
+            throw new \Exception("Product data required");
+        }
+
+        $required = [
+            'sku'
+        ];
+
+        foreach ($required as $require) {
+            if (!isset($insertArray[$require])) {
+                throw new \Exception($require . ' is required');
+            }
+        }
+
+        $this->client->setUri($this->domain . $this->version . self::PRODUCTS . '/' . $oPC . '/' . self::LISTINGS);
         $this->client->setMethod(Request::METHOD_POST);
         $this->client->setRawBody(Json::encode([
-            'opc' => $oPc,
+            'opc' => $oPC,
             'site_id' => self::SITE_ID,
             'listings' => $insertArray
         ]));
 
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -135,15 +159,27 @@ class Listing extends Base
      */
     public function createListingByBatch($insertArray = [])
     {
+        if (empty($insertArray)) {
+            throw new \Exception("Product data required");
+        }
+
+        $required = [
+            'sku'
+        ];
+
+        foreach ($required as $require) {
+            if (!isset($insertArray[$require])) {
+                throw new \Exception($require . ' is required');
+            }
+        }
+
         $this->client->setUri($this->domain . $this->version . self::LISTINGS);
         $this->client->setMethod(Request::METHOD_POST);
         $this->client->setParameterPost([
             'site_id' => self::SITE_ID,
             'listings' => Json::encode($insertArray),
         ]);
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -162,16 +198,6 @@ class Listing extends Base
             'skus' => $skusArray
         ]);
 
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
-    }
-
-    /**
-     * @return Client
-     */
-    public function getClient(): Client
-    {
-        return $this->client;
+        $this->getResponse();
     }
 }

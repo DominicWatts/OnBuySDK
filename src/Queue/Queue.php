@@ -10,7 +10,6 @@ namespace Xigen\Library\OnBuy\Queue;
 use Laminas\Http\Client;
 use Laminas\Http\Headers;
 use Laminas\Http\Request;
-use Laminas\Json\Json;
 use Xigen\Library\OnBuy\Constants;
 
 class Queue extends Constants
@@ -53,7 +52,7 @@ class Queue extends Constants
     }
 
     /**
-     * Check the progress of any actions that use our queuing system
+     * Check the progress of any actions that use OnBuy queuing system
      * @param $filterArray array queue_ids|status[success|failed|pending]
      * @return mixed
      * @throws \Exception
@@ -71,13 +70,11 @@ class Queue extends Constants
             'filter' => $filterArray
         ]);
 
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
-     * Check the progress of any actions that use our queuing system
+     * Check the progress of any actions that use OnBuy queuing system
      * @param $queueId
      * @return mixed
      * @throws \Exception
@@ -92,16 +89,6 @@ class Queue extends Constants
         $this->client->setParameterGet([
             'site_id' => self::SITE_ID
         ]);
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
-    }
-
-    /**
-     * @return Client
-     */
-    public function getClient(): Client
-    {
-        return $this->client;
+        $this->getResponse();
     }
 }

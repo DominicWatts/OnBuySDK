@@ -1,21 +1,22 @@
 <?php
 
-namespace Category;
+namespace Product;
 
 use PHPUnit\Framework\TestCase;
-use Xigen\Library\OnBuy\Category\Base;
 use Xigen\Library\OnBuy\Constants;
+use Xigen\Library\OnBuy\Product\Base;
 
 class BaseTest extends TestCase
 {
     /**
      * Authorization header
      */
-    public function testAuthorizationHeader()
+    public function testHeader()
     {
         $token = 'xyz';
         $client = new Base($token);
         self::assertSame($token, $client->getClient()->getHeader('Authorization'));
+        self::assertSame(Constants::CONTENT_TYPE, $client->getClient()->getHeader('Content-Type'));
     }
 
     /**

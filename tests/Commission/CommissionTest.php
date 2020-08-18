@@ -1,16 +1,15 @@
 <?php
 
-namespace Category;
+namespace Commission;
 
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
 use PHPUnit\Framework\TestCase;
-use Xigen\Library\OnBuy\Brand\Brand;
-use Xigen\Library\OnBuy\Category\Category;
+use Xigen\Library\OnBuy\Commission\Commission;
 use Xigen\Library\OnBuy\Constants;
 
-class CategoryTest extends TestCase
+class CommissionTest extends TestCase
 {
     /**
      * Authorization header
@@ -18,7 +17,7 @@ class CategoryTest extends TestCase
     public function testAuthorizationHeader()
     {
         $token = 'xyz';
-        $client = new Category($token);
+        $client = new Commission($token);
         self::assertSame($token, $client->getClient()->getHeader('Authorization'));
     }
 
@@ -27,33 +26,27 @@ class CategoryTest extends TestCase
      */
     public function testOptions()
     {
-        $client = new Category('xyz');
+        $client = new Commission('xyz');
         self::assertSame(Constants::TIMEOUT, $client->getClient()->getAdapter()->getConfig()['timeout']);
         self::assertSame(Constants::MAXREDIRECTS, $client->getClient()->getAdapter()->getConfig()['maxredirects']);
     }
 
     /**
-     * Building of brand search get request
+     * Building of commission tier search get request
      */
-    public function testGetCategoryParametersCastToString()
+    public function testGetTierParametersCastToString()
     {
-        $category = new Category('xyz');
-        $client = $category->getClient();
+        $commission = new Commission('xyz');
+        $client = $commission->getClient();
         $adapter = $this->createMock(AdapterInterface::class);
 
         $client->setAdapter($adapter);
-        $client->setUri($category->getDomain() . $category->getVersion() . Constants::CATEGORIES);
+        $client->setUri($commission->getDomain() . $commission->getVersion() . Constants::COMMISSION_TIERS);
         $client->setMethod(Request::METHOD_GET);
         $client->setParameterGet([
             'site_id' => Constants::SITE_ID,
             'limit' => Constants::DEFAULT_LIMIT,
-            'offset' => Constants::DEFAULT_OFFSET,
-            'filter' => [
-                'onbuy_category_id' => 34,
-                'category_type_id' => 3,
-                'name' => 'bar',
-                'can_list_in' => 1
-            ],
+            'offset' => Constants::DEFAULT_OFFSET
         ]);
 
         $response = new Response();
@@ -61,11 +54,7 @@ class CategoryTest extends TestCase
         $adapter
             ->expects($this->once())
             ->method('write')
-            ->with(Request::METHOD_GET, str_replace(
-                ['[', ']'],
-                ['%5B','%5D'],
-                'https://api.onbuy.com/v2/categories?site_id=2000&limit=50&offset=0&filter[onbuy_category_id]=34&filter[category_type_id]=3&filter[name]=bar&filter[can_list_in]=1'
-            ));
+            ->with(Request::METHOD_GET, 'https://api.onbuy.com/v2/commission-tiers?site_id=2000&limit=50&offset=0');
 
         $adapter
             ->expects($this->any())
@@ -76,25 +65,30 @@ class CategoryTest extends TestCase
     }
 
     /**
-     * Obtain information for a single OnBuy category get request
+     * Building of commission tier search get request
      */
-    public function testGetCategoryByIdParametersCastToString()
+    public function testGetTierByIdParametersCastToString()
     {
-        $category = new Category('xyz');
-        $client = $category->getClient();
+        $commission = new Commission('xyz');
+        $client = $commission->getClient();
         $adapter = $this->createMock(AdapterInterface::class);
 
         $client->setAdapter($adapter);
-
-        $client->setUri($category->getDomain() . $category->getVersion() . Constants::CATEGORIES . '/123');
+        $client->setUri($commission->getDomain() . $commission->getVersion() . Constants::CATEGORIES . '/123/' . Constants::VARIANTS);
         $client->setMethod(Request::METHOD_GET);
+        $client->setParameterGet([
+            'site_id' => Constants::SITE_ID,
+            'commission_tier_id' => '456',
+            'limit' => Constants::DEFAULT_LIMIT,
+            'offset' => Constants::DEFAULT_OFFSET
+        ]);
 
         $response = new Response();
 
         $adapter
             ->expects($this->once())
             ->method('write')
-            ->with(Request::METHOD_GET, 'https://api.onbuy.com/v2/categories/123');
+            ->with(Request::METHOD_GET, 'https://api.onbuy.com/v2/categories/123/variants?site_id=2000&commission_tier_id=456&limit=50&offset=0');
 
         $adapter
             ->expects($this->any())
@@ -111,7 +105,7 @@ class CategoryTest extends TestCase
     public function testInvalidSearch()
     {
         $this->expectException(\Exception::class);
-        $category = new Category('xyz');
-        $category->getCategory([]);
+        $commission = new Commission('xyz');
+        $commission->getTierById([]);
     }
 }

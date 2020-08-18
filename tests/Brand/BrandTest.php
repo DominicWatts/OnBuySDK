@@ -102,13 +102,13 @@ class BrandTest extends TestCase
     }
 
     /**
-     * Invalid token
+     * Invalid search
      * @throws \Exception
      */
-    public function testInvalidToken()
+    public function testInvalidSearch()
     {
         $this->expectException(\Exception::class);
         $brand = new Brand('xyz');
-        $brand->getBrandById(123);
+        $brand->getBrand([]);
     }
 }

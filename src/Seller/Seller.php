@@ -7,9 +7,7 @@ declare(strict_types=1);
 
 namespace Xigen\Library\OnBuy\Seller;
 
-use Laminas\Http\Client;
 use Laminas\Http\Request;
-use Laminas\Json\Json;
 
 class Seller extends Base
 {
@@ -55,16 +53,6 @@ class Seller extends Base
         }
         $this->client->setUri($this->domain . $this->version . self::SELLERS . '/' . $sellerId);
         $this->client->setMethod(Request::METHOD_GET);
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
-    }
-
-    /**
-     * @return Client
-     */
-    public function getClient(): Client
-    {
-        return $this->client;
+        $this->getResponse();
     }
 }

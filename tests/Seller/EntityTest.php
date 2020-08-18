@@ -1,24 +1,23 @@
 <?php
 
-namespace Category;
+namespace Seller;
 
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
 use PHPUnit\Framework\TestCase;
-use Xigen\Library\OnBuy\Brand\Brand;
-use Xigen\Library\OnBuy\Category\Category;
 use Xigen\Library\OnBuy\Constants;
+use Xigen\Library\OnBuy\Seller\Entity;
 
-class CategoryTest extends TestCase
+class EntityTest extends TestCase
 {
     /**
      * Authorization header
      */
-    public function testAuthorizationHeader()
+    public function testHeader()
     {
         $token = 'xyz';
-        $client = new Category($token);
+        $client = new Entity($token);
         self::assertSame($token, $client->getClient()->getHeader('Authorization'));
     }
 
@@ -27,33 +26,26 @@ class CategoryTest extends TestCase
      */
     public function testOptions()
     {
-        $client = new Category('xyz');
+        $client = new Entity('xyz');
         self::assertSame(Constants::TIMEOUT, $client->getClient()->getAdapter()->getConfig()['timeout']);
         self::assertSame(Constants::MAXREDIRECTS, $client->getClient()->getAdapter()->getConfig()['maxredirects']);
     }
 
     /**
-     * Building of brand search get request
+     * Retrieve the available delivery options set up on your seller account
      */
-    public function testGetCategoryParametersCastToString()
+    public function testGetDeliveryParametersCastToString()
     {
-        $category = new Category('xyz');
-        $client = $category->getClient();
+        $sellerEntity = new Entity('xyz');
+        $client = $sellerEntity->getClient();
         $adapter = $this->createMock(AdapterInterface::class);
 
         $client->setAdapter($adapter);
-        $client->setUri($category->getDomain() . $category->getVersion() . Constants::CATEGORIES);
+        $client->setUri($sellerEntity->getDomain() . $sellerEntity->getVersion() . Constants::ENTITIES);
         $client->setMethod(Request::METHOD_GET);
         $client->setParameterGet([
-            'site_id' => Constants::SITE_ID,
             'limit' => Constants::DEFAULT_LIMIT,
-            'offset' => Constants::DEFAULT_OFFSET,
-            'filter' => [
-                'onbuy_category_id' => 34,
-                'category_type_id' => 3,
-                'name' => 'bar',
-                'can_list_in' => 1
-            ],
+            'offset' => Constants::DEFAULT_OFFSET
         ]);
 
         $response = new Response();
@@ -61,11 +53,7 @@ class CategoryTest extends TestCase
         $adapter
             ->expects($this->once())
             ->method('write')
-            ->with(Request::METHOD_GET, str_replace(
-                ['[', ']'],
-                ['%5B','%5D'],
-                'https://api.onbuy.com/v2/categories?site_id=2000&limit=50&offset=0&filter[onbuy_category_id]=34&filter[category_type_id]=3&filter[name]=bar&filter[can_list_in]=1'
-            ));
+            ->with(Request::METHOD_GET, 'https://api.onbuy.com/v2/entities?limit=50&offset=0');
 
         $adapter
             ->expects($this->any())
@@ -76,25 +64,29 @@ class CategoryTest extends TestCase
     }
 
     /**
-     * Obtain information for a single OnBuy category get request
+     * Obtain details of a specific one of your trading entities
      */
-    public function testGetCategoryByIdParametersCastToString()
+    public function testGetEntityByIdParametersCastToString()
     {
-        $category = new Category('xyz');
-        $client = $category->getClient();
+        $sellerEntity = new Entity('xyz');
+        $client = $sellerEntity->getClient();
         $adapter = $this->createMock(AdapterInterface::class);
 
         $client->setAdapter($adapter);
 
-        $client->setUri($category->getDomain() . $category->getVersion() . Constants::CATEGORIES . '/123');
+        $client->setUri($sellerEntity->getDomain() . $sellerEntity->getVersion() . Constants::ENTITIES . '/123');
         $client->setMethod(Request::METHOD_GET);
+        $client->setParameterGet([
+            'limit' => Constants::DEFAULT_LIMIT,
+            'offset' => Constants::DEFAULT_OFFSET
+        ]);
 
         $response = new Response();
 
         $adapter
             ->expects($this->once())
             ->method('write')
-            ->with(Request::METHOD_GET, 'https://api.onbuy.com/v2/categories/123');
+            ->with(Request::METHOD_GET, 'https://api.onbuy.com/v2/entities/123?limit=50&offset=0');
 
         $adapter
             ->expects($this->any())
@@ -108,10 +100,10 @@ class CategoryTest extends TestCase
      * Invalid search
      * @throws \Exception
      */
-    public function testInvalidSearch()
+    public function testInvalidSearchById()
     {
         $this->expectException(\Exception::class);
-        $category = new Category('xyz');
-        $category->getCategory([]);
+        $brand = new Entity('xyz');
+        $brand->getEntityById();
     }
 }

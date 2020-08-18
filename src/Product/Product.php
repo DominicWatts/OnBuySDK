@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Xigen\Library\OnBuy\Product;
 
-use Laminas\Http\Client;
 use Laminas\Http\Request;
 use Laminas\Json\Json;
 
@@ -58,13 +57,54 @@ class Product extends Base
      */
     public function createProduct($insertArray = [])
     {
+        if (empty($insertArray)) {
+            throw new \Exception("Product data required");
+        }
+
+        $required = [
+            'site_id',
+            'category_id',
+            'product_name',
+            'product_codes',
+            'brand_name',
+            'brand_id'
+        ];
+
+        foreach ($required as $require) {
+            if (!isset($insertArray[$require])) {
+                throw new \Exception($require . ' is required');
+            }
+        }
+
         $this->client->setUri($this->domain . $this->version . self::PRODUCTS);
         $this->client->setMethod(Request::METHOD_POST);
         $insertArray = array_merge($this->default, $insertArray);
         $this->client->setRawBody(Json::encode($insertArray));
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
+    }
+
+    /**
+     * Create product from array of product data array
+     * @param array $insertArray
+     * @return mixed
+     * @throws \Exception
+     */
+    public function createProductByBatch($insertArray = [])
+    {
+        if (empty($insertArray)) {
+            throw new \Exception("Product data required");
+        }
+
+        if (!isset($insertArray['uid'])) {
+            throw new \Exception('Batch ID not set');
+        }
+
+        $this->client->setUri($this->domain . $this->version . self::PRODUCTS);
+        $this->client->setMethod(Request::METHOD_POST);
+        $this->client->setRawBody(Json::encode(
+            $insertArray
+        ));
+        $this->getResponse();
     }
 
     /**
@@ -75,16 +115,19 @@ class Product extends Base
      */
     public function updateProduct($updateArray = [])
     {
+        if (empty($updateArray)) {
+            throw new \Exception("Product data required");
+        }
+
         if (!isset($updateArray['opc'])) {
             throw new \Exception('OnBuy Product Code required');
         }
+
         $this->client->setUri($this->domain . $this->version . self::PRODUCTS . '/' . $updateArray['opc']);
         $this->client->setMethod(Request::METHOD_PUT);
         $updateArray = array_merge($this->default, $updateArray);
         $this->client->setRawBody(Json::encode($updateArray));
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -95,14 +138,16 @@ class Product extends Base
      */
     public function updateProductByBatch($updateArray = [])
     {
+        if (empty($updateArray)) {
+            throw new \Exception("Product data required");
+        }
+
         $this->client->setUri($this->domain . $this->version . self::PRODUCTS);
         $this->client->setMethod(Request::METHOD_PUT);
         $this->client->setRawBody(Json::encode([
             'products' => $updateArray
         ]));
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -117,22 +162,20 @@ class Product extends Base
     {
         $this->client->setUri($this->domain . $this->version . self::PRODUCTS);
         $this->client->setMethod(Request::METHOD_GET);
-        $this->client->setParameterGet([
+
+        $params = [
             'site_id' => self::SITE_ID,
             'limit' => $limit ?: self::DEFAULT_LIMIT,
             'offset' => $offset ?: self::DEFAULT_OFFSET,
-            'filter' => $searchArray
-        ]);
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
-    }
+        ];
 
-    /**
-     * @return Client
-     */
-    public function getClient(): Client
-    {
-        return $this->client;
+        // optional
+        if (!empty($filterArray)) {
+            $params['filter'] = $searchArray;
+        }
+
+        $this->client->setParameterGet($params);
+
+        $this->getResponse();
     }
 }

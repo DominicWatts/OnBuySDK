@@ -54,11 +54,11 @@ class Order extends Constants
     /**
      * Browse and search orders
      * @param array $filterArray status[awaiting_dispatch|dispatched|complete|cancelled|cancelled_by_seller|cancelled_by_buyer|partially_dispatched|partially_refunded|refunded|all]|order_ids|modified_since|previously_exported
-     * @param $sort string asc|desc
+     * @param array $sortArray string created[asc|desc]|modified[asc|desc]
      * @return mixed
      * @throws \Exception
      */
-    public function getOrder($filterArray = [], $sort = null)
+    public function getOrder($filterArray = [], $sortArray = [])
     {
         $this->client->setUri($this->domain . $this->version . self::ORDERS);
         $this->client->setMethod(Request::METHOD_GET);
@@ -72,14 +72,12 @@ class Order extends Constants
         if (!empty($filterArray)) {
             $params['filter'] = $filterArray;
         }
-        if ($sort) {
-            $params['sort'] = $sort;
+        if (!empty($sort)) {
+            $params['sort'] = $sortArray;
         }
 
         $this->client->setParameterGet($params);
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -95,9 +93,7 @@ class Order extends Constants
         }
         $this->client->setUri($this->domain . $this->version . self::ORDERS . '/' . $orderId);
         $this->client->setMethod(Request::METHOD_GET);
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -113,9 +109,7 @@ class Order extends Constants
         $this->client->setRawBody(Json::encode([
             'orders' => $updateArray
         ]));
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -132,9 +126,7 @@ class Order extends Constants
             'site_id' => self::SITE_ID,
             'orders' => $cancelArray
         ]));
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -145,15 +137,13 @@ class Order extends Constants
      */
     public function refundOrder($refundArray = [])
     {
-        $this->client->setUri($this->domain . $this->version . self::ORDERS . '/' . self::CANCEL);
+        $this->client->setUri($this->domain . $this->version . self::ORDERS . '/' . self::REFUND);
         $this->client->setMethod(Request::METHOD_PUT);
         $this->client->setRawBody(Json::encode([
             'site_id' => self::SITE_ID,
             'orders' => $refundArray
         ]));
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
+        $this->getResponse();
     }
 
     /**
@@ -168,16 +158,6 @@ class Order extends Constants
         $this->client->setParameterGet([
             'site_id' => self::SITE_ID
         ]);
-        $this->response = $this->client->send();
-        $this->catchError($this->response);
-        return Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
-    }
-
-    /**
-     * @return Client
-     */
-    public function getClient(): Client
-    {
-        return $this->client;
+        $this->getResponse();
     }
 }
