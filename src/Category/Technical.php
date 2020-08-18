@@ -45,7 +45,7 @@ class Technical extends Base
      * @param int $categoryId
      * @param $limit int
      * @param $offset int
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function getTechnicalDetailById($categoryId = null, $limit = null, $offset = null)
@@ -63,14 +63,14 @@ class Technical extends Base
             'offset' => $offset ?: self::DEFAULT_OFFSET
         ]);
 
-        $this->getResponse();
+        return $this->client;
     }
 
     /**
      * Obtain information for a single OnBuy category
      * @param int $categoryId
      * @param int $groupId
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function getGroupById($categoryId = null, $groupId = null)
@@ -87,6 +87,6 @@ class Technical extends Base
             'product_detail_group_id' => $groupId
         ]);
 
-        $this->getResponse();
+        return $this->client;
     }
 }

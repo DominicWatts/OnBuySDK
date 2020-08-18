@@ -2,6 +2,7 @@
 
 namespace Commission;
 
+use Laminas\Http\Client;
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
@@ -107,5 +108,27 @@ class CommissionTest extends TestCase
         $this->expectException(\Exception::class);
         $commission = new Commission('xyz');
         $commission->getTierById([]);
+    }
+
+    /**
+     * Obtain commission tier information for any regional variation of OnBuy
+     * @throws \Exception
+     */
+    public function testGetTier()
+    {
+        $commission = new Commission('xyz');
+        $result = $commission->getTier();
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
+     * Obtain commission tier information for a single OnBuy regional site
+     * @throws \Exception
+     */
+    public function testGetTierById()
+    {
+        $commission = new Commission('xyz');
+        $result = $commission->getTierById(13490, 125);
+        self::assertInstanceOf(Client::class, $result);
     }
 }

@@ -77,7 +77,7 @@ class Order extends Constants
         }
 
         $this->client->setParameterGet($params);
-        $this->getResponse();
+        return $this->client;
     }
 
     /**
@@ -93,7 +93,7 @@ class Order extends Constants
         }
         $this->client->setUri($this->domain . $this->version . self::ORDERS . '/' . $orderId);
         $this->client->setMethod(Request::METHOD_GET);
-        $this->getResponse();
+        return $this->client;
     }
 
     /**
@@ -109,7 +109,7 @@ class Order extends Constants
         $this->client->setRawBody(Json::encode([
             'orders' => $updateArray
         ]));
-        $this->getResponse();
+        return $this->client;
     }
 
     /**
@@ -126,7 +126,7 @@ class Order extends Constants
             'site_id' => self::SITE_ID,
             'orders' => $cancelArray
         ]));
-        $this->getResponse();
+        return $this->client;
     }
 
     /**
@@ -143,7 +143,7 @@ class Order extends Constants
             'site_id' => self::SITE_ID,
             'orders' => $refundArray
         ]));
-        $this->getResponse();
+        return $this->client;
     }
 
     /**
@@ -158,6 +158,6 @@ class Order extends Constants
         $this->client->setParameterGet([
             'site_id' => self::SITE_ID
         ]);
-        $this->getResponse();
+        return $this->client;
     }
 }

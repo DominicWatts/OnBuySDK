@@ -2,6 +2,7 @@
 
 namespace Order;
 
+use Laminas\Http\Client;
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
@@ -274,6 +275,61 @@ class OrderTest extends TestCase
             ->will($this->returnValue($response->toString()));
 
         $client->send();
+    }
+
+    /**
+     * View order by ID
+     * @throws \Exception
+     */
+    public function testGetOrderById()
+    {
+        $order = new Order('xyz');
+        $result = $order->getOrderById('T9R7V');
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
+     * Full or partial dispatched - if only order number is given full dispatch
+     * @throws \Exception
+     */
+    public function testDispatchOrder()
+    {
+        $order = new Order('xyz');
+        $result = $order->dispatchOrder($this->getMockUpdate());
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
+     * Refund a cancelled order
+     * @throws \Exception
+     */
+    public function testCancelOrder()
+    {
+        $order = new Order('xyz');
+        $result = $order->cancelOrder($this->getMockCancel());
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
+     * Refund a cancelled order
+     * @throws \Exception
+     */
+    public function testRefundOrder()
+    {
+        $order = new Order('xyz');
+        $result = $order->refundOrder($this->getMockRefund());
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
+     * Get tracking providers
+     * @throws \Exception
+     */
+    public function getTrackingProviders()
+    {
+        $order = new Order('xyz');
+        $result = $order->getTrackingProviders();
+        self::assertInstanceOf(Client::class, $result);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Product;
 
+use Laminas\Http\Client;
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
@@ -33,7 +34,7 @@ class ProductTest extends TestCase
         self::assertSame(Constants::MAXREDIRECTS, $client->getClient()->getAdapter()->getConfig()['maxredirects']);
     }
 
-    public function testCreateProduct()
+    public function testCreateProductParametersCastToString()
     {
         $product = new Product('xyz');
         $client = $product->getClient();
@@ -62,9 +63,9 @@ class ProductTest extends TestCase
                     'Accept-Encoding' => 'gzip, deflate',
                     'User-Agent' => 'Laminas_Http_Client',
                     'Content-Type' => 'application/json',
-                    'Content-Length' => 787,
+                    'Content-Length' => 837,
                 ],
-                '{"site_id":2000,"category_id":125,"published":1,"product_name":"bar","mpn":"EXAMPLE-cdce953d-abbe-4626-ac9d-0806a5611ad9","description":"bar","brand_name":"bar","brand_id":16,"videos":{"label":"foo","url":"https:\/\/example.com\/path-to-resource\/"},"documents":{"label":"foo","url":"https:\/\/example.com\/path-to-resource\/"},"default_image":"foo","rrp":14.83,"product_data":{"label":"bar","value":"foo","group":"foo"},"listings":{"new":{"sku":"EXP-143-33S","group_sku":"bar","price":14.83,"stock":8,"handling_time":125,"return_time":7,"free_returns":"foo","warranty":252,"delivery_template_id":7}},"features":{"option_id":16,"name":"foo","hex":"bar"},"technical_detail":{"detail_id":34,"value":"foo","unit":"bar"},"variant_1":{"name":"bar"},"variant_2":{"name":"foo"},"variants":[[]]}'
+                '{"site_id":2000,"category_id":125,"published":1,"product_name":"bar","mpn":"EXAMPLE-cdce953d-abbe-4626-ac9d-0806a5611ad9","product_codes":["1234567890123","1231234567890"],"description":"bar","brand_name":"bar","brand_id":16,"videos":{"label":"foo","url":"https:\/\/example.com\/path-to-resource\/"},"documents":{"label":"foo","url":"https:\/\/example.com\/path-to-resource\/"},"default_image":"foo","rrp":14.83,"product_data":{"label":"bar","value":"foo","group":"foo"},"listings":{"new":{"sku":"EXP-143-33S","group_sku":"bar","price":14.83,"stock":8,"handling_time":125,"return_time":7,"free_returns":"foo","warranty":252,"delivery_template_id":7}},"features":{"option_id":16,"name":"foo","hex":"bar"},"technical_detail":{"detail_id":34,"value":"foo","unit":"bar"},"variant_1":{"name":"bar"},"variant_2":{"name":"foo"},"variants":[[]]}'
             );
 
         $adapter
@@ -78,7 +79,7 @@ class ProductTest extends TestCase
     /**
      * Create product from array of product data array
      */
-    public function testCreateProductByBatch()
+    public function testCreateProductByBatchParametersCastToString()
     {
         $product = new Product('xyz');
         $client = $product->getClient();
@@ -107,9 +108,9 @@ class ProductTest extends TestCase
                     'Accept-Encoding' => 'gzip, deflate',
                     'User-Agent' => 'Laminas_Http_Client',
                     'Content-Type' => 'application/json',
-                    'Content-Length' => 795,
+                    'Content-Length' => 845,
                 ],
-                '{"uid":8,"site_id":2000,"category_id":125,"published":1,"product_name":"bar","mpn":"EXAMPLE-cdce953d-abbe-4626-ac9d-0806a5611ad9","description":"bar","brand_name":"bar","brand_id":16,"videos":{"label":"foo","url":"https:\/\/example.com\/path-to-resource\/"},"documents":{"label":"foo","url":"https:\/\/example.com\/path-to-resource\/"},"default_image":"foo","rrp":14.83,"product_data":{"label":"bar","value":"foo","group":"foo"},"listings":{"new":{"sku":"EXP-143-33S","group_sku":"bar","price":14.83,"stock":8,"handling_time":125,"return_time":7,"free_returns":"foo","warranty":252,"delivery_template_id":7}},"features":{"option_id":16,"name":"foo","hex":"bar"},"technical_detail":{"detail_id":34,"value":"foo","unit":"bar"},"variant_1":{"name":"bar"},"variant_2":{"name":"foo"},"variants":[[]]}'
+                '{"uid":8,"site_id":2000,"category_id":125,"published":1,"product_name":"bar","mpn":"EXAMPLE-cdce953d-abbe-4626-ac9d-0806a5611ad9","product_codes":["1234567890123","1231234567890"],"description":"bar","brand_name":"bar","brand_id":16,"videos":{"label":"foo","url":"https:\/\/example.com\/path-to-resource\/"},"documents":{"label":"foo","url":"https:\/\/example.com\/path-to-resource\/"},"default_image":"foo","rrp":14.83,"product_data":{"label":"bar","value":"foo","group":"foo"},"listings":{"new":{"sku":"EXP-143-33S","group_sku":"bar","price":14.83,"stock":8,"handling_time":125,"return_time":7,"free_returns":"foo","warranty":252,"delivery_template_id":7}},"features":{"option_id":16,"name":"foo","hex":"bar"},"technical_detail":{"detail_id":34,"value":"foo","unit":"bar"},"variant_1":{"name":"bar"},"variant_2":{"name":"foo"},"variants":[[]]}'
             );
 
         $adapter
@@ -123,7 +124,7 @@ class ProductTest extends TestCase
     /**
      * Create product from product data array
      */
-    public function testUpdateProduct()
+    public function testUpdateProductParametersCastToString()
     {
         $product = new Product('xyz');
         $client = $product->getClient();
@@ -152,9 +153,9 @@ class ProductTest extends TestCase
                     'Accept-Encoding' => 'gzip, deflate',
                     'User-Agent' => 'Laminas_Http_Client',
                     'Content-Type' => 'application/json',
-                    'Content-Length' => 789,
+                    'Content-Length' => 839,
                 ],
-                '[{"site_id":2000,"category_id":125,"published":1,"product_name":"bar","mpn":"EXAMPLE-cdce953d-abbe-4626-ac9d-0806a5611ad9","description":"bar","brand_name":"bar","brand_id":16,"videos":{"label":"foo","url":"https:\/\/example.com\/path-to-resource\/"},"documents":{"label":"foo","url":"https:\/\/example.com\/path-to-resource\/"},"default_image":"foo","rrp":14.83,"product_data":{"label":"bar","value":"foo","group":"foo"},"listings":{"new":{"sku":"EXP-143-33S","group_sku":"bar","price":14.83,"stock":8,"handling_time":125,"return_time":7,"free_returns":"foo","warranty":252,"delivery_template_id":7}},"features":{"option_id":16,"name":"foo","hex":"bar"},"technical_detail":{"detail_id":34,"value":"foo","unit":"bar"},"variant_1":{"name":"bar"},"variant_2":{"name":"foo"},"variants":[[]]}]'
+                '[{"site_id":2000,"category_id":125,"published":1,"product_name":"bar","mpn":"EXAMPLE-cdce953d-abbe-4626-ac9d-0806a5611ad9","product_codes":["1234567890123","1231234567890"],"description":"bar","brand_name":"bar","brand_id":16,"videos":{"label":"foo","url":"https:\/\/example.com\/path-to-resource\/"},"documents":{"label":"foo","url":"https:\/\/example.com\/path-to-resource\/"},"default_image":"foo","rrp":14.83,"product_data":{"label":"bar","value":"foo","group":"foo"},"listings":{"new":{"sku":"EXP-143-33S","group_sku":"bar","price":14.83,"stock":8,"handling_time":125,"return_time":7,"free_returns":"foo","warranty":252,"delivery_template_id":7}},"features":{"option_id":16,"name":"foo","hex":"bar"},"technical_detail":{"detail_id":34,"value":"foo","unit":"bar"},"variant_1":{"name":"bar"},"variant_2":{"name":"foo"},"variants":[[]]}]'
             );
 
         $adapter
@@ -168,7 +169,7 @@ class ProductTest extends TestCase
     /**
      * Create product from array of product data array
      */
-    public function testUpdateProductByBatch()
+    public function testUpdateProductByBatchParametersCastToString()
     {
         $product = new Product('xyz');
         $client = $product->getClient();
@@ -197,9 +198,9 @@ class ProductTest extends TestCase
                     'Accept-Encoding' => 'gzip, deflate',
                     'User-Agent' => 'Laminas_Http_Client',
                     'Content-Type' => 'application/json',
-                    'Content-Length' => 802,
+                    'Content-Length' => 852,
                 ],
-                '{"products":[{"site_id":2000,"category_id":125,"published":1,"product_name":"bar","mpn":"EXAMPLE-cdce953d-abbe-4626-ac9d-0806a5611ad9","description":"bar","brand_name":"bar","brand_id":16,"videos":{"label":"foo","url":"https:\/\/example.com\/path-to-resource\/"},"documents":{"label":"foo","url":"https:\/\/example.com\/path-to-resource\/"},"default_image":"foo","rrp":14.83,"product_data":{"label":"bar","value":"foo","group":"foo"},"listings":{"new":{"sku":"EXP-143-33S","group_sku":"bar","price":14.83,"stock":8,"handling_time":125,"return_time":7,"free_returns":"foo","warranty":252,"delivery_template_id":7}},"features":{"option_id":16,"name":"foo","hex":"bar"},"technical_detail":{"detail_id":34,"value":"foo","unit":"bar"},"variant_1":{"name":"bar"},"variant_2":{"name":"foo"},"variants":[[]]}]}'
+                '{"products":[{"site_id":2000,"category_id":125,"published":1,"product_name":"bar","mpn":"EXAMPLE-cdce953d-abbe-4626-ac9d-0806a5611ad9","product_codes":["1234567890123","1231234567890"],"description":"bar","brand_name":"bar","brand_id":16,"videos":{"label":"foo","url":"https:\/\/example.com\/path-to-resource\/"},"documents":{"label":"foo","url":"https:\/\/example.com\/path-to-resource\/"},"default_image":"foo","rrp":14.83,"product_data":{"label":"bar","value":"foo","group":"foo"},"listings":{"new":{"sku":"EXP-143-33S","group_sku":"bar","price":14.83,"stock":8,"handling_time":125,"return_time":7,"free_returns":"foo","warranty":252,"delivery_template_id":7}},"features":{"option_id":16,"name":"foo","hex":"bar"},"technical_detail":{"detail_id":34,"value":"foo","unit":"bar"},"variant_1":{"name":"bar"},"variant_2":{"name":"foo"},"variants":[[]]}]}'
             );
 
         $adapter
@@ -213,7 +214,7 @@ class ProductTest extends TestCase
     /**
      * Search for a specific product by name or code
      */
-    public function testGetProduct()
+    public function testGetProductParametersCastToString()
     {
         $product = new Product('xyz');
         $client = $product->getClient();
@@ -325,6 +326,64 @@ class ProductTest extends TestCase
     }
 
     /**
+     * Create product from product data array
+     * @throws \Exception
+     */
+    public function testCreateProduct()
+    {
+        $product = new Product('xyz');
+        $result = $product->createProduct($this->getMockProduct());
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
+     * Create product from array of product data array
+     * @throws \Exception
+     */
+    public function testCreateProductByBatch()
+    {
+        $product = new Product('xyz');
+        $result = $product->createProductByBatch($this->getMockProductByBatch());
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
+     * Update products
+     * @throws \Exception
+     */
+    public function testUpdateProduct()
+    {
+        $product = new Product('xyz');
+        $result = $product->updateProduct($this->getMockUpdateProduct());
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
+     * Update multiple products in a single request
+     * @throws \Exception
+     */
+    public function testUpdateProductByBatch()
+    {
+        $product = new Product('xyz');
+        $result = $product->updateProductByBatch($this->getMockProductByBatch());
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
+     * Search for a specific product by name or code
+     * @throws \Exception
+     */
+    public function testGetProduct()
+    {
+        $product = new Product('xyz');
+        $result = $product->getProduct([
+            'query' => 'test',
+            'field' => 'name'
+        ]);
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
      * @return array
      */
     public function getMockProduct()
@@ -335,6 +394,10 @@ class ProductTest extends TestCase
             "published" => 1,
             "product_name" => "bar",
             "mpn" => "EXAMPLE-cdce953d-abbe-4626-ac9d-0806a5611ad9",
+            "product_codes" => [
+                '1234567890123',
+                '1231234567890'
+            ],
             "description" => "bar",
             "brand_name" => "bar",
             "brand_id" => 16,
@@ -395,6 +458,18 @@ class ProductTest extends TestCase
     {
         $array = [
             'uid' => 8
+        ];
+
+        return array_merge($array, $this->getMockProduct());
+    }
+
+    /**
+     * @return array
+     */
+    public function getMockUpdateProduct()
+    {
+        $array = [
+            'opc' => 'PN8JV6'
         ];
 
         return array_merge($array, $this->getMockProduct());

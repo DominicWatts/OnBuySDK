@@ -2,6 +2,7 @@
 
 namespace Category;
 
+use Laminas\Http\Client;
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
@@ -124,5 +125,30 @@ class CategoryTest extends TestCase
         $this->expectException(\Exception::class);
         $category = new Category('xyz');
         $category->getCategoryById();
+    }
+
+    /**
+     * Obtain category information for any categories created on OnBuy
+     * @throws \Exception
+     */
+    public function testGetCategory()
+    {
+        $category = new Category('xyz');
+        $result = $category->getCategory([
+            'name' => 'test',
+            'category_type_id' => 1 // department
+        ]);
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
+     * Obtain information for a single OnBuy category
+     * @throws \Exception
+     */
+    public function testGetCategoryById()
+    {
+        $category = new Category('xyz');
+        $result = $category->getCategoryById(13490);
+        self::assertInstanceOf(Client::class, $result);
     }
 }

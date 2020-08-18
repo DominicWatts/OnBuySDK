@@ -44,7 +44,7 @@ class Entity extends Base
      * Obtain details of all of your trading entities
      * @param $limit int
      * @param $offset int
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function getEntity($limit = null, $offset = null)
@@ -55,7 +55,7 @@ class Entity extends Base
             'limit' => $limit ?: self::DEFAULT_LIMIT,
             'offset' => $offset ?: self::DEFAULT_OFFSET
         ]);
-        $this->getResponse();
+        return $this->client;
     }
 
     /**
@@ -63,7 +63,7 @@ class Entity extends Base
      * @param $entityId int
      * @param $limit int
      * @param $offset int
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function getEntityById($entityId = null, $limit = null, $offset = null)
@@ -79,6 +79,6 @@ class Entity extends Base
             'offset' => $offset ?: self::DEFAULT_OFFSET
         ]);
 
-        $this->getResponse();
+        return $this->client;
     }
 }

@@ -43,7 +43,7 @@ class Seller extends Base
     /**
      * Obtain information about your seller account
      * @param $sellerId int
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function getSellerById($sellerId = null)
@@ -53,6 +53,6 @@ class Seller extends Base
         }
         $this->client->setUri($this->domain . $this->version . self::SELLERS . '/' . $sellerId);
         $this->client->setMethod(Request::METHOD_GET);
-        $this->getResponse();
+        return $this->client;
     }
 }

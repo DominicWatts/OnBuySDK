@@ -2,6 +2,7 @@
 
 namespace Seller;
 
+use Laminas\Http\Client;
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
@@ -66,7 +67,18 @@ class SellerTest extends TestCase
     public function testInvalidSearchById()
     {
         $this->expectException(\Exception::class);
-        $brand = new Seller('xyz');
-        $brand->getSellerById();
+        $seller = new Seller('xyz');
+        $seller->getSellerById();
+    }
+
+    /**
+     * Obtain information about your seller account
+     * @throws \Exception
+     */
+    public function testGetSellerById()
+    {
+        $seller = new Seller('xyz');
+        $result = $seller->getSellerById(123);
+        self::assertInstanceOf(Client::class, $result);
     }
 }

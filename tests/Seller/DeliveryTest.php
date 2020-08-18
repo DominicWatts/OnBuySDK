@@ -2,6 +2,7 @@
 
 namespace Seller;
 
+use Laminas\Http\Client;
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
@@ -62,5 +63,16 @@ class DeliveryTest extends TestCase
             ->will($this->returnValue($response->toString()));
 
         $client->send();
+    }
+
+    /**
+     * Retrieve the available delivery options set up on your seller account
+     * @throws \Exception
+     */
+    public function testGetDelivery()
+    {
+        $sellerDelivery = new Delivery('xyz');
+        $result = $sellerDelivery->getDelivery();
+        self::assertInstanceOf(Client::class, $result);
     }
 }

@@ -57,7 +57,7 @@ class Brand extends Constants
      * @param $sort string asc|desc
      * @param $limit int
      * @param $offset int
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function getBrand($filter, $sort = null, $limit = null, $offset = null)
@@ -79,13 +79,13 @@ class Brand extends Constants
             'offset' => $offset ?: self::DEFAULT_OFFSET
         ]);
 
-        $this->getResponse();
+        return $this->client;
     }
 
     /**
      * Obtain information for a single OnBuy brand
      * @param $brandId
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function getBrandById($brandId = null)
@@ -95,6 +95,6 @@ class Brand extends Constants
         }
         $this->client->setUri($this->domain . $this->version . self::BRAND . '/' . $brandId);
         $this->client->setMethod(Request::METHOD_GET);
-        $this->getResponse();
+        return $this->client;
     }
 }

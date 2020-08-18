@@ -47,7 +47,7 @@ class Listing extends Base
      * @param array $filterArray condition|sku|opc|in_stock[0|1]
      * @param null $limit
      * @param null $offset
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function getListing($sortArray = [], $filterArray = [], $limit = null, $offset = null)
@@ -70,13 +70,13 @@ class Listing extends Base
 
         $this->client->setParameterGet($param);
 
-        $this->getResponse();
+        return $this->client;
     }
 
     /**
      * Update listing by product data array
      * @param array $updateArray sku|price|stock|boost_marketing_commission
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function updateListingBySku($updateArray = [])
@@ -88,7 +88,7 @@ class Listing extends Base
             'listings' => $updateArray
         ]));
 
-        $this->getResponse();
+        return $this->client;
     }
 
     /**
@@ -110,14 +110,14 @@ class Listing extends Base
             'skus' => $deleteArray
         ]));
 
-        $this->getResponse();
+        return $this->client;
     }
 
     /**
      * Create a single product listing from product data array
      * @param $oPC OnBuy Product Code
      * @param array $insertArray sku|group_sku|boost_marketing_commission
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function createListing($oPC = null, $insertArray = [])
@@ -135,8 +135,10 @@ class Listing extends Base
         ];
 
         foreach ($required as $require) {
-            if (!isset($insertArray[$require])) {
-                throw new \Exception($require . ' is required');
+            foreach($insertArray as $insert) {
+                if (!isset($insert[$require])) {
+                    throw new \Exception($require . ' is required');
+                }
             }
         }
 
@@ -148,13 +150,13 @@ class Listing extends Base
             'listings' => $insertArray
         ]));
 
-        $this->getResponse();
+        return $this->client;
     }
 
     /**
      * Create a product listing from product data array
      * @param array $insertArray opc|condition|price|stock|delivery_weight|handling_time|free_returns|warranty|condition_notes
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function createListingByBatch($insertArray = [])
@@ -164,12 +166,16 @@ class Listing extends Base
         }
 
         $required = [
-            'sku'
+            'opc',
+            'condition',
+            'price'
         ];
 
         foreach ($required as $require) {
-            if (!isset($insertArray[$require])) {
-                throw new \Exception($require . ' is required');
+            foreach($insertArray as $insert) {
+                if (!isset($insert[$require])) {
+                    throw new \Exception($require . ' is required');
+                }
             }
         }
 
@@ -179,13 +185,13 @@ class Listing extends Base
             'site_id' => self::SITE_ID,
             'listings' => Json::encode($insertArray),
         ]);
-        $this->getResponse();
+        return $this->client;
     }
 
     /**
      * Seller's listings, referenced by SKUs, are 'winning'
      * @param array $skusArray
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function getWinningListing($skusArray = [])
@@ -198,6 +204,6 @@ class Listing extends Base
             'skus' => $skusArray
         ]);
 
-        $this->getResponse();
+        return $this->client;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Product;
 
+use Laminas\Http\Client;
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
@@ -74,7 +75,7 @@ class ListingTest extends TestCase
     /**
      * Update listing by product data array
      */
-    public function testUpdateListingBySku()
+    public function testUpdateListingBySkuParametersCastToString()
     {
         $listing = new Listing('xyz');
         $client = $listing->getClient();
@@ -119,7 +120,7 @@ class ListingTest extends TestCase
     /**
      * Delete listing by SKU
      */
-    public function testDeleteListingBySku()
+    public function testDeleteListingBySkuParametersCastToString()
     {
         $listing = new Listing('xyz');
         $client = $listing->getClient();
@@ -165,7 +166,7 @@ class ListingTest extends TestCase
     /**
      * Create a single product listing from product data array
      */
-    public function testCreateListing()
+    public function testCreateListingParametersCastToString()
     {
         $listing = new Listing('xyz');
         $client = $listing->getClient();
@@ -211,7 +212,7 @@ class ListingTest extends TestCase
     /**
      * Create a product listing from product data array
      */
-    public function testCreateListingByBatch()
+    public function testCreateListingByBatchParametersCastToString()
     {
         $listing = new Listing('xyz');
         $client = $listing->getClient();
@@ -257,7 +258,7 @@ class ListingTest extends TestCase
     /**
      * Retrieve the available delivery options set up on your seller account
      */
-    public function testGetWinningListing()
+    public function testGetWinningListingParametersCastToString()
     {
         $listing = new Listing('xyz');
         $client = $listing->getClient();
@@ -343,6 +344,112 @@ class ListingTest extends TestCase
         $this->expectException(\Exception::class);
         $listing = new Listing('xyz');
         $listing->deleteListingBySku();
+    }
+
+    /**
+     * Get details of current product listings
+     * @throws \Exception
+     */
+    public function testGetListing()
+    {
+        $listing = new Listing('xyz');
+        $result = $listing->getListing([
+            'last_created' => 'asc',
+            'sku' => 'test'
+        ]);
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
+     * Update listing by product data array
+     * @throws \Exception
+     */
+    public function testUpdateListingBySku()
+    {
+        $listing = new Listing('xyz');
+        $result = $listing->updateListingBySku([
+            [
+                "sku" => "EXP-143-33S",
+                "price" => 126.34,
+                "stock" => 125,
+                "boost_marketing_commission" => 14.83
+            ],
+            [
+                "sku" => "EXP-143-33L",
+                "price" => 126.34,
+                "stock" => 125,
+                "boost_marketing_commission" => 14.83
+            ],
+        ]);
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
+     * Delete listing by SKU
+     * @throws \Exception
+     */
+    public function testDeleteListingBySku()
+    {
+        $listing = new Listing('xyz');
+        $result = $listing->deleteListingBySku([
+            "EXP-143-33S",
+            "EXP-144-33L"
+        ]);
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
+     * Create a single product listing from product data array
+     * @throws \Exception
+     */
+    public function testCreateListing()
+    {
+        $listing = new Listing('xyz');
+        $result = $listing->createListing(
+            'P5ZVSFF',
+            [[
+                "sku" => "EXP-143-33S",
+                "group_sku" => "bar",
+                "boost_marketing_commission" => 2.98
+            ]]
+        );
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
+     * Create a product listing from product data array
+     * @throws \Exception
+     */
+    public function testCreateListingByBatch()
+    {
+        $listing = new Listing('xyz');
+        $result = $listing->createListingByBatch(
+            [[
+                "opc" => "PN8JV6",
+                "condition" => "poor",
+                "price" => 9.99,
+                "stock" => 8,
+                "delivery_weight" => 16,
+                "handling_time" => 125,
+                "free_returns" => "true",
+                "warranty" => 7
+            ]]
+        );
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
+     * Seller's listings, referenced by SKUs, are 'winning'
+     * @throws \Exception
+     */
+    public function testGetWinningListing()
+    {
+        $listing = new Listing('xyz');
+        $result = $listing->getWinningListing([
+            "EXP-143-33S",
+            "EXP-144-33L"
+        ]);
+        self::assertInstanceOf(Client::class, $result);
     }
 
     /**

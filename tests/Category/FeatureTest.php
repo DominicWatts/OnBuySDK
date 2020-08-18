@@ -2,6 +2,7 @@
 
 namespace Category;
 
+use Laminas\Http\Client;
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
@@ -74,5 +75,16 @@ class FeatureTest extends TestCase
         $this->expectException(\Exception::class);
         $categoryFeature = new Feature('xyz');
         $categoryFeature->getFeatureById();
+    }
+
+    /**
+     * Obtain information for a single OnBuy category
+     * @throws \Exception
+     */
+    public function testGetFeatureById()
+    {
+        $categoryFeature = new Feature('xyz');
+        $result = $categoryFeature->getFeatureById(13490);
+        self::assertInstanceOf(Client::class, $result);
     }
 }
