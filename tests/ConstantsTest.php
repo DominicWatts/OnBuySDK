@@ -26,10 +26,10 @@ class ConstantsTest extends TestCase
      */
     public function testCatchServerError()
     {
+        $this->expectException(\Exception::class);
         $string = 'HTTP/1.0 500 OK' . "\r\n\r\n" . '' . "\r\n";
         $stream = fopen('php://memory', 'r+');
         fwrite($stream, $string);
-        $this->expectException(\Exception::class);
         $response = Stream::fromStream($string, $stream);
         $constant = new Constants();
         $constant->catchError($response);
@@ -49,5 +49,54 @@ class ConstantsTest extends TestCase
         $responseArray = Json::decode($response->getBody(), Json::TYPE_ARRAY);
         self::assertSame('ABCDEFGH-ABCD-ABCD-ABCD-ABCDEFGHIJKL', $responseArray['access_token']);
         self::assertSame('1234567890', $responseArray['expires_at']);
+    }
+
+    /**
+     * Domain override
+     */
+    public function testSetDomain()
+    {
+        $constant = new Constants();
+        $domain = 'https://anotherapi.onbuy.com/';
+        $constant->setDomain($domain);
+        self::assertSame($domain, $constant->getDomain());
+    }
+
+    /**
+     * Version override
+     */
+    public function testSetVersion()
+    {
+        $constant = new Constants();
+        $version = 'v3/';
+        $constant->setVersion($version);
+        self::assertSame($version, $constant->getVersion());
+    }
+
+    /**
+     * Token override
+     */
+    public function testSetToken()
+    {
+        $constant = new Constants();
+        $version = 'ABCDEFGH-ABCD-ABCD-ABCD-ABCDEFGHIJKL';
+        $constant->setToken($version);
+        self::assertSame($version, $constant->getToken());
+    }
+
+    /**
+     * Response as array
+     * @throws Exception
+     */
+    public function testGetResponseArray()
+    {
+        $string = 'HTTP/1.0 200 OK' . "\r\n\r\n" . '{"access_token":"ABCDEFGH-ABCD-ABCD-ABCD-ABCDEFGHIJKL","expires_at":"1234567890"}' . "\r\n";
+        $stream = fopen('php://memory', 'r+');
+        fwrite($stream, $string);
+        $response = Stream::fromStream($string, $stream);
+        $constant = new Constants();
+        $constant->catchError($response);
+        $responseArray = Json::decode($response->getBody(), Json::TYPE_ARRAY);
+        self::assertIsArray($responseArray);
     }
 }

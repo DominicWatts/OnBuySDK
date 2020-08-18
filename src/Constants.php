@@ -75,6 +75,11 @@ class Constants
     protected $token;
 
     /**
+     * @var string
+     */
+    protected $expires;
+
+    /**
      * @var \Laminas\Http\Client;
      */
     protected $client;
@@ -131,6 +136,7 @@ class Constants
     public function setToken($token)
     {
         $this->token = $token;
+        $this->expires = time() + 900; // 15 minutes
     }
 
     /**
@@ -179,5 +185,13 @@ class Constants
     public function getResponseArray(): array
     {
         return $this->responseArray;
+    }
+
+    /**
+     * @return string
+     */
+    public function getToken(): string
+    {
+        return $this->token;
     }
 }

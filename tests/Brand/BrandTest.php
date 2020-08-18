@@ -111,4 +111,15 @@ class BrandTest extends TestCase
         $brand = new Brand('xyz');
         $brand->getBrand([]);
     }
+
+    /**
+     * Invalid search
+     * @throws \Exception
+     */
+    public function testInvalidSearchById()
+    {
+        $this->expectException(\Exception::class);
+        $brand = new Brand('xyz');
+        $brand->getBrandById();
+    }
 }

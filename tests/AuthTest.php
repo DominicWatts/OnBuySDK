@@ -66,4 +66,36 @@ class AuthTest extends TestCase
         $auth = new Auth([]);
         $auth->getToken();
     }
+
+    /**
+     * Consumer key override
+     */
+    public function testSetConsumerKey()
+    {
+        $key = 'secret_key';
+        $notThisKey = 'not_this_secret_key';
+        $client = new Auth([
+            'consumer_key' => $notThisKey,
+            'secret_key' => 'xyz'
+        ]);
+        $client->setConsumerKey($key);
+        self::assertSame($key, $client->getConsumerKey());
+        self::assertNotSame($notThisKey, $client->getConsumerKey());
+    }
+
+    /**
+     * Secret key override
+     */
+    public function testSetSecretKey()
+    {
+        $key = 'secret_key';
+        $notThisKey = 'not_this_secret_key';
+        $client = new Auth([
+            'consumer_key' => 'xyz',
+            'secret_key' => $notThisKey
+        ]);
+        $client->setSecretKey($key);
+        self::assertSame($key, $client->getSecretKey());
+        self::assertNotSame($notThisKey, $client->getSecretKey());
+    }
 }
