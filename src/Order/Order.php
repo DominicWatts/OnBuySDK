@@ -72,7 +72,7 @@ class Order extends Constants
         if (!empty($filterArray)) {
             $params['filter'] = $filterArray;
         }
-        if (!empty($sort)) {
+        if (!empty($sortArray)) {
             $params['sort'] = $sortArray;
         }
 
