@@ -278,6 +278,25 @@ class OrderTest extends TestCase
     }
 
     /**
+     * Browse and search orders
+     * @throws \Exception
+     */
+    public function testGetOrder()
+    {
+        $order = new Order('xyz');
+        $result = $order->getOrder(
+            [
+                'status' => 'awaiting_dispatch',
+                'previously_exported' => 0
+            ],
+            [
+                'created' => 'asc'
+            ]
+        );
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
      * View order by ID
      * @throws \Exception
      */

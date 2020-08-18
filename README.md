@@ -161,10 +161,15 @@ $condition->getResponse();
 ```php
 $order = new Order($auth->getToken());
 
-$order->getOrder([
-    'status' => 'awaiting_dispatch',
-    'previously_exported' => 0
-], 'asc');
+$order->getOrder(
+    [
+        'status' => 'awaiting_dispatch',
+        'previously_exported' => 0
+    ],
+    [
+        'created' => 'asc'
+    ]
+);
 $order->getResponse();
 
 $order->getOrderById('T9R7V');
