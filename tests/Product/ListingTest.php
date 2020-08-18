@@ -316,6 +316,17 @@ class ListingTest extends TestCase
      * Invalid create data
      * @throws \Exception
      */
+    public function testCreateDataMissingRequired()
+    {
+        $this->expectException(\Exception::class);
+        $listing = new Listing('xyz');
+        $listing->createListing('abc', ['nosku' => 'test']);
+    }
+
+    /**
+     * Invalid create data
+     * @throws \Exception
+     */
     public function testInvalidCreateByBatchData()
     {
         $this->expectException(\Exception::class);

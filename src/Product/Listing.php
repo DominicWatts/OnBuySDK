@@ -130,6 +130,16 @@ class Listing extends Base
             throw new \Exception("Product data required");
         }
 
+        $required = [
+            'sku'
+        ];
+
+        foreach ($required as $require) {
+            if (!isset($insertArray[$require])) {
+                throw new \Exception($require . ' is required');
+            }
+        }
+
         $this->client->setUri($this->domain . $this->version . self::PRODUCTS . '/' . $oPC . '/' . self::LISTINGS);
         $this->client->setMethod(Request::METHOD_POST);
         $this->client->setRawBody(Json::encode([
@@ -151,6 +161,16 @@ class Listing extends Base
     {
         if (empty($insertArray)) {
             throw new \Exception("Product data required");
+        }
+
+        $required = [
+            'sku'
+        ];
+
+        foreach ($required as $require) {
+            if (!isset($insertArray[$require])) {
+                throw new \Exception($require . ' is required');
+            }
         }
 
         $this->client->setUri($this->domain . $this->version . self::LISTINGS);

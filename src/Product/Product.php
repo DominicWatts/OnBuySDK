@@ -61,10 +61,49 @@ class Product extends Base
             throw new \Exception("Product data required");
         }
 
+        $required = [
+            'site_id',
+            'category_id',
+            'product_name',
+            'product_codes',
+            'brand_name',
+            'brand_id'
+        ];
+
+        foreach ($required as $require) {
+            if (!isset($insertArray[$require])) {
+                throw new \Exception($require . ' is required');
+            }
+        }
+
         $this->client->setUri($this->domain . $this->version . self::PRODUCTS);
         $this->client->setMethod(Request::METHOD_POST);
         $insertArray = array_merge($this->default, $insertArray);
         $this->client->setRawBody(Json::encode($insertArray));
+        $this->getResponse();
+    }
+
+    /**
+     * Create product from array of product data array
+     * @param array $insertArray
+     * @return mixed
+     * @throws \Exception
+     */
+    public function createProductByBatch($insertArray = [])
+    {
+        if (empty($insertArray)) {
+            throw new \Exception("Product data required");
+        }
+
+        if (!isset($insertArray['uid'])) {
+            throw new \Exception('Batch ID not set');
+        }
+
+        $this->client->setUri($this->domain . $this->version . self::PRODUCTS);
+        $this->client->setMethod(Request::METHOD_POST);
+        $this->client->setRawBody(Json::encode(
+            $insertArray
+        ));
         $this->getResponse();
     }
 
@@ -83,6 +122,7 @@ class Product extends Base
         if (!isset($updateArray['opc'])) {
             throw new \Exception('OnBuy Product Code required');
         }
+
         $this->client->setUri($this->domain . $this->version . self::PRODUCTS . '/' . $updateArray['opc']);
         $this->client->setMethod(Request::METHOD_PUT);
         $updateArray = array_merge($this->default, $updateArray);
