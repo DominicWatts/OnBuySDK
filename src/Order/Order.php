@@ -51,6 +51,7 @@ class Order extends Constants
         $this->headers->addHeaderLine('Authorization', $this->token);
         $this->client->setHeaders($this->headers);
     }
+    
     /**
      * Browse and search orders
      * @param array $filterArray status[awaiting_dispatch|dispatched|complete|cancelled|cancelled_by_seller|cancelled_by_buyer|partially_dispatched|partially_refunded|refunded|all]|order_ids|modified_since|previously_exported
