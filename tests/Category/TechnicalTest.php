@@ -102,10 +102,21 @@ class TechnicalTest extends TestCase
      * Invalid search
      * @throws \Exception
      */
-    public function testInvalidSearch()
+    public function testInvalidSearchById()
     {
         $this->expectException(\Exception::class);
         $categoryTechnical = new Technical('xyz');
         $categoryTechnical->getTechnicalDetailById();
+    }
+
+    /**
+     * Invalid search
+     * @throws \Exception
+     */
+    public function testInvalidSearchByIds()
+    {
+        $this->expectException(\Exception::class);
+        $categoryTechnical = new Technical('xyz');
+        $categoryTechnical->getGroupById();
     }
 }
