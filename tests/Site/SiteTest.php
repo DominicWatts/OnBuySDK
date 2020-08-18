@@ -2,6 +2,7 @@
 
 namespace Site;
 
+use Laminas\Http\Client;
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
@@ -106,7 +107,23 @@ class SiteTest extends TestCase
     public function testInvalidSearchById()
     {
         $this->expectException(\Exception::class);
-        $client = new Site('xyz');
-        $client->getSiteById();
+        $site = new Site('xyz');
+        $site->getSiteById();
+    }
+
+    public function testGetSite()
+    {
+        $site = new Site('xyz');
+        $result = $site->getSite([
+            'name' => 'test'
+        ]);
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    public function testGetSiteById()
+    {
+        $site = new Site('xyz');
+        $result = $site->getSiteById(123);
+        self::assertInstanceOf(Client::class, $result);
     }
 }

@@ -53,7 +53,7 @@ class Condition extends Constants
 
     /**
      * Valid conditions for use in various endpoints, most notably for listings
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function getCondition()
@@ -64,6 +64,6 @@ class Condition extends Constants
             'site_id' => self::SITE_ID
         ]);
 
-        $this->getResponse();
+        return $this->client;
     }
 }

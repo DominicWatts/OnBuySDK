@@ -3,6 +3,7 @@
 namespace Xigen\Library\OnBuy\Brand;
 
 use Laminas\Http\Client\Adapter\AdapterInterface;
+use Laminas\Http\Client;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
 use PHPUnit\Framework\TestCase;
@@ -121,5 +122,27 @@ class BrandTest extends TestCase
         $this->expectException(\Exception::class);
         $brand = new Brand('xyz');
         $brand->getBrandById();
+    }
+
+    /**
+     * Obtain brand information for any brands created on OnBuy
+     * @throws \Exception
+     */
+    public function testGetBrand()
+    {
+        $brand = new Brand('xyz');
+        $result = $brand->getBrand('keyword', 'asc', 10, 0);
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
+     * Obtain information for a single OnBuy brand
+     * @throws \Exception
+     */
+    public function testGetBrandById()
+    {
+        $brand = new Brand('xyz');
+        $result = $brand->getBrandById(123);
+        self::assertInstanceOf(Client::class, $result);
     }
 }

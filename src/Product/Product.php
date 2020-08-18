@@ -52,7 +52,7 @@ class Product extends Base
     /**
      * Create product from product data array
      * @param array $insertArray
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function createProduct($insertArray = [])
@@ -80,13 +80,13 @@ class Product extends Base
         $this->client->setMethod(Request::METHOD_POST);
         $insertArray = array_merge($this->default, $insertArray);
         $this->client->setRawBody(Json::encode($insertArray));
-        $this->getResponse();
+        return $this->client;
     }
 
     /**
      * Create product from array of product data array
      * @param array $insertArray
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function createProductByBatch($insertArray = [])
@@ -104,13 +104,13 @@ class Product extends Base
         $this->client->setRawBody(Json::encode(
             $insertArray
         ));
-        $this->getResponse();
+        return $this->client;
     }
 
     /**
-     * Create product from product data array
+     * Update products
      * @param array $updateArray
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function updateProduct($updateArray = [])
@@ -127,13 +127,13 @@ class Product extends Base
         $this->client->setMethod(Request::METHOD_PUT);
         $updateArray = array_merge($this->default, $updateArray);
         $this->client->setRawBody(Json::encode($updateArray));
-        $this->getResponse();
+        return $this->client;
     }
 
     /**
-     * Create product from array of product data array
+     * Update multiple products in a single request
      * @param array $updateArray
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function updateProductByBatch($updateArray = [])
@@ -147,7 +147,7 @@ class Product extends Base
         $this->client->setRawBody(Json::encode([
             'products' => $updateArray
         ]));
-        $this->getResponse();
+        return $this->client;
     }
 
     /**
@@ -155,7 +155,7 @@ class Product extends Base
      * @param array $searchArray query|field[name|product_code|opc|mpn]|category_id
      * @param null $limit
      * @param null $offset
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function getProduct($searchArray = [], $limit = null, $offset = null)
@@ -176,6 +176,6 @@ class Product extends Base
 
         $this->client->setParameterGet($params);
 
-        $this->getResponse();
+        return $this->client;
     }
 }

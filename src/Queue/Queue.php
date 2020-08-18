@@ -54,7 +54,7 @@ class Queue extends Constants
     /**
      * Check the progress of any actions that use OnBuy queuing system
      * @param $filterArray array queue_ids|status[success|failed|pending]
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function getQueue($filterArray = [])
@@ -70,13 +70,13 @@ class Queue extends Constants
             'filter' => $filterArray
         ]);
 
-        $this->getResponse();
+        return $this->client;
     }
 
     /**
      * Check the progress of any actions that use OnBuy queuing system
      * @param $queueId
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function getQueueById($queueId = null)
@@ -89,6 +89,6 @@ class Queue extends Constants
         $this->client->setParameterGet([
             'site_id' => self::SITE_ID
         ]);
-        $this->getResponse();
+        return $this->client;
     }
 }

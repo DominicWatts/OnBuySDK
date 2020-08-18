@@ -2,6 +2,7 @@
 
 namespace Category;
 
+use Laminas\Http\Client;
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
@@ -118,5 +119,27 @@ class TechnicalTest extends TestCase
         $this->expectException(\Exception::class);
         $categoryTechnical = new Technical('xyz');
         $categoryTechnical->getGroupById();
+    }
+
+    /**
+     * Obtain a list of all category groups
+     * @throws \Exception
+     */
+    public function testGetTechnicalDetailById()
+    {
+        $categoryTechnical = new Technical('xyz');
+        $result = $categoryTechnical->getTechnicalDetailById(13490);
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
+     * Obtain information for a single OnBuy category
+     * @throws \Exception
+     */
+    public function testGetGroupById()
+    {
+        $categoryTechnical = new Technical('xyz');
+        $result = $categoryTechnical->getGroupById(13490, 125);
+        self::assertInstanceOf(Client::class, $result);
     }
 }

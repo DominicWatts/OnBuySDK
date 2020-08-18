@@ -45,7 +45,7 @@ class Variant extends Base
      * @param int $categoryId
      * @param $limit int
      * @param $offset int
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function getVariantId($categoryId = null, $limit = null, $offset = null)
@@ -63,6 +63,6 @@ class Variant extends Base
             'offset' => $offset ?: self::DEFAULT_OFFSET
         ]);
 
-        $this->getResponse();
+        return $this->client;
     }
 }

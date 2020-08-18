@@ -2,6 +2,7 @@
 
 namespace Condition;
 
+use Laminas\Http\Client;
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
@@ -60,5 +61,16 @@ class ConditionTest extends TestCase
             ->will($this->returnValue($response->toString()));
 
         $client->send();
+    }
+
+    /**
+     * Valid conditions for use in various endpoints, most notably for listings
+     * @throws \Exception
+     */
+    public function testGetCondition()
+    {
+        $condition = new Condition('xyz');
+        $result = $condition->getCondition();
+        self::assertInstanceOf(Client::class, $result);
     }
 }

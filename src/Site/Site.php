@@ -56,7 +56,7 @@ class Site extends Constants
      * @param array $filterArray name
      * @param $limit int
      * @param $offset int
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function getSite($filterArray = [], $limit = null, $offset = null)
@@ -76,13 +76,13 @@ class Site extends Constants
 
         $this->client->setParameterGet($params);
 
-        $this->getResponse();
+        return $this->client;
     }
 
     /**
      * Obtain information for a single OnBuy regional site
      * @param $siteId int
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function getSiteById($siteId = null)
@@ -92,6 +92,6 @@ class Site extends Constants
         }
         $this->client->setUri($this->domain . $this->version . self::SITES . '/' . $siteId);
         $this->client->setMethod(Request::METHOD_GET);
-        $this->getResponse();
+        return $this->client;
     }
 }

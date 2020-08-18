@@ -2,6 +2,7 @@
 
 namespace Seller;
 
+use Laminas\Http\Client;
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
@@ -105,5 +106,27 @@ class EntityTest extends TestCase
         $this->expectException(\Exception::class);
         $brand = new Entity('xyz');
         $brand->getEntityById();
+    }
+
+    /**
+     * Obtain details of all of your trading entities
+     * @throws \Exception
+     */
+    public function testGetEntity()
+    {
+        $sellerEntity = new Entity('xyz');
+        $result = $sellerEntity->getEntity();
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
+     * Obtain details of a specific one of your trading entities
+     * @throws \Exception
+     */
+    public function getEntityById()
+    {
+        $sellerEntity = new Entity('xyz');
+        $result = $sellerEntity->getEntityById(123);
+        self::assertInstanceOf(Client::class, $result);
     }
 }

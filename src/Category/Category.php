@@ -45,7 +45,7 @@ class Category extends Base
      * @param array $filterArray onbuy_category_id|category_type_id|name|can_list_in
      * @param $limit int
      * @param $offset int
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function getCategory($filterArray = [], $limit = null, $offset = null)
@@ -64,13 +64,13 @@ class Category extends Base
             'offset' => $offset ?: self::DEFAULT_OFFSET
         ]);
 
-        $this->getResponse();
+        return $this->client;
     }
 
     /**
      * Obtain information for a single OnBuy category
      * @param $categoryId int
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function getCategoryById($categoryId = null)
@@ -85,6 +85,6 @@ class Category extends Base
             'site_id' => self::SITE_ID
         ]);
 
-        $this->getResponse();
+        return $this->client;
     }
 }

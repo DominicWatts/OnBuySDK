@@ -2,6 +2,7 @@
 
 namespace Queue;
 
+use Laminas\Http\Client;
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
@@ -119,5 +120,30 @@ class QueueTest extends TestCase
         $this->expectException(\Exception::class);
         $queue = new Queue('xyz');
         $queue->getQueueById();
+    }
+
+    /**
+     * Check the progress of any actions that use OnBuy queuing system
+     * @throws \Exception
+     */
+    public function testGetQueue()
+    {
+        $queue = new Queue('xyz');
+        $result = $queue->getQueue([
+            'queue_ids' => '123,456',
+            'status' => 'pending'
+        ]);
+        self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
+     * Check the progress of any actions that use OnBuy queuing system
+     * @throws \Exception
+     */
+    public function testGetQueueById()
+    {
+        $queue = new Queue('xyz');
+        $result = $queue->getQueueById(123);
+        self::assertInstanceOf(Client::class, $result);
     }
 }

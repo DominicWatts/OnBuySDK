@@ -44,7 +44,7 @@ class Delivery extends Base
      * Retrieve the available delivery options set up on your seller account
      * @param $limit
      * @param $offset
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function getDelivery($limit = null, $offset = null)
@@ -56,6 +56,6 @@ class Delivery extends Base
             'limit' => $limit ?: self::DEFAULT_LIMIT,
             'offset' => $offset ?: self::DEFAULT_OFFSET
         ]);
-        $this->getResponse();
+        return $this->client;
     }
 }

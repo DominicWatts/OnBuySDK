@@ -55,7 +55,7 @@ class Commission extends Constants
      * Obtain commission tier information for any regional variation of OnBuy
      * @param $limit int
      * @param $offset int
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function getTier($limit = null, $offset = null)
@@ -68,14 +68,14 @@ class Commission extends Constants
             'offset' => $offset ?: self::DEFAULT_OFFSET
         ]);
 
-        $this->getResponse();
+        return $this->client;
     }
 
     /**
      * Obtain commission tier information for a single OnBuy regional site
      * @param $categoryId int
      * @param $tierId int
-     * @return mixed
+     * @return Client
      * @throws \Exception
      */
     public function getTierById($categoryId = null, $tierId = null, $limit = null, $offset = null)
@@ -91,6 +91,6 @@ class Commission extends Constants
             'limit' => $limit ?: self::DEFAULT_LIMIT,
             'offset' => $offset ?: self::DEFAULT_OFFSET
         ]);
-        $this->getResponse();
+        return $this->client;
     }
 }

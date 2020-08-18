@@ -2,6 +2,7 @@
 
 namespace Category;
 
+use Laminas\Http\Client;
 use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
@@ -74,5 +75,12 @@ class VariantTest extends TestCase
         $this->expectException(\Exception::class);
         $categoryVariant = new Variant('xyz');
         $categoryVariant->getVariantId();
+    }
+
+    public function testGetVariantId()
+    {
+        $categoryVariant = new Variant('xyz');
+        $result = $categoryVariant->getVariantId(13490);
+        self::assertInstanceOf(Client::class, $result);
     }
 }
