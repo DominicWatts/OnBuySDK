@@ -92,7 +92,9 @@ class Auth extends Constants
     }
 
     /**
-     * @return mixed|string
+     * Perform request and return token
+     * @return string
+     * @throws \Exception
      */
     public function getToken(): string
     {
@@ -100,6 +102,7 @@ class Auth extends Constants
         if ($this->token && $this->expires < time()) {
             return $this->token;
         }
+        
         $this->response = $this->client->send();
 
         if ($this->response->isServerError()) {
