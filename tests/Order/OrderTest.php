@@ -281,6 +281,17 @@ class OrderTest extends TestCase
      * View order by ID
      * @throws \Exception
      */
+    public function testInvalidGetOrderById()
+    {
+        $this->expectException(\Exception::class);
+        $order = new Order('xyz');
+        $order->getOrderById();
+    }
+
+    /**
+     * View order by ID
+     * @throws \Exception
+     */
     public function testGetOrderById()
     {
         $order = new Order('xyz');
@@ -325,7 +336,7 @@ class OrderTest extends TestCase
      * Get tracking providers
      * @throws \Exception
      */
-    public function getTrackingProviders()
+    public function testGetTrackingProviders()
     {
         $order = new Order('xyz');
         $result = $order->getTrackingProviders();
