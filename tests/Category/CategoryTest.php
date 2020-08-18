@@ -114,4 +114,15 @@ class CategoryTest extends TestCase
         $category = new Category('xyz');
         $category->getCategory([]);
     }
+
+    /**
+     * Invalid search
+     * @throws \Exception
+     */
+    public function testInvalidSearchById()
+    {
+        $this->expectException(\Exception::class);
+        $category = new Category('xyz');
+        $category->getCategoryById();
+    }
 }
