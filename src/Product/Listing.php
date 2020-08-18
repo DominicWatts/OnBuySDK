@@ -135,7 +135,7 @@ class Listing extends Base
         ];
 
         foreach ($required as $require) {
-            foreach($insertArray as $insert) {
+            foreach ($insertArray as $insert) {
                 if (!isset($insert[$require])) {
                     throw new \Exception($require . ' is required');
                 }
@@ -172,7 +172,7 @@ class Listing extends Base
         ];
 
         foreach ($required as $require) {
-            foreach($insertArray as $insert) {
+            foreach ($insertArray as $insert) {
                 if (!isset($insert[$require])) {
                     throw new \Exception($require . ' is required');
                 }

@@ -123,7 +123,7 @@ class EntityTest extends TestCase
      * Obtain details of a specific one of your trading entities
      * @throws \Exception
      */
-    public function getEntityById()
+    public function testGetEntityById()
     {
         $sellerEntity = new Entity('xyz');
         $result = $sellerEntity->getEntityById(123);
