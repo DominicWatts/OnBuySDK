@@ -57,6 +57,10 @@ class Product extends Base
      */
     public function createProduct($insertArray = [])
     {
+        if (empty($insertArray)) {
+            throw new \Exception("Product data required");
+        }
+
         $this->client->setUri($this->domain . $this->version . self::PRODUCTS);
         $this->client->setMethod(Request::METHOD_POST);
         $insertArray = array_merge($this->default, $insertArray);
@@ -72,6 +76,10 @@ class Product extends Base
      */
     public function updateProduct($updateArray = [])
     {
+        if (empty($updateArray)) {
+            throw new \Exception("Product data required");
+        }
+
         if (!isset($updateArray['opc'])) {
             throw new \Exception('OnBuy Product Code required');
         }
@@ -90,6 +98,10 @@ class Product extends Base
      */
     public function updateProductByBatch($updateArray = [])
     {
+        if (empty($updateArray)) {
+            throw new \Exception("Product data required");
+        }
+
         $this->client->setUri($this->domain . $this->version . self::PRODUCTS);
         $this->client->setMethod(Request::METHOD_PUT);
         $this->client->setRawBody(Json::encode([
@@ -110,12 +122,20 @@ class Product extends Base
     {
         $this->client->setUri($this->domain . $this->version . self::PRODUCTS);
         $this->client->setMethod(Request::METHOD_GET);
-        $this->client->setParameterGet([
+
+        $params = [
             'site_id' => self::SITE_ID,
             'limit' => $limit ?: self::DEFAULT_LIMIT,
             'offset' => $offset ?: self::DEFAULT_OFFSET,
-            'filter' => $searchArray
-        ]);
+        ];
+
+        // optional
+        if (!empty($filterArray)) {
+            $params['filter'] = $searchArray;
+        }
+
+        $this->client->setParameterGet($params);
+
         $this->getResponse();
     }
 }
