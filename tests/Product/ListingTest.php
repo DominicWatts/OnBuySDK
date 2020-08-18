@@ -353,10 +353,10 @@ class ListingTest extends TestCase
     public function testGetListing()
     {
         $listing = new Listing('xyz');
-        $result = $listing->getListing([
-            'last_created' => 'asc',
-            'sku' => 'test'
-        ]);
+        $result = $listing->getListing(
+            ['last_created' => 'asc'],
+            ['sku' => 'test']
+        );
         self::assertInstanceOf(Client::class, $result);
     }
 
@@ -436,6 +436,27 @@ class ListingTest extends TestCase
             ]]
         );
         self::assertInstanceOf(Client::class, $result);
+    }
+
+    /**
+     * Create a product listing from product data array
+     * @throws \Exception
+     */
+    public function testInvalidCreateListingByBatch()
+    {
+        $this->expectException(\Exception::class);
+        $listing = new Listing('xyz');
+        $listing->createListingByBatch(
+            [[
+                "condition" => "poor",
+                "price" => 9.99,
+                "stock" => 8,
+                "delivery_weight" => 16,
+                "handling_time" => 125,
+                "free_returns" => "true",
+                "warranty" => 7
+            ]]
+        );
     }
 
     /**

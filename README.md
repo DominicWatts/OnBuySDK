@@ -247,7 +247,10 @@ $product->getResponse();
 ```php
 $listing = new Listing($auth->getToken());
 
-$listing->getListing();
+$listing->getListing(
+    ['last_created' => 'asc'],
+    ['sku' => 'test']
+);
 $listing->getResponse();
 
 $listing->updateListingBySku([
