@@ -40,7 +40,7 @@ class Auth extends Constants
     protected $token;
 
     /**
-     * @var string
+     * @var int
      */
     protected $expires;
 
@@ -99,7 +99,7 @@ class Auth extends Constants
     public function getToken(): string
     {
         // if token exists and has valid expiry return token
-        if ($this->token && $this->expires < time()) {
+        if ($this->token && $this->expires > time()) {
             return $this->token;
         }
 
@@ -112,7 +112,7 @@ class Auth extends Constants
         $this->catchError($this->response);
 
         $response = Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
-        $this->responseArray = $response;
+        $this->setResponseArray($response);
 
         if (isset($response['access_token'])) {
             $this->setToken($response['access_token']);
@@ -122,9 +122,9 @@ class Auth extends Constants
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getExpires(): string
+    public function getExpires(): int
     {
         return $this->expires;
     }
@@ -186,9 +186,9 @@ class Auth extends Constants
     }
 
     /**
-     * @param string $expires
+     * @param int $expires
      */
-    public function setExpires(string $expires): void
+    public function setExpires(int $expires): void
     {
         $this->expires = $expires;
     }

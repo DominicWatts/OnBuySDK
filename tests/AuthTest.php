@@ -1,5 +1,8 @@
 <?php
 
+use Laminas\Http\Response;
+use Laminas\Http\Response\Stream;
+use Laminas\Json\Json;
 use PHPUnit\Framework\TestCase;
 use Xigen\Library\OnBuy\Auth;
 use Xigen\Library\OnBuy\Constants;
@@ -97,5 +100,77 @@ class AuthTest extends TestCase
         $client->setSecretKey($key);
         self::assertSame($key, $client->getSecretKey());
         self::assertNotSame($notThisKey, $client->getSecretKey());
+    }
+
+    /**
+     * Expires
+     */
+    public function testSetExpires()
+    {
+        $client = new Auth([
+            'consumer_key' => 'abc',
+            'secret_key' => 'xyz'
+        ]);
+        $now = time();
+        $client->setExpires($now);
+        self::assertSame($now, $client->getExpires());
+    }
+
+    /**
+     * Response Array
+     */
+    public function testSetResponseArray()
+    {
+        $string = 'HTTP/1.0 200 OK' . "\r\n\r\n" . '{"access_token":"ABCDEFGH-ABCD-ABCD-ABCD-ABCDEFGHIJKL","expires_at":"1234567890"}' . "\r\n";
+        $stream = fopen('php://memory', 'r+');
+        fwrite($stream, $string);
+        $response = Stream::fromStream($string, $stream);
+
+        $client = new Auth([
+            'consumer_key' => 'abc',
+            'secret_key' => 'xyz'
+        ]);
+        $client->catchError($response);
+        $responseArray = Json::decode($response->getBody(), Json::TYPE_ARRAY);
+        $client->setResponseArray($responseArray);
+        self::assertSame($responseArray, $client->getResponseArray());
+        self::assertArrayHasKey('access_token', $client->getResponseArray());
+    }
+
+    /**
+     * Response
+     */
+    public function testSetResponse()
+    {
+        $string = 'HTTP/1.0 200 OK' . "\r\n\r\n" . '{"access_token":"ABCDEFGH-ABCD-ABCD-ABCD-ABCDEFGHIJKL","expires_at":"1234567890"}' . "\r\n";
+        $stream = fopen('php://memory', 'r+');
+        fwrite($stream, $string);
+        $response = Stream::fromStream($string, $stream);
+        $client = new Auth([
+            'consumer_key' => 'abc',
+            'secret_key' => 'xyz'
+        ]);
+        $client->catchError($response);
+        $client->setResponse($response);
+        self::assertInstanceOf(Response::class, $client->getResponse());
+    }
+
+    /**
+     * Get token function
+     */
+    public function testGetStoredToken()
+    {
+        $string = 'HTTP/1.0 200 OK' . "\r\n\r\n" . '{"access_token":"ABCDEFGH-ABCD-ABCD-ABCD-ABCDEFGHIJKL","expires_at":"' . (time() + 900) . '"}' . "\r\n";
+        $stream = fopen('php://memory', 'r+');
+        fwrite($stream, $string);
+        $response = Stream::fromStream($string, $stream);
+        $client = new Auth([
+            'consumer_key' => 'abc',
+            'secret_key' => 'xyz'
+        ]);
+        $responseArray = Json::decode($response->getBody(), Json::TYPE_ARRAY);
+        $client->setToken($responseArray['access_token']);
+        $client->setExpires($responseArray['expires_at']);
+        self::assertSame($responseArray['access_token'], $client->getToken());
     }
 }
