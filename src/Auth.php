@@ -40,7 +40,7 @@ class Auth extends Constants
     protected $token;
 
     /**
-     * @var string
+     * @var int
      */
     protected $expires;
 
@@ -92,15 +92,18 @@ class Auth extends Constants
     }
 
     /**
-     * @return mixed|string
+     * Perform request and return token
+     * @return string
+     * @throws \Exception
      */
     public function getToken(): string
     {
         // if token exists and has valid expiry return token
-        if ($this->token && $this->expires < time()) {
+        if ($this->token && $this->expires > time()) {
             return $this->token;
         }
-        $this->response = $this->client->send();
+
+        $this->setResponse($this->client->send());
 
         if ($this->response->isServerError()) {
             throw new \Exception('Server error');
@@ -109,19 +112,19 @@ class Auth extends Constants
         $this->catchError($this->response);
 
         $response = Json::decode($this->response->getBody(), Json::TYPE_ARRAY);
-        $this->responseArray = $response;
+        $this->setResponseArray($response);
 
         if (isset($response['access_token'])) {
-            $this->token = $response['access_token'];
-            $this->expires = $response['expires_at'];
+            $this->setToken($response['access_token']);
+            $this->setExpires($response['expires_at']);
         }
         return $this->token;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getExpires(): string
+    public function getExpires(): int
     {
         return $this->expires;
     }
@@ -180,5 +183,21 @@ class Auth extends Constants
     public function getResponseArray(): array
     {
         return $this->responseArray;
+    }
+
+    /**
+     * @param int $expires
+     */
+    public function setExpires(int $expires): void
+    {
+        $this->expires = $expires;
+    }
+
+    /**
+     * @param \Laminas\Http\Response $response
+     */
+    public function setResponse(\Laminas\Http\Response $response): void
+    {
+        $this->response = $response;
     }
 }

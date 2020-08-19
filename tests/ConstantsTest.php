@@ -17,7 +17,7 @@ class ConstantsTest extends TestCase
         fwrite($stream, $string);
         $this->expectException(\Exception::class);
         $response = Stream::fromStream($string, $stream);
-        $constant = new Constants();
+        $constant = new Constants('xyz');
         $constant->catchError($response);
     }
 
@@ -31,7 +31,7 @@ class ConstantsTest extends TestCase
         $stream = fopen('php://memory', 'r+');
         fwrite($stream, $string);
         $response = Stream::fromStream($string, $stream);
-        $constant = new Constants();
+        $constant = new Constants('xyz');
         $constant->catchError($response);
     }
 
@@ -44,7 +44,7 @@ class ConstantsTest extends TestCase
         $stream = fopen('php://memory', 'r+');
         fwrite($stream, $string);
         $response = Stream::fromStream($string, $stream);
-        $constant = new Constants();
+        $constant = new Constants('xyz');
         $constant->catchError($response);
         $responseArray = Json::decode($response->getBody(), Json::TYPE_ARRAY);
         self::assertSame('ABCDEFGH-ABCD-ABCD-ABCD-ABCDEFGHIJKL', $responseArray['access_token']);
@@ -56,21 +56,10 @@ class ConstantsTest extends TestCase
      */
     public function testSetDomain()
     {
-        $constant = new Constants();
+        $constant = new Constants('xyz');
         $domain = 'https://anotherapi.onbuy.com/';
         $constant->setDomain($domain);
         self::assertSame($domain, $constant->getDomain());
-    }
-
-    /**
-     * Version override
-     */
-    public function testSetVersion()
-    {
-        $constant = new Constants();
-        $version = 'v3/';
-        $constant->setVersion($version);
-        self::assertSame($version, $constant->getVersion());
     }
 
     /**
@@ -78,25 +67,40 @@ class ConstantsTest extends TestCase
      */
     public function testSetToken()
     {
-        $constant = new Constants();
-        $version = 'ABCDEFGH-ABCD-ABCD-ABCD-ABCDEFGHIJKL';
-        $constant->setToken($version);
-        self::assertSame($version, $constant->getToken());
+        $constant = new Constants('xyz');
+        $token = 'ABCDEFGH-ABCD-ABCD-ABCD-ABCDEFGHIJKL';
+        $constant->setToken($token);
+        self::assertSame($token, $constant->getToken());
+    }
+
+    /**
+     * Version override
+     */
+    public function testSetVersion()
+    {
+        $constant = new Constants('xyz');
+        $version = 'v3/';
+        $constant->setVersion($version);
+        self::assertSame($version, $constant->getVersion());
     }
 
     /**
      * Response as array
      * @throws Exception
      */
-    public function testGetResponseArray()
+    public function testSetResponseArray()
     {
         $string = 'HTTP/1.0 200 OK' . "\r\n\r\n" . '{"access_token":"ABCDEFGH-ABCD-ABCD-ABCD-ABCDEFGHIJKL","expires_at":"1234567890"}' . "\r\n";
         $stream = fopen('php://memory', 'r+');
         fwrite($stream, $string);
         $response = Stream::fromStream($string, $stream);
-        $constant = new Constants();
+
+        $constant = new Constants('xyz');
         $constant->catchError($response);
         $responseArray = Json::decode($response->getBody(), Json::TYPE_ARRAY);
-        self::assertIsArray($responseArray);
+        $constant->setResponseArray($responseArray);
+        self::assertSame($responseArray, $constant->getResponseArray());
+        self::assertIsArray($constant->getResponseArray());
+        self::assertArrayHasKey('access_token', $constant->getResponseArray());
     }
 }

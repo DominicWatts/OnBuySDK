@@ -8,6 +8,8 @@ declare(strict_types=1);
 namespace Xigen\Library\OnBuy;
 
 use Laminas\Http\Client;
+use Laminas\Http\Headers;
+use Laminas\Http\Response;
 use Laminas\Json\Json;
 
 class Constants
@@ -80,6 +82,11 @@ class Constants
     protected $expires;
 
     /**
+     * @var \Laminas\Http\Headers
+     */
+    protected $headers;
+
+    /**
      * @var \Laminas\Http\Client;
      */
     protected $client;
@@ -93,6 +100,23 @@ class Constants
      * @var array
      */
     protected $responseArray;
+
+    /**
+     * Constants constructor.
+     * @param $token
+     */
+    public function __construct($token)
+    {
+        $this->headers = new Headers();
+        $this->client = new Client();
+        $this->client->setOptions([
+            'maxredirects' => self::MAXREDIRECTS,
+            'timeout' => self::TIMEOUT,
+        ]);
+        $this->token = $token;
+        $this->headers->addHeaderLine('Authorization', $this->token);
+        $this->client->setHeaders($this->headers);
+    }
 
     /**
      * @param \Laminas\Http\Response $response
@@ -193,5 +217,13 @@ class Constants
     public function getToken(): string
     {
         return $this->token;
+    }
+
+    /**
+     * @param array $responseArray
+     */
+    public function setResponseArray(array $responseArray): void
+    {
+        $this->responseArray = $responseArray;
     }
 }

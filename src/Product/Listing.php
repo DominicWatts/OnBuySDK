@@ -13,26 +13,6 @@ use Laminas\Json\Json;
 class Listing extends Base
 {
     /**
-     * @var string
-     */
-    protected $token;
-
-    /**
-     * @var \Laminas\Http\Headers
-     */
-    protected $headers;
-
-    /**
-     * @var \Laminas\Http\Client;
-     */
-    protected $client;
-
-    /**
-     * @var \Laminas\Http\Response
-     */
-    protected $response;
-
-    /**
      * Listing constructor.
      * @param $token
      */

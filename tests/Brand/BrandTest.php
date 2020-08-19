@@ -2,8 +2,8 @@
 
 namespace Xigen\Library\OnBuy\Brand;
 
-use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Client;
+use Laminas\Http\Client\Adapter\AdapterInterface;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
 use PHPUnit\Framework\TestCase;

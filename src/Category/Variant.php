@@ -12,26 +12,6 @@ use Laminas\Http\Request;
 class Variant extends Base
 {
     /**
-     * @var string
-     */
-    protected $token;
-
-    /**
-     * @var \Laminas\Http\Headers
-     */
-    protected $headers;
-
-    /**
-     * @var \Laminas\Http\Client;
-     */
-    protected $client;
-
-    /**
-     * @var \Laminas\Http\Response
-     */
-    protected $response;
-
-    /**
      * Category constructor.
      * @param $token
      */
