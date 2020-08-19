@@ -13,26 +13,6 @@ use Laminas\Json\Json;
 class Product extends Base
 {
     /**
-     * @var string
-     */
-    protected $token;
-
-    /**
-     * @var \Laminas\Http\Headers
-     */
-    protected $headers;
-
-    /**
-     * @var \Laminas\Http\Client;
-     */
-    protected $client;
-
-    /**
-     * @var \Laminas\Http\Response
-     */
-    protected $response;
-
-    /**
      * @var array
      */
     protected $default;

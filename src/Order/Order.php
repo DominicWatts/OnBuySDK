@@ -7,8 +7,6 @@ declare(strict_types=1);
 
 namespace Xigen\Library\OnBuy\Order;
 
-use Laminas\Http\Client;
-use Laminas\Http\Headers;
 use Laminas\Http\Request;
 use Laminas\Json\Json;
 use Xigen\Library\OnBuy\Constants;
@@ -16,42 +14,14 @@ use Xigen\Library\OnBuy\Constants;
 class Order extends Constants
 {
     /**
-     * @var string
-     */
-    protected $token;
-
-    /**
-     * @var \Laminas\Http\Headers
-     */
-    protected $headers;
-
-    /**
-     * @var \Laminas\Http\Client;
-     */
-    protected $client;
-
-    /**
-     * @var \Laminas\Http\Response
-     */
-    protected $response;
-
-    /**
      * Site constructor.
      * @param $token
      */
     public function __construct($token)
     {
-        $this->headers = new Headers();
-        $this->client = new Client();
-        $this->client->setOptions([
-            'maxredirects' => self::MAXREDIRECTS,
-            'timeout' => self::TIMEOUT,
-        ]);
-        $this->token = $token;
-        $this->headers->addHeaderLine('Authorization', $this->token);
-        $this->client->setHeaders($this->headers);
+        parent::__construct($token);
     }
-    
+
     /**
      * Browse and search orders
      * @param array $filterArray status[awaiting_dispatch|dispatched|complete|cancelled|cancelled_by_seller|cancelled_by_buyer|partially_dispatched|partially_refunded|refunded|all]|order_ids|modified_since|previously_exported

@@ -102,8 +102,8 @@ class Auth extends Constants
         if ($this->token && $this->expires < time()) {
             return $this->token;
         }
-        
-        $this->response = $this->client->send();
+
+        $this->setResponse($this->client->send());
 
         if ($this->response->isServerError()) {
             throw new \Exception('Server error');
@@ -115,8 +115,8 @@ class Auth extends Constants
         $this->responseArray = $response;
 
         if (isset($response['access_token'])) {
-            $this->token = $response['access_token'];
-            $this->expires = $response['expires_at'];
+            $this->setToken($response['access_token']);
+            $this->setExpires($response['expires_at']);
         }
         return $this->token;
     }
@@ -183,5 +183,21 @@ class Auth extends Constants
     public function getResponseArray(): array
     {
         return $this->responseArray;
+    }
+
+    /**
+     * @param string $expires
+     */
+    public function setExpires(string $expires): void
+    {
+        $this->expires = $expires;
+    }
+
+    /**
+     * @param \Laminas\Http\Response $response
+     */
+    public function setResponse(\Laminas\Http\Response $response): void
+    {
+        $this->response = $response;
     }
 }
