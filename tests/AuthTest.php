@@ -118,6 +118,7 @@ class AuthTest extends TestCase
 
     /**
      * Response Array
+     * @throws Exception
      */
     public function testSetResponseArray()
     {
@@ -134,11 +135,13 @@ class AuthTest extends TestCase
         $responseArray = Json::decode($response->getBody(), Json::TYPE_ARRAY);
         $client->setResponseArray($responseArray);
         self::assertSame($responseArray, $client->getResponseArray());
+        self::assertIsArray($client->getResponseArray());
         self::assertArrayHasKey('access_token', $client->getResponseArray());
     }
 
     /**
      * Response
+     * @throws Exception
      */
     public function testSetResponse()
     {
@@ -157,6 +160,7 @@ class AuthTest extends TestCase
 
     /**
      * Get token function
+     * @throws Exception
      */
     public function testGetStoredToken()
     {
