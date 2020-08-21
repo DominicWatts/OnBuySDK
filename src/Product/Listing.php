@@ -36,6 +36,7 @@ class Listing extends Base
         $this->client->setMethod(Request::METHOD_GET);
 
         $param = [
+            'site_id' => self::SITE_ID,
             'limit' => $limit ?: self::DEFAULT_LIMIT,
             'offset' => $offset ?: self::DEFAULT_OFFSET
         ];
