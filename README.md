@@ -74,6 +74,8 @@ $auth->getExpires();
 ### Brands
 
 ```php
+use Xigen\Library\OnBuy\Brand\Brand;
+
 $brand = new Brand($auth->getToken());
 
 $brand->getBrand('keyword', 'asc', 10, 0);
@@ -88,6 +90,8 @@ $brand->getResponse();
 #### Categories
 
 ```php
+use Xigen\Library\OnBuy\Category\Category;
+
 $category = new Category($auth->getToken());
 
 $category->getCategory([
@@ -108,6 +112,8 @@ $category->getResponse();
 #### Categories Features
 
 ```php
+use Xigen\Library\OnBuy\Category\Feature;
+
 $categoryFeature = new Feature($auth->getToken());
 
 $categoryFeature->getFeatureById(13490);
@@ -117,6 +123,8 @@ $categoryFeature->getResponse();
 #### Categories Technical Details
 
 ```php
+use Xigen\Library\OnBuy\Category\Technical;
+
 $categoryTechnical = new Technical($auth->getToken());
 
 $categoryTechnical->getTechnicalDetailById(13490);
@@ -129,6 +137,8 @@ $categoryTechnical->getResponse();
 #### Categories Variants
 
 ```php
+use Xigen\Library\OnBuy\Category\Variant;
+
 $categoryVariant = new Variant($auth->getToken());
 
 $categoryVariant->getVariantId(13490);
@@ -138,6 +148,8 @@ $categoryVariant->getResponse();
 ### Commission
 
 ```php
+use Xigen\Library\OnBuy\Commission\Commission;
+
 $commission = new Commission($auth->getToken());
 
 $commission->getTier();
@@ -150,6 +162,8 @@ $commission->getResponse();
 ### Condition
 
 ```php
+use Xigen\Library\OnBuy\Condition\Condition;
+
 $condition = new Condition($auth->getToken());
 
 $condition->getCondition();
@@ -159,6 +173,8 @@ $condition->getResponse();
 ### Order
 
 ```php
+use Xigen\Library\OnBuy\Order\Order;
+
 $order = new Order($auth->getToken());
 
 $order->getOrder(
@@ -221,6 +237,8 @@ $order->getResponse();
 
 ```php
 
+use Xigen\Library\OnBuy\Product\Product;
+
 $product = new Product($auth->getToken());
 $product->createProduct($insertArray);
 $product->getResponse();
@@ -245,6 +263,8 @@ $product->getResponse();
 #### Product Listing
 
 ```php
+use Xigen\Library\OnBuy\Product\Listing;
+
 $listing = new Listing($auth->getToken());
 
 $listing->getListing(
@@ -309,6 +329,8 @@ $listing->getResponse();
 #### Queue
 
 ```php
+use Xigen\Library\OnBuy\Queue\Queue;
+
 $queue = new Queue($auth->getToken());
 
 $queue->getQueue([
@@ -326,6 +348,8 @@ $queue->getResponse();
 #### Seller
 
 ```php
+use Xigen\Library\OnBuy\Seller\Seller;
+
 $seller = new Seller($auth->getToken());
 $seller->getSellerById(123);
 $seller->getResponse();
@@ -334,6 +358,8 @@ $seller->getResponse();
 #### Seller Deliveries
 
 ```php
+use Xigen\Library\OnBuy\Seller\Delivery;
+
 $sellerDelivery = new Delivery($auth->getToken());
 $sellerDelivery->getDelivery();
 $sellerDelivery->getResponse();
@@ -342,6 +368,8 @@ $sellerDelivery->getResponse();
 #### Seller Entities
 
 ```php
+use Xigen\Library\OnBuy\Seller\Entity;
+
 $sellerEntity = new Entity($auth->getToken());
 
 $sellerEntity->getEntity();
@@ -354,6 +382,8 @@ $sellerEntity->getResponse();
 ### Sites
 
 ```php
+use Xigen\Library\OnBuy\Site\Site;
+
 $site = new Site($auth->getToken());
 
 $site->getSite([
