@@ -40,7 +40,7 @@ class Auth extends Constants
     protected $token;
 
     /**
-     * @var int
+     * @var int|string
      */
     protected $expires;
 
@@ -122,9 +122,9 @@ class Auth extends Constants
     }
 
     /**
-     * @return int
+     * @return int|string
      */
-    public function getExpires(): int
+    public function getExpires()
     {
         return $this->expires;
     }
@@ -186,9 +186,9 @@ class Auth extends Constants
     }
 
     /**
-     * @param int $expires
+     * @param int|string $expires
      */
-    public function setExpires(int $expires): void
+    public function setExpires($expires): void
     {
         $this->expires = $expires;
     }
