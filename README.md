@@ -48,6 +48,8 @@ $config = [
     'secret_key' => 'test_secret_key'
 ];
 
+use Xigen\Library\OnBuy\Auth;
+
 $auth = new Auth(
     $config
 );
