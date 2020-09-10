@@ -78,6 +78,7 @@ class Order extends Constants
         $this->client->setUri($this->domain . $this->version . self::ORDERS . '/' . self::DISPATCH);
         $this->client->setMethod(Request::METHOD_PUT);
         $this->client->setRawBody(Json::encode([
+            'site_id' => self::SITE_ID,
             'orders' => $updateArray
         ]));
         return $this->client;
