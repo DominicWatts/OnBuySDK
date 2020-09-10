@@ -121,6 +121,7 @@ class OrderTest extends TestCase
         $client->setUri($order->getDomain() . $order->getVersion() . Constants::ORDERS . '/' . Constants::DISPATCH);
         $client->setMethod(Request::METHOD_PUT);
         $client->setRawBody(Json::encode([
+            'site_id' => Constants::SITE_ID,
             'orders' => $this->getMockUpdate()
         ]));
 
@@ -140,9 +141,9 @@ class OrderTest extends TestCase
                     'Accept-Encoding' => 'gzip, deflate',
                     'User-Agent' => 'Laminas_Http_Client',
                     'Content-Type' => 'application/x-www-form-urlencoded',
-                    'Content-Length' => 216,
+                    'Content-Length' => 231,
                 ],
-                '{"orders":[{"order_id":"T9R7V","products":{"sku":"EXP-143-33S","opc":"PN8JV6","quantity":125},"tracking":{"tracking_id":"bar","supplier_name":"bar","number":"bar","url":"https:\/\/example.com\/path-to-resource\/"}}]}'
+                '{"site_id":2000,"orders":[{"order_id":"T9R7V","products":{"sku":"EXP-143-33S","opc":"PN8JV6","quantity":125},"tracking":{"tracking_id":"bar","supplier_name":"bar","number":"bar","url":"https:\/\/example.com\/path-to-resource\/"}}]}'
             );
 
         $adapter
