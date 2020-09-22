@@ -11,7 +11,7 @@ use Laminas\Http\Request;
 use Laminas\Json\Json;
 use Xigen\Library\OnBuy\Constants;
 
-class Order extends Constants
+class Order extends Base
 {
     /**
      * Site constructor.
