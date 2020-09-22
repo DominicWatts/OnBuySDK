@@ -140,7 +140,7 @@ class OrderTest extends TestCase
                     'Connection' => 'close',
                     'Accept-Encoding' => 'gzip, deflate',
                     'User-Agent' => 'Laminas_Http_Client',
-                    'Content-Type' => 'application/x-www-form-urlencoded',
+                    'Content-Type' => 'application/json',
                     'Content-Length' => 231,
                 ],
                 '{"site_id":2000,"orders":[{"order_id":"T9R7V","products":{"sku":"EXP-143-33S","opc":"PN8JV6","quantity":125},"tracking":{"tracking_id":"bar","supplier_name":"bar","number":"bar","url":"https:\/\/example.com\/path-to-resource\/"}}]}'
@@ -186,7 +186,7 @@ class OrderTest extends TestCase
                     'Connection' => 'close',
                     'Accept-Encoding' => 'gzip, deflate',
                     'User-Agent' => 'Laminas_Http_Client',
-                    'Content-Type' => 'application/x-www-form-urlencoded',
+                    'Content-Type' => 'application/json',
                     'Content-Length' => 120,
                 ],
                 '{"site_id":2000,"orders":[{"order_id":"T9R7V","order_cancellation_reason_id":"1","cancel_order_additional_info":"foo"}]}'
@@ -232,7 +232,7 @@ class OrderTest extends TestCase
                     'Connection' => 'close',
                     'Accept-Encoding' => 'gzip, deflate',
                     'User-Agent' => 'Laminas_Http_Client',
-                    'Content-Type' => 'application/x-www-form-urlencoded',
+                    'Content-Type' => 'application/json',
                     'Content-Length' => 192,
                 ],
                 '{"site_id":2000,"orders":[{"order_id":"T9R7V","order_refund_reason_id":"2","delivery":126.34,"seller_note":"foo","customer_note":"foo","items":{"onbuy_internal_reference":7,"amount":126.34}}]}'
