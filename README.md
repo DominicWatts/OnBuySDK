@@ -193,21 +193,25 @@ $order->getResponse();
 $order->getOrderById('T9R7V');
 $order->getResponse();
 
-$order->dispatchOrder(['order_id' => 'T9R7V']);
+$order->dispatchOrder([['order_id' => 'T9R7V']]);
 $order->getResponse();
 
 $order->dispatchOrder([
-    'order_id' => 'T9R7V'
-    'products' => [
-        'sku' => 'EXP-143-33S',
-        'opc' => 'PN8JV6',
-        'quantity' => 1
-    ],
-    'tracking' => [
-        "tracking_id": '123',
-        "supplier_name": "dhl",
-        "number": "456",
-        "url": "https://example.com/path-to-resource/"
+    [
+        "order_id" => "T9R7V",
+        "products" => [
+
+            "sku" => "EXP-143-33S",
+            "opc" => "PN8JV6",
+            "quantity" => 125
+
+        ],
+        "tracking" => [
+            "tracking_id" => "bar",
+            "supplier_name" => "bar",
+            "number" => "bar",
+            "url" => "https://example.com/path-to-resource/"
+        ]
     ]
 ]);
 $order->getResponse();
