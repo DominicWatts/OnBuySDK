@@ -162,10 +162,10 @@ class Listing extends Base
 
         $this->client->setUri($this->domain . $this->version . self::LISTINGS);
         $this->client->setMethod(Request::METHOD_POST);
-        $this->client->setParameterPost([
+        $this->client->setRawBody(Json::encode([
             'site_id' => self::SITE_ID,
-            'listings' => Json::encode($insertArray),
-        ]);
+            'listings' => $insertArray
+        ]));
         return $this->client;
     }
 
