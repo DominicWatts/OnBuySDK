@@ -6,8 +6,8 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - uses: MilesChou/composer-action@master
-    - uses: MilesChou/composer-action/7.2/install@master
+    - uses: MilesChou/composer-action/7.3/install@master
       with:
         args: install    
     - name: PHPUnit
-      run: docker run --rm -v $(pwd):/code domw/phpunit:7.2 phpunit tests
+      run: docker run --rm -v $(pwd):/code domw/phpunit:7.3 phpunit tests
