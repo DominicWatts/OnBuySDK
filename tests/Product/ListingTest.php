@@ -242,9 +242,9 @@ class ListingTest extends TestCase
                     'Accept-Encoding' => 'gzip, deflate',
                     'User-Agent' => 'Laminas_Http_Client',
                     'Content-Type' => 'application/json',
-                    'Content-Length' => 164,
+                    'Content-Length' => 162,
                 ],
-                '{"site_id":2000,"listings":[{"opc":"PN8JV6","condition":"poor","price":9.99,"stock":8,"delivery_weight":16,"handling_time":125,"free_returns":"true","warranty":7}]}'
+                '{"site_id":2000,"listings":[{"opc":"PN8JV6","condition":"poor","price":9.99,"stock":8,"delivery_weight":16,"handling_time":125,"free_returns":true,"warranty":7}]}'
             );
 
         $adapter
@@ -504,7 +504,7 @@ class ListingTest extends TestCase
                     "stock" => 8,
                     "delivery_weight" => 16,
                     "handling_time" => 125,
-                    "free_returns" => "true",
+                    "free_returns" => true,
                     "warranty" => 7
                 ]
             ]
