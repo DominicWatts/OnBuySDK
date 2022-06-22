@@ -26,17 +26,21 @@ class Order extends Base
      * Browse and search orders
      * @param array $filterArray status[awaiting_dispatch|dispatched|complete|cancelled|cancelled_by_seller|cancelled_by_buyer|partially_dispatched|partially_refunded|refunded|all]|order_ids|modified_since|previously_exported
      * @param array $sortArray string created[asc|desc]|modified[asc|desc]
+     * @param null $limit
+     * @param null $offset
      * @return mixed
      * @throws \Exception
      */
-    public function getOrder($filterArray = [], $sortArray = [])
+    public function getOrder($filterArray = [], $sortArray = [], $limit = null, $offset = null)
     {
         $this->client->setUri($this->domain . $this->version . self::ORDERS);
         $this->client->setMethod(Request::METHOD_GET);
 
         // required
         $params = [
-            'site_id' => self::SITE_ID
+            'site_id' => self::SITE_ID,
+            'limit' => $limit ?: self::DEFAULT_LIMIT,
+            'offset' => $offset ?: self::DEFAULT_OFFSET
         ];
 
         // optional
